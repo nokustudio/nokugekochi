@@ -842,8 +842,28 @@ def main():
             lightbox_start = orig_html.find('<!-- ==========================================================================\r\n       FULLSCREEN CINEMATIC LIGHTBOX MODAL')
             
         if lightbox_start != -1:
-            # Reorder so that Materials & Moodboard (index 1) is the first slide, followed by Plan Key (index 0)
-            ordered_blocks = [html_blocks[1], html_blocks[0]] + html_blocks[2:]
+            # Furniture Layout Section (Unnumbered)
+            furniture_layout_block = """    <!-- ==========================================================================
+         FURNITURE LAYOUT: CENTERED PLAN (UNNUMBERED)
+         ========================================================================== -->
+    <main class="room-section furniture-layout-section" id="room-layout" data-room-title="Furniture Layout">
+      
+      <!-- Top Title Bar -->
+      <div class="layout-header-row">
+        <div class="space-title-container">
+          <h1 class="space-title">Furniture Layout</h1>
+        </div>
+      </div>
+
+      <!-- Centered Image Container -->
+      <div class="layout-image-container-centered" onclick="openLightbox(null, 0, 'Layout Original 6.png', 'Furniture Layout')">
+        <img src="Layout Original 6.png" alt="Furniture Layout" class="furniture-layout-image">
+      </div>
+
+    </main>"""
+
+            # Reorder so that Materials & Moodboard (index 1) is the first slide, followed by Plan Key (index 0), then Furniture Layout
+            ordered_blocks = [html_blocks[1], html_blocks[0], furniture_layout_block] + html_blocks[2:]
             gen_rooms_str = "\n".join(ordered_blocks)
             # Scroll-to-top button (inserted just before the lightbox)
             scroll_top_html = """
@@ -929,6 +949,7 @@ def main():
         script_start += 8
         lightbox_group_start = orig_html.find('let currentLightboxGroup = null;')
         if lightbox_group_start != -1:
+            active_indices["room-layout"] = 0
             js_data = f"""const roomRenders = {json.dumps(js_room_renders, indent=2)};\n\nconst activeRenderIndex = {json.dumps(active_indices, indent=2)};\n"""
             
             js_inject = f"""
@@ -1008,6 +1029,8 @@ def main():
               document.body.style.backgroundColor = '#f4f5f1';
               if (idxEl && titleEl) {{
                 badge.innerText = `${{idxEl.innerText}} ${{titleEl.innerText}}`;
+              }} else if (roomSection.id === 'room-layout') {{
+                badge.innerText = `Furniture Layout`;
               }} else if (roomSection.id === 'room-custom') {{
                 badge.innerText = `13 Customisation`;
               }}

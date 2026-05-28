@@ -1653,6 +1653,24 @@
     </main>
 
     <!-- ==========================================================================
+         FURNITURE LAYOUT: CENTERED PLAN (UNNUMBERED)
+         ========================================================================== -->
+    <main class="room-section furniture-layout-section" id="room-layout" data-room-title="Furniture Layout">
+      
+      <!-- Top Title Bar -->
+      <div class="layout-header-row">
+        <div class="space-title-container">
+          <h1 class="space-title">Furniture Layout</h1>
+        </div>
+      </div>
+
+      <!-- Centered Image Container -->
+      <div class="layout-image-container-centered" onclick="openLightbox(null, 0, 'Layout Original 6.png', 'Furniture Layout')">
+        <img src="Layout Original 6.png" alt="Furniture Layout" class="furniture-layout-image">
+      </div>
+
+    </main>
+    <!-- ==========================================================================
          ROOM 02: FOYER
          ========================================================================== -->
     <main class="room-section" id="room-01" data-room-title="Foyer">
@@ -3207,7 +3225,8 @@ const activeRenderIndex = {
   "room-08": 0,
   "room-09": 0,
   "room-10": 0,
-  "room-11": 0
+  "room-11": 0,
+  "room-layout": 0
 };
 
     function scrollToRoom(roomId) {
@@ -3285,6 +3304,8 @@ const activeRenderIndex = {
               document.body.style.backgroundColor = '#f4f5f1';
               if (idxEl && titleEl) {
                 badge.innerText = `${idxEl.innerText} ${titleEl.innerText}`;
+              } else if (roomSection.id === 'room-layout') {
+                badge.innerText = `Furniture Layout`;
               } else if (roomSection.id === 'room-custom') {
                 badge.innerText = `13 Customisation`;
               }
