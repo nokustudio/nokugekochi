@@ -401,7 +401,7 @@ body {
 }
 
 .map-placeholder-card {
-  width: 72px;
+  width: 118px;
   aspect-ratio: 1 / 1;
   background-color: var(--light-secondary);
   border: var(--border-width) solid var(--line);
