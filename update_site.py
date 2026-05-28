@@ -832,11 +832,70 @@ def main():
   </button>
 
   """
+            thank_you_html = """  <!-- ======================================================================
+       SECTION 4: THANK YOU (dark)
+       ====================================================================== -->
+  <section class="landing-thankyou-section" id="thank-you" aria-label="Thank You">
+    <!-- Background panel with subtle image and heavy dark vignette -->
+    <div class="ty-bg-panel" aria-hidden="true">
+      <img src="02. Living Room 01/Living Room 01 v1.png" alt="">
+    </div>
+    <div class="ty-bg-vignette" aria-hidden="true"></div>
+
+    <!-- Side labels -->
+    <div class="ty-side-ticker" aria-hidden="true"><span>Good Earth Kochi · Umang Residence · Volume One</span></div>
+    <div class="ty-edition-mark" aria-hidden="true"><span>Noku Studio · N°1 · 2026</span></div>
+
+    <!-- Nav -->
+    <nav class="ty-nav" aria-label="Section navigation">
+      <div class="ty-nav__brand">
+        <img src="Noku mark.png" alt="Noku Studio" class="ty-nav__logo">
+        <span class="ty-nav__wordmark">Noku Studio</span>
+      </div>
+      <span class="ty-nav__label">End &nbsp;·&nbsp; Walkthrough</span>
+    </nav>
+
+    <!-- Thank You content -->
+    <div class="ty-stage">
+      <div class="ty-eyebrow">
+        <div class="ty-eyebrow-line"></div>
+        <span class="ty-eyebrow-text">Volume One &nbsp;·&nbsp; Of Stillness</span>
+      </div>
+      <h1 class="ty-title" id="ty-title">Thank You.</h1>
+      <div class="ty-divider"></div>
+      <p class="ty-descriptor" id="ty-desc">
+        A project by <strong>Noku Studio</strong> in collaboration with <strong>Good Earth</strong>.<br>
+        Thank you for exploring our volume of stillness.
+      </p>
+
+      <!-- CTAs: Return to Plan Key & Replay Walkthrough -->
+      <div class="ty-ctas" id="ty-ctas">
+        <button class="ty-btn" onclick="scrollToRoom('room-00')">
+          <span>Plan Key</span>
+        </button>
+        <button class="ty-btn ty-btn--primary" onclick="document.getElementById('landing-hero').scrollIntoView({behavior:'smooth'})">
+          <span>Replay Walkthrough</span>
+          <span class="ty-btn__arrow">↑</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Footer strip -->
+    <footer class="ty-footer">
+      <div class="ty-footer__left">
+        <span class="ty-footer__credit">NOKU STUDIO · BENGALURU</span>
+        <span class="ty-footer__client">hello@nokustudio.com &nbsp;·&nbsp; nokustudio.com</span>
+      </div>
+      <div class="ty-footer__right">
+        <span class="ty-pagination">30 &nbsp;/&nbsp; 30</span>
+      </div>
+    </footer>
+  </section>"""
             middle_section = f"""\n\n    <!-- Room Snap Scroll Container -->
     <div class="scroll-container">
 {gen_rooms_str}
     </div>
-  </div>\n\n  """
+  </div>\n\n  """ + thank_you_html + "\n\n"
             orig_html = orig_html[:header_end] + middle_section + scroll_top_html + orig_html[lightbox_start:]
         else:
             print("Error: Could not find lightbox start.")
