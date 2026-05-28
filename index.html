@@ -471,29 +471,21 @@
       font-size: clamp(3rem, 6.5vw, 6.5rem);
       font-weight: 400; color: #dcd7c9; line-height: 1.1;
       margin-bottom: 24px;
-      opacity: 0; transform: translateY(20px);
-      transition: opacity 1.2s var(--ease-out), transform 1.2s var(--ease-out);
     }
-    .ty-title.visible { opacity: 1; transform: translateY(0); }
     .ty-divider {
       width: 80px; height: 1px; background: #4F4339; margin-bottom: 24px;
     }
     .ty-descriptor {
       font-family: var(--font-body); font-size: 1.15rem; line-height: 1.8;
-      color: #dcd7c9; opacity: 0; transform: translateY(16px);
+      color: #dcd7c9; opacity: 0.8;
       max-width: 600px; margin-bottom: 40px;
-      transition: opacity 1.2s 0.2s var(--ease-out), transform 1.2s 0.2s var(--ease-out);
     }
-    .ty-descriptor.visible { opacity: 0.8; transform: translateY(0); }
     .ty-descriptor strong { color: #a27b5c; font-weight: 400; }
 
     /* CTA buttons */
     .ty-ctas {
       display: flex; gap: 20px; align-items: center;
-      opacity: 0; transform: translateY(12px);
-      transition: opacity 1.2s 0.4s var(--ease-out), transform 1.2s 0.4s var(--ease-out);
     }
-    .ty-ctas.visible { opacity: 1; transform: translateY(0); }
     
     .ty-btn {
       display: inline-flex; align-items: center; gap: 16px;
@@ -2245,13 +2237,10 @@
       </div><!-- /custom-cards-row -->
     </main>
 
-    </div>
-  </div>
-
-    <!-- ======================================================================
+  <!-- ======================================================================
        SECTION 4: THANK YOU (dark)
        ====================================================================== -->
-  <section class="landing-thankyou-section" id="thank-you" aria-label="Thank You">
+  <section class="room-section landing-thankyou-section" id="thank-you" aria-label="Thank You">
     <!-- Background panel with subtle image and heavy dark vignette -->
     <div class="ty-bg-panel" aria-hidden="true">
       <img src="02. Living Room 01/Living Room 01 v1.png" alt="">
@@ -2284,14 +2273,10 @@
         Thank you for exploring our volume of stillness.
       </p>
 
-      <!-- CTAs: Return to Plan Key & Replay Walkthrough -->
+      <!-- CTAs: Return to Plan Key -->
       <div class="ty-ctas" id="ty-ctas">
-        <button class="ty-btn" onclick="scrollToRoom('room-00')">
+        <button class="ty-btn ty-btn--primary" onclick="scrollToRoom('room-00')">
           <span>Plan Key</span>
-        </button>
-        <button class="ty-btn ty-btn--primary" onclick="document.getElementById('landing-hero').scrollIntoView({behavior:'smooth'})">
-          <span>Replay Walkthrough</span>
-          <span class="ty-btn__arrow">↑</span>
         </button>
       </div>
     </div>
@@ -2307,8 +2292,10 @@
       </div>
     </footer>
   </section>
+    </div>
+  </div>
 
-
+  
   <!-- Scroll to Top Button -->
   <button id="scroll-top-btn" onclick="scrollToRoom('room-00')" title="Back to Plan Key">
     <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
@@ -2844,27 +2831,7 @@ const activeRenderIndex = {
   })();
 </script>
 
-<script>
-  // Thank you reveal on scroll
-  (function() {
-    var elTitle = document.getElementById('ty-title');
-    var elDesc  = document.getElementById('ty-desc');
-    var elCtas  = document.getElementById('ty-ctas');
-    var section = document.getElementById('thank-you');
-    if (!elTitle || !elDesc || !elCtas || !section) return;
-    var obs = new IntersectionObserver(function(entries) {
-      entries.forEach(function(entry) {
-        if (entry.isIntersecting) {
-          setTimeout(function() { elTitle.classList.add('visible'); }, 0);
-          setTimeout(function() { elDesc.classList.add('visible');  }, 150);
-          setTimeout(function() { elCtas.classList.add('visible');  }, 300);
-          obs.disconnect();
-        }
-      });
-    }, { threshold: 0.4 });
-    obs.observe(section);
-  })();
-</script>
+
 
 </body>
 </html>

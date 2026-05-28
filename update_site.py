@@ -853,7 +853,7 @@ def main():
             thank_you_html = """  <!-- ======================================================================
        SECTION 4: THANK YOU (dark)
        ====================================================================== -->
-  <section class="landing-thankyou-section" id="thank-you" aria-label="Thank You">
+  <section class="room-section landing-thankyou-section" id="thank-you" aria-label="Thank You">
     <!-- Background panel with subtle image and heavy dark vignette -->
     <div class="ty-bg-panel" aria-hidden="true">
       <img src="02. Living Room 01/Living Room 01 v1.png" alt="">
@@ -886,14 +886,10 @@ def main():
         Thank you for exploring our volume of stillness.
       </p>
 
-      <!-- CTAs: Return to Plan Key & Replay Walkthrough -->
+      <!-- CTAs: Return to Plan Key -->
       <div class="ty-ctas" id="ty-ctas">
-        <button class="ty-btn" onclick="scrollToRoom('room-00')">
+        <button class="ty-btn ty-btn--primary" onclick="scrollToRoom('room-00')">
           <span>Plan Key</span>
-        </button>
-        <button class="ty-btn ty-btn--primary" onclick="document.getElementById('landing-hero').scrollIntoView({behavior:'smooth'})">
-          <span>Replay Walkthrough</span>
-          <span class="ty-btn__arrow">↑</span>
         </button>
       </div>
     </div>
@@ -912,8 +908,9 @@ def main():
             middle_section = f"""\n\n    <!-- Room Snap Scroll Container -->
     <div class="scroll-container">
 {gen_rooms_str}
+{thank_you_html}
     </div>
-  </div>\n\n  """ + thank_you_html + "\n\n"
+  </div>\n\n  """
             orig_html = orig_html[:header_end] + middle_section + scroll_top_html + orig_html[lightbox_start:]
         else:
             print("Error: Could not find lightbox start.")
