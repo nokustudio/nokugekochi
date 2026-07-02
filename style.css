@@ -1135,6 +1135,51 @@ body {
   stroke-linejoin: round;
 }
 
+/* Home pill — quiet, always-available route back to the hub */
+#home-pill {
+  position: fixed;
+  bottom: 36px;
+  left: 36px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(42, 35, 30, 0.55);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--dark-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  opacity: 0.65;
+  transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              background 0.35s ease, border-color 0.35s ease;
+}
+
+#home-pill:hover {
+  opacity: 1;
+  background: var(--chamoisee);
+  border-color: var(--chamoisee);
+}
+
+#home-pill svg {
+  width: 17px;
+  height: 17px;
+  stroke: var(--bone);
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+@media (max-width: 768px) {
+  /* lift above the cover footer strip and full-width CTA buttons */
+  #home-pill {
+    bottom: 96px;
+    left: 18px;
+  }
+}
+
 /* ==========================================================================
    CUSTOMISATION SECTION
    ========================================================================== */
