@@ -3,31 +3,61 @@
 # identical for every project, so they are NOT configured here — they stay inline in
 # update_site.py. Everything project-specific lives in PROJECTS below.
 
-# Placeholder quote reused for every Modern Times room until real copy is written.
-_MT_PLACEHOLDER_QUOTE = "Content for this space is being composed. Renders, products and dimensions to follow."
+# Fallback quote if a room has no copy written yet.
+_PLACEHOLDER_QUOTE = "Content for this space is being composed. Renders, products and dimensions to follow."
 
 
-def _rooms(quotes):
-    """Build the 11-room + materials config. `quotes` maps room id -> quote string."""
-    base = [
-        ("room-materials", "Materials", "Materials & Moodboard", "Palette"),
-        ("room-01", "01. Foyer", "Foyer", "Entry"),
-        ("room-02", "02. Living Room 01", "Living Room 01", "Reading"),
-        ("room-03", "03. Living Room 02", "Living Room 02", "Seating"),
-        ("room-04", "04. Living Room 03", "Living Room 03", "Work"),
-        ("room-05", "05. Master Bedroom", "Master Bedroom", "Primary suite"),
-        ("room-06", "06. Bedroom 01", "Bedroom 01", "Secondary"),
-        ("room-07", "07.  Dining", "Dining", "Eat-in"),
-        ("room-08", "08. Bedroom 02", "Bedroom 02", "Sleeping"),
-        ("room-09", "09. Bedroom 03", "Bedroom 03", "Sleeping"),
-        ("room-10", "10. Bar & Lounge", "Bar & Lounge", "Repose"),
-        ("room-11", "11. Outdoor", "Outdoor", "Outdoor"),
-    ]
+def _rooms(base, quotes):
+    """Build a room config from `base` (list of id/folder/title/label tuples).
+    `quotes` maps room id -> quote string; rooms without one get the placeholder."""
     return [
         {"id": rid, "folder": folder, "title": title, "label": label,
-         "quote": quotes.get(rid, _MT_PLACEHOLDER_QUOTE)}
+         "quote": quotes.get(rid, _PLACEHOLDER_QUOTE)}
         for rid, folder, title, label in base
     ]
+
+
+# Umang: 11 rooms (room-materials is skipped in the walkthrough; it acts as the
+# "01 = Plan Key" numbering offset so Foyer reads as 02).
+_UMANG_BASE = [
+    ("room-materials", "Materials", "Materials & Moodboard", "Palette"),
+    ("room-01", "01. Foyer", "Foyer", "Entry"),
+    ("room-02", "02. Living Room 01", "Living Room 01", "Reading"),
+    ("room-03", "03. Living Room 02", "Living Room 02", "Seating"),
+    ("room-04", "04. Living Room 03", "Living Room 03", "Work"),
+    ("room-05", "05. Master Bedroom", "Master Bedroom", "Primary suite"),
+    ("room-06", "06. Bedroom 01", "Bedroom 01", "Secondary"),
+    ("room-07", "07.  Dining", "Dining", "Eat-in"),
+    ("room-08", "08. Bedroom 02", "Bedroom 02", "Sleeping"),
+    ("room-09", "09. Bedroom 03", "Bedroom 03", "Sleeping"),
+    ("room-10", "10. Bar & Lounge", "Bar & Lounge", "Repose"),
+    ("room-11", "11. Outdoor", "Outdoor", "Outdoor"),
+]
+
+# Modern Times: 9 rooms matching the folders on disk (no plan key / no materials slide).
+_MT_BASE = [
+    ("room-01", "01. Living Room", "Living Room", "Living"),
+    ("room-02", "02. Dining", "Dining", "Dining"),
+    ("room-03", "03. GF Balcony", "Ground Floor Balcony", "Outdoor"),
+    ("room-04", "04. Breakfast Counter", "Breakfast Counter", "Counter"),
+    ("room-05", "05. Bedroom 01", "Bedroom 01", "Sleeping"),
+    ("room-06", "06. Bedroom 02", "Bedroom 02", "Sleeping"),
+    ("room-07", "07. Bedroom 03", "Bedroom 03", "Sleeping"),
+    ("room-08", "08. Master Bedroom", "Master Bedroom", "Primary suite"),
+    ("room-09", "09. FF Balcony", "First Floor Balcony", "Outdoor"),
+]
+
+_MT_QUOTES = {
+    "room-01": "Where the city softens. Brick, timber and greenery frame a living space that breathes with the building.",
+    "room-02": "Gathered in warm light. A table set against the garden's edge, where meals slow to the pace of evening.",
+    "room-03": "Ground-level green. The garden meets the threshold, blurring the line between home and landscape.",
+    "room-04": "The quiet start. A compact counter for morning light, coffee, and the unhurried first hour.",
+    "room-05": "A calm retreat. Grounded tones and soft texture compose a room made for rest.",
+    "room-06": "Simple and serene. Clean lines and natural materials shape a private, restful corner.",
+    "room-07": "Light and ease. A restful space where greenery and warm wood meet at the window.",
+    "room-08": "A sanctuary above the city. Rich timber and layered light craft a suite for deep repose.",
+    "room-09": "Between home and sky. The terrace garden brings the ecosystem to the doorstep — green, open, alive.",
+}
 
 
 _UMANG_QUOTES = {
@@ -103,7 +133,7 @@ UMANG = {
     "short_name": "Umang",
     "output": "umang.html",
     "base": "projects/umang",
-    "rooms_config": _rooms(_UMANG_QUOTES),
+    "rooms_config": _rooms(_UMANG_BASE, _UMANG_QUOTES),
     "custom_rates_mapping": _UMANG_RATES_MAPPING,
     "keyplan": {
         "image": "Layout Simplified 3b with labels.png",   # relative to base
@@ -142,12 +172,13 @@ MODERN_TIMES = {
     "short_name": "Modern Times",
     "output": "modern-times.html",
     "base": "projects/modern-times",
-    "status": "preview",   # furnishing study underway — render cover + preview section, no empty rooms
-    "rooms_config": _rooms({}),   # all rooms use the placeholder quote
+    "rooms_config": _rooms(_MT_BASE, _MT_QUOTES),
     "custom_rates_mapping": {},
     "keyplan": {
-        "image": "Layout Simplified 3b with labels.png",   # drop the real plan here later
-        "hotspots": {},   # no hotspots until the plan is finalised
+        # No plan-key image yet — the generator detects it's missing and skips the
+        # Plan Key page + per-room key thumbnails. Drop the real plan here to enable.
+        "image": "Layout Simplified 3b with labels.png",
+        "hotspots": {},
     },
     "layout_images": {},   # per-room layouts added with content
     "furniture_layout": {"file": "Layout Original 6.png", "title": "Furniture Layout"},
@@ -156,7 +187,7 @@ MODERN_TIMES = {
         "article": "The", "name": "Modern Times", "subtitle": "Residence.",
         "eyebrow": "Good Earth &nbsp;·&nbsp; Kalamassery, Kochi",
         "theme_chip": "The high-rise as an ecosystem",
-        "room_count": "In Progress",
+        "room_count": "9 Rooms",
         # Researched facts (goodearthmoderntimes.com) shown as the cover fact strip
         "facts": ["Kalamassery, Kochi", "4 BHK Simplex & Duplex", "Ready to Move", "CREDAI 2025 &nbsp;·&nbsp; Most Sustainable"],
         # Built-photo triptych (official Good Earth photos, downloaded to web/).

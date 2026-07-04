@@ -1375,7 +1375,7 @@
         <span class="l-footer__client">For Good Earth — Kochi</span>
       </div>
       <div class="l-footer__rooms">
-        <span class="l-room-badge">In Progress</span>
+        <span class="l-room-badge">9 Rooms</span>
         <span class="l-room-badge">Volume One</span>
       </div>
       <div class="l-scroll-hint" aria-hidden="true">
@@ -1406,25 +1406,667 @@
     <!-- Room Snap Scroll Container -->
     <div class="scroll-container">
     <!-- ==========================================================================
-         PREVIEW: FURNISHING STUDY UNDERWAY
+         ROOM 01: LIVING ROOM
          ========================================================================== -->
-    <main class="room-section" id="room-preview" data-room-title="In Design"
-      style="grid-template-columns: 1fr; align-content: center; justify-items: center; text-align: center;">
-      <div style="max-width: 620px; display: flex; flex-direction: column; align-items: center; gap: 26px; padding: 60px 20px;">
-        <img loading="lazy" src="Noku mark.png" alt="Noku Studio" style="height: 34px; width: auto; opacity: 0.9;">
-        <span class="index-label">Furnishing Study Underway</span>
-        <h1 class="space-title" style="font-size: clamp(2rem, 4.5vw, 3.4rem);">The walkthrough is<br>being composed.</h1>
-        <p style="font-family: var(--font-body); font-size: 1rem; line-height: 1.8; color: var(--muted);">
-          Noku Studio is composing the room-by-room furnishing study for
-          <strong style="color: var(--ink); font-weight: 400;">Modern Times Residence</strong> —
-          renders, product selections, dimensions and rates will appear here.
-          The shared materials palette and moodboard already apply to this residence.
-        </p>
-        <div style="display: flex; gap: 28px; flex-wrap: wrap; justify-content: center;">
-          <a href="index.html#materials-moodboard" style="font-family: var(--font-display); font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--chamoisee); text-decoration: none; border-bottom: 1px solid var(--chamoisee); padding-bottom: 3px;">Shared Materials &amp; Moodboard →</a>
-          <a href="umang.html" style="font-family: var(--font-display); font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--chamoisee); text-decoration: none; border-bottom: 1px solid var(--chamoisee); padding-bottom: 3px;">See the Umang walkthrough →</a>
+    <main class="room-section" id="room-01" data-room-title="Living Room">
+
+      <!-- Left Column: Title + Main Renders -->
+      <section class="left-column">
+        <div class="space-title-container">
+          <span class="space-number">01</span>
+          <h1 class="space-title">Living Room</h1>
+        </div>
+
+        <div class="showcase-container">
+          <div class="main-render-wrapper" onclick="openLightbox('room-01', activeRenderIndex['room-01'])">
+            <!-- Navigation Arrows on Slider -->
+            <button class="slider-arrow slider-prev" onclick="navigateRender('room-01', -1); event.stopPropagation();">&#8249;</button>
+            <button class="slider-arrow slider-next" onclick="navigateRender('room-01', 1); event.stopPropagation();">&#8250;</button>
+            
+            <img loading="lazy" src="projects/modern-times/01. Living Room/Living 1.png" alt="Living Room Render 1" class="main-render-image">
+          </div>
+        </div>
+      </section>
+
+      <!-- Right Column: Quote + Maps + Products Grid -->
+      <section class="right-column">
+        <!-- Top Row: Quote & Skeletal Maps -->
+        <div class="room-meta-header" style="grid-template-columns: 1fr;">
+          <blockquote class="quote-container">
+            "Where the city softens. Brick, timber and greenery frame a living space that breathes with the building."
+          </blockquote>
+        </div>
+
+        <!-- Bottom Row: Products Grid -->
+        <div class="products-section-container">
+          <h2 class="section-label">Furniture Used</h2>
+          
+          <div class="products-grid">
+            <!-- Product Card: Bench 20 BA -->
+            <div class="product-card">
+              <div class="product-image-wrapper" onclick="openLightbox('room-01-prod-0', 0, 'projects/modern-times/01. Living Room/Products/Bench 20 BA.png', 'Bench 20 BA', 'Teak / White Ash')">
+                <img loading="lazy" src="projects/modern-times/01. Living Room/Products/Bench 20 BA.png" alt="Bench 20 BA" class="product-image">
+              </div>
+              <div class="product-card__body">
+                <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 8px;">
+                  <h3 class="product-card__name" style="flex-grow: 1; margin-bottom: 0;">Bench 20 BA</h3>
+                </div>
+                <span class="product-card__material">Teak / White Ash</span>
+              </div>
+            </div>
+            <!-- Product Card: Centre Table 23 B -->
+            <div class="product-card">
+              <div class="product-image-wrapper" onclick="openLightbox('room-01-prod-1', 0, 'projects/modern-times/01. Living Room/Products/Centre Table 23 B.png', 'Centre Table 23 B', 'Teak / White Ash')">
+                <img loading="lazy" src="projects/modern-times/01. Living Room/Products/Centre Table 23 B.png" alt="Centre Table 23 B" class="product-image">
+              </div>
+              <div class="product-card__body">
+                <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 8px;">
+                  <h3 class="product-card__name" style="flex-grow: 1; margin-bottom: 0;">Centre Table 23 B</h3>
+                </div>
+                <span class="product-card__material">Teak / White Ash</span>
+              </div>
+            </div>
+            <!-- Product Card: Chair 06 A -->
+            <div class="product-card">
+              <div class="product-image-wrapper" onclick="openLightbox('room-01-prod-2', 0, 'projects/modern-times/01. Living Room/Products/Chair 06 A.png', 'Chair 06 A', 'Teak / White Ash')">
+                <img loading="lazy" src="projects/modern-times/01. Living Room/Products/Chair 06 A.png" alt="Chair 06 A" class="product-image">
+              </div>
+              <div class="product-card__body">
+                <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 8px;">
+                  <h3 class="product-card__name" style="flex-grow: 1; margin-bottom: 0;">Chair 06 A</h3>
+                </div>
+                <span class="product-card__material">Teak / White Ash</span>
+              </div>
+            </div>
+            <!-- Product Card: Side Table 31 -->
+            <div class="product-card">
+              <div class="product-image-wrapper" onclick="openLightbox('room-01-prod-3', 0, 'projects/modern-times/01. Living Room/Products/Side Table 31.png', 'Side Table 31', 'Teak / White Ash')">
+                <img loading="lazy" src="projects/modern-times/01. Living Room/Products/Side Table 31.png" alt="Side Table 31" class="product-image">
+              </div>
+              <div class="product-card__body">
+                <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 8px;">
+                  <h3 class="product-card__name" style="flex-grow: 1; margin-bottom: 0;">Side Table 31</h3>
+                </div>
+                <span class="product-card__material">Teak / White Ash</span>
+              </div>
+            </div>
+            <!-- Product Card: Sofa 28 A -->
+            <div class="product-card">
+              <div class="product-image-wrapper" onclick="openLightbox('room-01-prod-4', 0, 'projects/modern-times/01. Living Room/Products/Sofa 28 A.png', 'Sofa 28 A', 'Teak / White Ash')">
+                <img loading="lazy" src="projects/modern-times/01. Living Room/Products/Sofa 28 A.png" alt="Sofa 28 A" class="product-image">
+              </div>
+              <div class="product-card__body">
+                <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 8px;">
+                  <h3 class="product-card__name" style="flex-grow: 1; margin-bottom: 0;">Sofa 28 A</h3>
+                </div>
+                <span class="product-card__material">Teak / White Ash</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- ==========================================================================
+         ROOM 02: DINING
+         ========================================================================== -->
+    <main class="room-section" id="room-02" data-room-title="Dining">
+
+      <!-- Left Column: Title + Main Renders -->
+      <section class="left-column">
+        <div class="space-title-container">
+          <span class="space-number">02</span>
+          <h1 class="space-title">Dining</h1>
+        </div>
+
+        <div class="showcase-container">
+          <div class="main-render-wrapper" onclick="openLightbox('room-02', activeRenderIndex['room-02'])">
+            <!-- Navigation Arrows on Slider -->
+            <button class="slider-arrow slider-prev" onclick="navigateRender('room-02', -1); event.stopPropagation();">&#8249;</button>
+            <button class="slider-arrow slider-next" onclick="navigateRender('room-02', 1); event.stopPropagation();">&#8250;</button>
+            
+            <img loading="lazy" src="projects/modern-times/02. Dining/Dining 1 B.png" alt="Dining Render 1" class="main-render-image">
+          </div>
+        </div>
+      </section>
+
+      <!-- Right Column: Quote + Maps + Products Grid -->
+      <section class="right-column">
+        <!-- Top Row: Quote & Skeletal Maps -->
+        <div class="room-meta-header" style="grid-template-columns: 1fr;">
+          <blockquote class="quote-container">
+            "Gathered in warm light. A table set against the garden's edge, where meals slow to the pace of evening."
+          </blockquote>
+        </div>
+
+        <!-- Bottom Row: Products Grid -->
+        <div class="products-section-container">
+          <h2 class="section-label">Furniture Used</h2>
+          
+          <div class="products-grid">
+            <!-- Product Card: Bench 03 -->
+            <div class="product-card">
+              <div class="product-image-wrapper" onclick="openLightbox('room-02-prod-0', 0, 'projects/modern-times/02. Dining/Products/Bench 03.png', 'Bench 03', 'Teak / White Ash')">
+                <img loading="lazy" src="projects/modern-times/02. Dining/Products/Bench 03.png" alt="Bench 03" class="product-image">
+              </div>
+              <div class="product-card__body">
+                <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 8px;">
+                  <h3 class="product-card__name" style="flex-grow: 1; margin-bottom: 0;">Bench 03</h3>
+                </div>
+                <span class="product-card__material">Teak / White Ash</span>
+              </div>
+            </div>
+            <!-- Product Card: Chair 09 -->
+            <div class="product-card">
+              <div class="product-image-wrapper" onclick="openLightbox('room-02-prod-1', 0, 'projects/modern-times/02. Dining/Products/Chair 09.png', 'Chair 09', 'Teak / White Ash')">
+                <img loading="lazy" src="projects/modern-times/02. Dining/Products/Chair 09.png" alt="Chair 09" class="product-image">
+              </div>
+              <div class="product-card__body">
+                <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 8px;">
+                  <h3 class="product-card__name" style="flex-grow: 1; margin-bottom: 0;">Chair 09</h3>
+                </div>
+                <span class="product-card__material">Teak / White Ash</span>
+              </div>
+            </div>
+            <!-- Product Card: Chair 44 C -->
+            <div class="product-card">
+              <div class="product-image-wrapper" onclick="openLightbox('room-02-prod-2', 0, 'projects/modern-times/02. Dining/Products/Chair 44 C.png', 'Chair 44 C', 'Teak / White Ash')">
+                <img loading="lazy" src="projects/modern-times/02. Dining/Products/Chair 44 C.png" alt="Chair 44 C" class="product-image">
+              </div>
+              <div class="product-card__body">
+                <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 8px;">
+                  <h3 class="product-card__name" style="flex-grow: 1; margin-bottom: 0;">Chair 44 C</h3>
+                </div>
+                <span class="product-card__material">Teak / White Ash</span>
+              </div>
+            </div>
+            <!-- Product Card: Dining Table 03 -->
+            <div class="product-card">
+              <div class="product-image-wrapper" onclick="openLightbox('room-02-prod-3', 0, 'projects/modern-times/02. Dining/Products/Dining Table 03.png', 'Dining Table 03', 'Teak / White Ash')">
+                <img loading="lazy" src="projects/modern-times/02. Dining/Products/Dining Table 03.png" alt="Dining Table 03" class="product-image">
+              </div>
+              <div class="product-card__body">
+                <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 8px;">
+                  <h3 class="product-card__name" style="flex-grow: 1; margin-bottom: 0;">Dining Table 03</h3>
+                </div>
+                <span class="product-card__material">Teak / White Ash</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- ==========================================================================
+         ROOM 03: GROUND FLOOR BALCONY
+         ========================================================================== -->
+    <main class="room-section" id="room-03" data-room-title="Ground Floor Balcony">
+
+      <!-- Left Column: Title + Main Renders -->
+      <section class="left-column">
+        <div class="space-title-container">
+          <span class="space-number">03</span>
+          <h1 class="space-title">Ground Floor Balcony</h1>
+        </div>
+
+        <div class="showcase-container">
+          <div class="main-render-wrapper" onclick="openLightbox('room-03', activeRenderIndex['room-03'])">
+            <!-- Navigation Arrows on Slider -->
+            <button class="slider-arrow slider-prev" onclick="navigateRender('room-03', -1); event.stopPropagation();">&#8249;</button>
+            <button class="slider-arrow slider-next" onclick="navigateRender('room-03', 1); event.stopPropagation();">&#8250;</button>
+            
+            <img loading="lazy" src="projects/modern-times/03. GF Balcony/Balcony GF 1.png" alt="Ground Floor Balcony Render 1" class="main-render-image">
+          </div>
+        </div>
+      </section>
+
+      <!-- Right Column: Quote + Maps + Products Grid -->
+      <section class="right-column">
+        <!-- Top Row: Quote & Skeletal Maps -->
+        <div class="room-meta-header" style="grid-template-columns: 1fr;">
+          <blockquote class="quote-container">
+            "Ground-level green. The garden meets the threshold, blurring the line between home and landscape."
+          </blockquote>
+        </div>
+
+        <!-- Bottom Row: Products Grid -->
+        <div class="products-section-container">
+          <h2 class="section-label">Furniture Used</h2>
+          
+          <div class="products-grid">
+            <!-- Product Card: Centre Table 02 -->
+            <div class="product-card">
+              <div class="product-image-wrapper" onclick="openLightbox('room-03-prod-0', 0, 'projects/modern-times/03. GF Balcony/Products/Centre Table 02.png', 'Centre Table 02', 'Teak / White Ash')">
+                <img loading="lazy" src="projects/modern-times/03. GF Balcony/Products/Centre Table 02.png" alt="Centre Table 02" class="product-image">
+              </div>
+              <div class="product-card__body">
+                <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 8px;">
+                  <h3 class="product-card__name" style="flex-grow: 1; margin-bottom: 0;">Centre Table 02</h3>
+                </div>
+                <span class="product-card__material">Teak / White Ash</span>
+              </div>
+            </div>
+            <!-- Product Card: Chair 27 -->
+            <div class="product-card">
+              <div class="product-image-wrapper" onclick="openLightbox('room-03-prod-1', 0, 'projects/modern-times/03. GF Balcony/Products/Chair 27.png', 'Chair 27', 'Teak / White Ash')">
+                <img loading="lazy" src="projects/modern-times/03. GF Balcony/Products/Chair 27.png" alt="Chair 27" class="product-image">
+              </div>
+              <div class="product-card__body">
+                <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 8px;">
+                  <h3 class="product-card__name" style="flex-grow: 1; margin-bottom: 0;">Chair 27</h3>
+                </div>
+                <span class="product-card__material">Teak / White Ash</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- ==========================================================================
+         ROOM 04: BREAKFAST COUNTER
+         ========================================================================== -->
+    <main class="room-section" id="room-04" data-room-title="Breakfast Counter">
+
+      <!-- Left Column: Title + Main Renders -->
+      <section class="left-column">
+        <div class="space-title-container">
+          <span class="space-number">04</span>
+          <h1 class="space-title">Breakfast Counter</h1>
+        </div>
+
+        <div class="showcase-container">
+          <div class="main-render-wrapper" onclick="openLightbox('room-04', activeRenderIndex['room-04'])">
+            <!-- Navigation Arrows on Slider -->
+            <button class="slider-arrow slider-prev" onclick="navigateRender('room-04', -1); event.stopPropagation();">&#8249;</button>
+            <button class="slider-arrow slider-next" onclick="navigateRender('room-04', 1); event.stopPropagation();">&#8250;</button>
+            
+            <img loading="lazy" src="projects/modern-times/04. Breakfast Counter/Bar 1.png" alt="Breakfast Counter Render 1" class="main-render-image">
+          </div>
+        </div>
+      </section>
+
+      <!-- Right Column: Quote + Maps + Products Grid -->
+      <section class="right-column">
+        <!-- Top Row: Quote & Skeletal Maps -->
+        <div class="room-meta-header" style="grid-template-columns: 1fr;">
+          <blockquote class="quote-container">
+            "The quiet start. A compact counter for morning light, coffee, and the unhurried first hour."
+          </blockquote>
+        </div>
+
+        <!-- Bottom Row: Products Grid -->
+        <div class="products-section-container">
+          <h2 class="section-label">Furniture Used</h2>
+          
+          <div class="products-grid">
+            <!-- Product Card: Barstool 01 B -->
+            <div class="product-card">
+              <div class="product-image-wrapper" onclick="openLightbox('room-04-prod-0', 0, 'projects/modern-times/04. Breakfast Counter/Products/Barstool 01 B v2.png', 'Barstool 01 B', 'Teak / White Ash')">
+                <img loading="lazy" src="projects/modern-times/04. Breakfast Counter/Products/Barstool 01 B v2.png" alt="Barstool 01 B" class="product-image">
+              </div>
+              <div class="product-card__body">
+                <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 8px;">
+                  <h3 class="product-card__name" style="flex-grow: 1; margin-bottom: 0;">Barstool 01 B</h3>
+                </div>
+                <span class="product-card__material">Teak / White Ash</span>
+              </div>
+            </div>
+            <!-- Product Card: Barstool 03 -->
+            <div class="product-card">
+              <div class="product-image-wrapper" onclick="openLightbox('room-04-prod-1', 0, 'projects/modern-times/04. Breakfast Counter/Products/Barstool 03.png', 'Barstool 03', 'Teak / White Ash')">
+                <img loading="lazy" src="projects/modern-times/04. Breakfast Counter/Products/Barstool 03.png" alt="Barstool 03" class="product-image">
+              </div>
+              <div class="product-card__body">
+                <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 8px;">
+                  <h3 class="product-card__name" style="flex-grow: 1; margin-bottom: 0;">Barstool 03</h3>
+                </div>
+                <span class="product-card__material">Teak / White Ash</span>
+              </div>
+            </div>
+            <!-- Product Card: Barstool 10 -->
+            <div class="product-card">
+              <div class="product-image-wrapper" onclick="openLightbox('room-04-prod-2', 0, 'projects/modern-times/04. Breakfast Counter/Products/Barstool 10.png', 'Barstool 10', 'Teak / White Ash')">
+                <img loading="lazy" src="projects/modern-times/04. Breakfast Counter/Products/Barstool 10.png" alt="Barstool 10" class="product-image">
+              </div>
+              <div class="product-card__body">
+                <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 8px;">
+                  <h3 class="product-card__name" style="flex-grow: 1; margin-bottom: 0;">Barstool 10</h3>
+                </div>
+                <span class="product-card__material">Teak / White Ash</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- ==========================================================================
+         ROOM 05: BEDROOM 01
+         ========================================================================== -->
+    <main class="room-section" id="room-05" data-room-title="Bedroom 01">
+
+      <!-- Left Column: Title + Main Renders -->
+      <section class="left-column">
+        <div class="space-title-container">
+          <span class="space-number">05</span>
+          <h1 class="space-title">Bedroom 01</h1>
+        </div>
+
+        <div class="showcase-container">
+          <div class="main-render-wrapper" onclick="openLightbox('room-05', activeRenderIndex['room-05'])">
+            <!-- Navigation Arrows on Slider -->
+            <button class="slider-arrow slider-prev" onclick="navigateRender('room-05', -1); event.stopPropagation();">&#8249;</button>
+            <button class="slider-arrow slider-next" onclick="navigateRender('room-05', 1); event.stopPropagation();">&#8250;</button>
+            
+            <img loading="lazy" src="projects/modern-times/05. Bedroom 01/Bed GF 1 A.png" alt="Bedroom 01 Render 1" class="main-render-image">
+          </div>
+        </div>
+      </section>
+
+      <!-- Right Column: Quote + Maps + Products Grid -->
+      <section class="right-column">
+        <!-- Top Row: Quote & Skeletal Maps -->
+        <div class="room-meta-header" style="grid-template-columns: 1fr;">
+          <blockquote class="quote-container">
+            "A calm retreat. Grounded tones and soft texture compose a room made for rest."
+          </blockquote>
+        </div>
+
+        <!-- Bottom Row: Products Grid -->
+        <div class="products-section-container">
+          <h2 class="section-label">Furniture Used</h2>
+          
+          <div class="products-grid">
+            <!-- Product Card: Bed 01 -->
+            <div class="product-card">
+              <div class="product-image-wrapper" onclick="openLightbox('room-05-prod-0', 0, 'projects/modern-times/05. Bedroom 01/Products/Bed 01 v2.png', 'Bed 01', 'Teak / White Ash')">
+                <img loading="lazy" src="projects/modern-times/05. Bedroom 01/Products/Bed 01 v2.png" alt="Bed 01" class="product-image">
+              </div>
+              <div class="product-card__body">
+                <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 8px;">
+                  <h3 class="product-card__name" style="flex-grow: 1; margin-bottom: 0;">Bed 01</h3>
+                </div>
+                <span class="product-card__material">Teak / White Ash</span>
+              </div>
+            </div>
+            <!-- Product Card: Side Table 08 -->
+            <div class="product-card">
+              <div class="product-image-wrapper" onclick="openLightbox('room-05-prod-1', 0, 'projects/modern-times/05. Bedroom 01/Products/Side Table 08.png', 'Side Table 08', 'Teak / White Ash')">
+                <img loading="lazy" src="projects/modern-times/05. Bedroom 01/Products/Side Table 08.png" alt="Side Table 08" class="product-image">
+              </div>
+              <div class="product-card__body">
+                <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 8px;">
+                  <h3 class="product-card__name" style="flex-grow: 1; margin-bottom: 0;">Side Table 08</h3>
+                </div>
+                <span class="product-card__material">Teak / White Ash</span>
+              </div>
+            </div>
+            <!-- Product Card: Storage Unit 16 -->
+            <div class="product-card">
+              <div class="product-image-wrapper" onclick="openLightbox('room-05-prod-2', 0, 'projects/modern-times/05. Bedroom 01/Products/Storage Unit 16.png', 'Storage Unit 16', 'Teak / White Ash')">
+                <img loading="lazy" src="projects/modern-times/05. Bedroom 01/Products/Storage Unit 16.png" alt="Storage Unit 16" class="product-image">
+              </div>
+              <div class="product-card__body">
+                <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 8px;">
+                  <h3 class="product-card__name" style="flex-grow: 1; margin-bottom: 0;">Storage Unit 16</h3>
+                </div>
+                <span class="product-card__material">Teak / White Ash</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- ==========================================================================
+         ROOM 06: BEDROOM 02
+         ========================================================================== -->
+    <main class="room-section" id="room-06" data-room-title="Bedroom 02">
+
+      <!-- Left Column: Title + Main Renders -->
+      <section class="left-column">
+        <div class="space-title-container">
+          <span class="space-number">06</span>
+          <h1 class="space-title">Bedroom 02</h1>
+        </div>
+
+        <div class="showcase-container">
+          <div class="main-render-wrapper" onclick="openLightbox('room-06', 0)">
+            <img loading="lazy" src="projects/modern-times/06. Bedroom 02/Bed GF 2.png" alt="Bedroom 02 Render" class="main-render-image">
+          </div>
+        </div>
+      </section>
+
+      <!-- Right Column: Quote + Maps + Products Grid -->
+      <section class="right-column">
+        <!-- Top Row: Quote & Skeletal Maps -->
+        <div class="room-meta-header" style="grid-template-columns: 1fr;">
+          <blockquote class="quote-container">
+            "Simple and serene. Clean lines and natural materials shape a private, restful corner."
+          </blockquote>
+        </div>
+
+        <!-- Bottom Row: Products Grid -->
+        <div class="products-section-container">
+          <h2 class="section-label">Furniture Used</h2>
+          
+          <div class="products-grid">
+            <div style="grid-column: span 2; font-family:var(--font-body); font-size:0.85rem; color:var(--muted); font-style:italic; padding: 40px 0; text-align:center; border: 1px dashed var(--line); border-radius: var(--radius-card); background: var(--light-secondary);">
+              Custom bespoke furniture. Details TBD.
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- ==========================================================================
+         ROOM 07: BEDROOM 03
+         ========================================================================== -->
+    <main class="room-section" id="room-07" data-room-title="Bedroom 03">
+
+      <!-- Left Column: Title + Main Renders -->
+      <section class="left-column">
+        <div class="space-title-container">
+          <span class="space-number">07</span>
+          <h1 class="space-title">Bedroom 03</h1>
+        </div>
+
+        <div class="showcase-container">
+          <div class="main-render-wrapper" onclick="openLightbox('room-07', activeRenderIndex['room-07'])">
+            <!-- Navigation Arrows on Slider -->
+            <button class="slider-arrow slider-prev" onclick="navigateRender('room-07', -1); event.stopPropagation();">&#8249;</button>
+            <button class="slider-arrow slider-next" onclick="navigateRender('room-07', 1); event.stopPropagation();">&#8250;</button>
+            
+            <img loading="lazy" src="projects/modern-times/07. Bedroom 03/Bed FF 3 A (ND).png" alt="Bedroom 03 Render 1" class="main-render-image">
+          </div>
+        </div>
+      </section>
+
+      <!-- Right Column: Quote + Maps + Products Grid -->
+      <section class="right-column">
+        <!-- Top Row: Quote & Skeletal Maps -->
+        <div class="room-meta-header" style="grid-template-columns: 1fr;">
+          <blockquote class="quote-container">
+            "Light and ease. A restful space where greenery and warm wood meet at the window."
+          </blockquote>
+        </div>
+
+        <!-- Bottom Row: Products Grid -->
+        <div class="products-section-container">
+          <h2 class="section-label">Furniture Used</h2>
+          
+          <div class="products-grid">
+            <div style="grid-column: span 2; font-family:var(--font-body); font-size:0.85rem; color:var(--muted); font-style:italic; padding: 40px 0; text-align:center; border: 1px dashed var(--line); border-radius: var(--radius-card); background: var(--light-secondary);">
+              Custom bespoke furniture. Details TBD.
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- ==========================================================================
+         ROOM 08: MASTER BEDROOM
+         ========================================================================== -->
+    <main class="room-section" id="room-08" data-room-title="Master Bedroom">
+
+      <!-- Left Column: Title + Main Renders -->
+      <section class="left-column">
+        <div class="space-title-container">
+          <span class="space-number">08</span>
+          <h1 class="space-title">Master Bedroom</h1>
+        </div>
+
+        <div class="showcase-container">
+          <div class="main-render-wrapper" onclick="openLightbox('room-08', activeRenderIndex['room-08'])">
+            <!-- Navigation Arrows on Slider -->
+            <button class="slider-arrow slider-prev" onclick="navigateRender('room-08', -1); event.stopPropagation();">&#8249;</button>
+            <button class="slider-arrow slider-next" onclick="navigateRender('room-08', 1); event.stopPropagation();">&#8250;</button>
+            
+            <img loading="lazy" src="projects/modern-times/08. Master Bedroom/Bed FF Master A.png" alt="Master Bedroom Render 1" class="main-render-image">
+          </div>
+        </div>
+      </section>
+
+      <!-- Right Column: Quote + Maps + Products Grid -->
+      <section class="right-column">
+        <!-- Top Row: Quote & Skeletal Maps -->
+        <div class="room-meta-header" style="grid-template-columns: 1fr;">
+          <blockquote class="quote-container">
+            "A sanctuary above the city. Rich timber and layered light craft a suite for deep repose."
+          </blockquote>
+        </div>
+
+        <!-- Bottom Row: Products Grid -->
+        <div class="products-section-container">
+          <h2 class="section-label">Furniture Used</h2>
+          
+          <div class="products-grid">
+            <div style="grid-column: span 2; font-family:var(--font-body); font-size:0.85rem; color:var(--muted); font-style:italic; padding: 40px 0; text-align:center; border: 1px dashed var(--line); border-radius: var(--radius-card); background: var(--light-secondary);">
+              Custom bespoke furniture. Details TBD.
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- ==========================================================================
+         ROOM 09: FIRST FLOOR BALCONY
+         ========================================================================== -->
+    <main class="room-section" id="room-09" data-room-title="First Floor Balcony">
+
+      <!-- Left Column: Title + Main Renders -->
+      <section class="left-column">
+        <div class="space-title-container">
+          <span class="space-number">09</span>
+          <h1 class="space-title">First Floor Balcony</h1>
+        </div>
+
+        <div class="showcase-container">
+          <div class="main-render-wrapper" onclick="openLightbox('room-09', activeRenderIndex['room-09'])">
+            <!-- Navigation Arrows on Slider -->
+            <button class="slider-arrow slider-prev" onclick="navigateRender('room-09', -1); event.stopPropagation();">&#8249;</button>
+            <button class="slider-arrow slider-next" onclick="navigateRender('room-09', 1); event.stopPropagation();">&#8250;</button>
+            
+            <img loading="lazy" src="projects/modern-times/09. FF Balcony/Balcony FF 1 (ND).png" alt="First Floor Balcony Render 1" class="main-render-image">
+          </div>
+        </div>
+      </section>
+
+      <!-- Right Column: Quote + Maps + Products Grid -->
+      <section class="right-column">
+        <!-- Top Row: Quote & Skeletal Maps -->
+        <div class="room-meta-header" style="grid-template-columns: 1fr;">
+          <blockquote class="quote-container">
+            "Between home and sky. The terrace garden brings the ecosystem to the doorstep — green, open, alive."
+          </blockquote>
+        </div>
+
+        <!-- Bottom Row: Products Grid -->
+        <div class="products-section-container">
+          <h2 class="section-label">Furniture Used</h2>
+          
+          <div class="products-grid">
+            <div style="grid-column: span 2; font-family:var(--font-body); font-size:0.85rem; color:var(--muted); font-style:italic; padding: 40px 0; text-align:center; border: 1px dashed var(--line); border-radius: var(--radius-card); background: var(--light-secondary);">
+              Custom bespoke furniture. Details TBD.
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- ==========================================================================
+         CUSTOMISATION: MADE FOR YOU
+         ========================================================================== -->
+    <main class="room-section custom-section-new" id="room-custom" data-room-title="Customisation">
+
+      <!-- Top Row: Split Header -->
+      <div class="custom-header-row">
+        <div class="custom-header-left">
+          <div class="custom-brand-group">
+            <img loading="lazy" src="Noku mark.png" alt="N" class="custom-brand-logo">
+            <div class="custom-brand-text">
+              <span class="custom-brand-title">CUSTOMISATION</span>
+            </div>
+          </div>
+          <h1 class="custom-hero-heading">Every piece, tailored<br>to the residence.</h1>
+        </div>
+        
+        <div class="custom-header-right">
+          <div class="custom-chapter-tag">Chapter Four &nbsp;·&nbsp; Tailoring</div>
+          <blockquote class="custom-description">
+            Each piece can be tuned for fabric, finish, wood, dimension and joinery to fit Modern Times specifically. Some examples:
+          </blockquote>
         </div>
       </div>
+
+      <!-- Bottom Row: 4-Column Cards Grid -->
+      <div class="custom-cards-row">
+        <div class="custom-cards-grid-new">
+
+          <!-- Card 1: Wood -->
+          <div class="custom-card-new" title="Wood Customisations">
+            <div class="custom-card-new__image-wrapper">
+              <img loading="lazy" src="Materials/Wood/Teak.png" alt="Wood Options" class="custom-card-new__image">
+            </div>
+            <div class="custom-card-new__body">
+              <span class="custom-card-new__tag">Wood</span>
+              <h3 class="custom-card-new__title">Teak, Reclaimed Teak, White Ash.</h3>
+              <p class="custom-card-new__desc">Mix-and-match across pieces. Reclaimed available subject to availability.</p>
+            </div>
+          </div>
+
+          <!-- Card 2: Upholstery -->
+          <div class="custom-card-new" title="Upholstery Options">
+            <div class="custom-card-new__image-wrapper">
+              <img loading="lazy" src="Materials/Fabric/Rubik Linen.jpg" alt="Upholstery Options" class="custom-card-new__image">
+            </div>
+            <div class="custom-card-new__body">
+              <span class="custom-card-new__tag">Upholstery</span>
+              <h3 class="custom-card-new__title">Fabric or Italian Leather.</h3>
+              <p class="custom-card-new__desc">Library of 40+ swatches across our partners &mdash; Vagabond, D&rsquo;Decor, Rubik.</p>
+            </div>
+          </div>
+
+          <!-- Card 3: Dimensions -->
+          <div class="custom-card-new custom-card-new--dim" title="Dimension Customisations">
+            <div class="custom-card-new__image-wrapper custom-card-new__image-wrapper--dim">
+              <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" class="custom-dim-svg">
+                <rect x="35" y="25" width="50" height="50" stroke="#a27b5c" stroke-width="1.2"/>
+                <line x1="35" y1="25" x2="85" y2="75" stroke="#a27b5c" stroke-width="1.0"/>
+                <line x1="85" y1="25" x2="35" y2="75" stroke="#a27b5c" stroke-width="1.0"/>
+                <text x="60" y="96" text-anchor="middle" font-family="Josefin Sans, sans-serif" font-size="8.5" fill="#a27b5c" letter-spacing="1">DIM &plusmn;10%</text>
+              </svg>
+            </div>
+            <div class="custom-card-new__body">
+              <span class="custom-card-new__tag">Dimensions</span>
+              <h3 class="custom-card-new__title">Scale to your space.</h3>
+              <p class="custom-card-new__desc">Up to &plusmn;10% on most pieces with no tooling surcharge. Larger changes treated as a new study.</p>
+            </div>
+          </div>
+
+        </div><!-- /custom-cards-grid-new -->
+      </div><!-- /custom-cards-row -->
     </main>
 
     <!-- ==========================================================================
@@ -1519,17 +2161,124 @@
        ========================================================================== -->
   <script>
     const roomRenders = {
-  "room-01": [],
-  "room-02": [],
-  "room-03": [],
-  "room-04": [],
-  "room-05": [],
-  "room-06": [],
-  "room-07": [],
-  "room-08": [],
-  "room-09": [],
-  "room-10": [],
-  "room-11": []
+  "room-01": [
+    {
+      "src": "projects/modern-times/01. Living Room/Living 1.png",
+      "title": "Living Room Render",
+      "sub": "Modern Times Project"
+    },
+    {
+      "src": "projects/modern-times/01. Living Room/Living 4.png",
+      "title": "Living Room Render",
+      "sub": "Modern Times Project"
+    },
+    {
+      "src": "projects/modern-times/01. Living Room/Living 5.png",
+      "title": "Living Room Render",
+      "sub": "Modern Times Project"
+    }
+  ],
+  "room-02": [
+    {
+      "src": "projects/modern-times/02. Dining/Dining 1 B.png",
+      "title": "Dining Render",
+      "sub": "Modern Times Project"
+    },
+    {
+      "src": "projects/modern-times/02. Dining/Dining 2.png",
+      "title": "Dining Render",
+      "sub": "Modern Times Project"
+    },
+    {
+      "src": "projects/modern-times/02. Dining/Dining 3.png",
+      "title": "Dining Render",
+      "sub": "Modern Times Project"
+    },
+    {
+      "src": "projects/modern-times/02. Dining/Dining 4.png",
+      "title": "Dining Render",
+      "sub": "Modern Times Project"
+    }
+  ],
+  "room-03": [
+    {
+      "src": "projects/modern-times/03. GF Balcony/Balcony GF 1.png",
+      "title": "Ground Floor Balcony Render",
+      "sub": "Modern Times Project"
+    },
+    {
+      "src": "projects/modern-times/03. GF Balcony/Balcony GF 2.png",
+      "title": "Ground Floor Balcony Render",
+      "sub": "Modern Times Project"
+    }
+  ],
+  "room-04": [
+    {
+      "src": "projects/modern-times/04. Breakfast Counter/Bar 1.png",
+      "title": "Breakfast Counter Render",
+      "sub": "Modern Times Project"
+    },
+    {
+      "src": "projects/modern-times/04. Breakfast Counter/Bar 2.png",
+      "title": "Breakfast Counter Render",
+      "sub": "Modern Times Project"
+    }
+  ],
+  "room-05": [
+    {
+      "src": "projects/modern-times/05. Bedroom 01/Bed GF 1 A.png",
+      "title": "Bedroom 01 Render",
+      "sub": "Modern Times Project"
+    },
+    {
+      "src": "projects/modern-times/05. Bedroom 01/Bed GF 1 B.png",
+      "title": "Bedroom 01 Render",
+      "sub": "Modern Times Project"
+    }
+  ],
+  "room-06": [
+    {
+      "src": "projects/modern-times/06. Bedroom 02/Bed GF 2.png",
+      "title": "Bedroom 02 Render",
+      "sub": "Modern Times Project"
+    }
+  ],
+  "room-07": [
+    {
+      "src": "projects/modern-times/07. Bedroom 03/Bed FF 3 A (ND).png",
+      "title": "Bedroom 03 Render",
+      "sub": "Modern Times Project"
+    },
+    {
+      "src": "projects/modern-times/07. Bedroom 03/Bed FF 3 B.png",
+      "title": "Bedroom 03 Render",
+      "sub": "Modern Times Project"
+    }
+  ],
+  "room-08": [
+    {
+      "src": "projects/modern-times/08. Master Bedroom/Bed FF Master A.png",
+      "title": "Master Bedroom Render",
+      "sub": "Modern Times Project"
+    },
+    {
+      "src": "projects/modern-times/08. Master Bedroom/Bed FF Master B.png",
+      "title": "Master Bedroom Render",
+      "sub": "Modern Times Project"
+    }
+  ],
+  "room-09": [
+    {
+      "src": "projects/modern-times/09. FF Balcony/Balcony FF 1 (ND).png",
+      "title": "First Floor Balcony Render",
+      "sub": "Modern Times Project"
+    },
+    {
+      "src": "projects/modern-times/09. FF Balcony/Balcony FF 2 (ND).png",
+      "title": "First Floor Balcony Render",
+      "sub": "Modern Times Project"
+    }
+  ]
 };
 
 const activeRenderIndex = {
@@ -1542,9 +2291,7 @@ const activeRenderIndex = {
   "room-06": 0,
   "room-07": 0,
   "room-08": 0,
-  "room-09": 0,
-  "room-10": 0,
-  "room-11": 0
+  "room-09": 0
 };
 
     function scrollToRoom(roomId) {

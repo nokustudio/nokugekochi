@@ -441,6 +441,10 @@ def build_project(project, shell_html, base_dir):
     furniture_cfg = project["furniture_layout"]
     copy = project["copy"]
 
+    # Optional assets — degrade gracefully when a project hasn't supplied them yet.
+    has_plan = os.path.exists(os.path.join(proj_dir, project["keyplan"]["image"]))
+    has_furniture = os.path.exists(os.path.join(proj_dir, furniture_cfg["file"]))
+
     # 1. Paths to this project's Excel databases
     excel_path = os.path.join(proj_dir, project["xlsx"]["dimensions"])
     rates_path = os.path.join(proj_dir, project["xlsx"]["rates"])
@@ -514,6 +518,8 @@ def build_project(project, shell_html, base_dir):
 
     def make_keyplan_svg(room_id):
         # Highlight rect for this room, over the project's plan-key image
+        if not has_plan:
+            return ""   # no plan-key image supplied → omit the thumbnail entirely
         hl = keyplan_hotspots.get(room_id, '')
         if not hl:
             return f"""<svg viewBox="0 0 1980 1980" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -526,6 +532,7 @@ def build_project(project, shell_html, base_dir):
 
     # 7. Generate Index Page HTML (Using the Image on the left side)
     def generate_index_page():
+        room_count = len([r for r in rooms_config if r["id"] != "room-materials"])
         list_rows = ""
         num = 1
         for r_conf in rooms_config:
@@ -582,7 +589,7 @@ def build_project(project, shell_html, base_dir):
       <section class="right-column index-right-column" style="overflow-y: hidden;">
         <div class="index-meta-header">
           <span class="index-label">01 · PLAN KEY</span>
-          <h2 class="index-heading">Eleven rooms,<br>one walkthrough.</h2>
+          <h2 class="index-heading">{room_count} rooms,<br>one walkthrough.</h2>
         </div>
         
         <div class="index-list-container">
@@ -794,11 +801,43 @@ def build_project(project, shell_html, base_dir):
 
         keyplan_svg = make_keyplan_svg(rid)
 
+        # Maps column: detailed room layout and/or key-plan thumbnail — only when
+        # those assets exist. If neither, the quote spans the row full-width.
+        map_cards = ""
+        if layout_img_path:
+            map_cards += f"""          <div class="map-placeholder-card" title="Detailed Room Layout" onclick="openLightbox(null, 0, '{layout_img_path}', '{layout_img_title}', 'Room wise layout')">
+            <div class="map-svg-wrapper">
+              <img src="{layout_img_path}" alt="{layout_img_title}" class="map-layout-image">
+            </div>
+          </div>\n"""
+        if keyplan_svg:
+            map_cards += f"""          <div class="map-keyplan-large" title="Key House Plan — click to return to Plan Key" onclick="scrollToRoom('room-00')">
+            <div class="map-svg-wrapper">
+              {keyplan_svg}
+            </div>
+          </div>\n"""
+
+        if map_cards:
+            meta_header = f"""        <div class="room-meta-header">
+          <blockquote class="quote-container">
+            "{quote}"
+          </blockquote>
+
+          <div class="maps-container">
+{map_cards}          </div>
+        </div>"""
+        else:
+            meta_header = f"""        <div class="room-meta-header" style="grid-template-columns: 1fr;">
+          <blockquote class="quote-container">
+            "{quote}"
+          </blockquote>
+        </div>"""
+
         room_block = f"""    <!-- ==========================================================================
          ROOM {idx_str}: {title.upper()}
          ========================================================================== -->
     <main class="room-section" id="{rid}" data-room-title="{title}">
-      
+
       <!-- Left Column: Title + Main Renders -->
       <section class="left-column">
         <div class="space-title-container">
@@ -814,27 +853,7 @@ def build_project(project, shell_html, base_dir):
       <!-- Right Column: Quote + Maps + Products Grid -->
       <section class="right-column">
         <!-- Top Row: Quote & Skeletal Maps -->
-        <div class="room-meta-header">
-          <blockquote class="quote-container">
-            "{quote}"
-          </blockquote>
-          
-          <div class="maps-container">
-            <!-- Detailed Layout -->
-            <div class="map-placeholder-card" title="Detailed Room Layout" onclick="openLightbox(null, 0, '{layout_img_path}', '{layout_img_title}', 'Room wise layout')">
-              <div class="map-svg-wrapper">
-                <img src="{layout_img_path}" alt="{layout_img_title}" class="map-layout-image">
-              </div>
-            </div>
-            
-            <!-- Key Plan (larger, no label) -->
-            <div class="map-keyplan-large" title="Key House Plan — click to return to Plan Key" onclick="scrollToRoom('room-00')">
-              <div class="map-svg-wrapper">
-                {keyplan_svg}
-              </div>
-            </div>
-          </div>
-        </div>
+{meta_header}
 
         <!-- Bottom Row: Products Grid -->
         <div class="products-section-container">
@@ -1037,9 +1056,15 @@ def build_project(project, shell_html, base_dir):
     </main>\n"""
         ordered_blocks = [preview_block, generate_thank_you_page()]
     else:
-        # Plan Key (index 0) first, then Furniture Layout, then the 11 rooms, then Thank You
-        ordered_blocks = [html_blocks[0], furniture_layout_block] + html_blocks[1:] + [generate_thank_you_page()]
-        active_indices["room-layout"] = 0
+        # Plan Key and Furniture Layout are included only when their images exist
+        # (html_blocks[0] = index/plan key, html_blocks[1:] = rooms + customisation).
+        lead = []
+        if has_plan:
+            lead.append(html_blocks[0])
+        if has_furniture:
+            lead.append(furniture_layout_block)
+            active_indices["room-layout"] = 0
+        ordered_blocks = lead + html_blocks[1:] + [generate_thank_you_page()]
 
     orig_html = merge_rooms_into_shell(shell_html, ordered_blocks, js_room_renders, active_indices)
     if orig_html is None:
