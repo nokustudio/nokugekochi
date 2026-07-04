@@ -87,7 +87,7 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  padding: 0 40px 20px 40px; /* Reduced bottom padding */
+  padding: 72px 40px 20px 40px; /* Breathing room below the hero, now that there's no header */
   overflow-x: hidden;
 }
 
@@ -320,7 +320,7 @@ body {
   .app-container {
     height: auto;
     overflow: visible;
-    padding: 0 40px;
+    padding: 72px 40px 0 40px;
   }
 
   .app-header {
@@ -702,7 +702,7 @@ body {
    ========================================================================== */
 @media (max-width: 1200px) {
   .app-container {
-    padding: 0 30px 40px 30px;
+    padding: 56px 30px 40px 30px;
   }
   
   .room-section {
@@ -1138,8 +1138,8 @@ body {
 /* Home pill — quiet, always-available route back to the hub */
 #home-pill {
   position: fixed;
-  bottom: 36px;
-  left: 36px;
+  top: 28px;
+  right: 36px;
   width: 44px;
   height: 44px;
   border-radius: 50%;
@@ -1173,10 +1173,9 @@ body {
 }
 
 @media (max-width: 768px) {
-  /* lift above the cover footer strip and full-width CTA buttons */
   #home-pill {
-    bottom: 96px;
-    left: 18px;
+    top: 18px;
+    right: 18px;
   }
 }
 
