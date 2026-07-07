@@ -435,15 +435,24 @@ def build_project(project, shell_html, base_dir):
     proj_dir = os.path.join(base_dir, proj_base)      # absolute disk path
     rooms_config = project["rooms_config"]
     custom_rates_mapping = project["custom_rates_mapping"]
-    keyplan_image = f"{proj_base}/{project['keyplan']['image']}"   # web path from root
-    keyplan_hotspots = project["keyplan"]["hotspots"]
     layout_images_cfg = project["layout_images"]
-    furniture_cfg = project["furniture_layout"]
     copy = project["copy"]
 
-    # Optional assets — degrade gracefully when a project hasn't supplied them yet.
-    has_plan = os.path.exists(os.path.join(proj_dir, project["keyplan"]["image"]))
-    has_furniture = os.path.exists(os.path.join(proj_dir, furniture_cfg["file"]))
+    # Plan-key and furniture layout are per-floor lists (one floor for Umang, two for
+    # Modern Times). Keep only floors whose image actually exists on disk, so the site
+    # degrades gracefully before content lands.
+    keyplan_floors = [f for f in project["keyplan"]["floors"]
+                      if os.path.exists(os.path.join(proj_dir, f["image"]))]
+    furniture_floors = [f for f in project["furniture_layout"]["floors"]
+                        if os.path.exists(os.path.join(proj_dir, f["file"]))]
+    has_plan = bool(keyplan_floors)
+    has_furniture = bool(furniture_floors)
+
+    # room id -> the floor it belongs to (for the per-room key-plan thumbnail)
+    room_floor = {}
+    for fl in keyplan_floors:
+        for rid in fl["hotspots"]:
+            room_floor[rid] = fl
 
     # 1. Paths to this project's Excel databases
     excel_path = os.path.join(proj_dir, project["xlsx"]["dimensions"])
@@ -517,17 +526,19 @@ def build_project(project, shell_html, base_dir):
     # Custom rate-item mapping comes from the project (projects.py)
 
     def make_keyplan_svg(room_id):
-        # Highlight rect for this room, over the project's plan-key image
-        if not has_plan:
-            return ""   # no plan-key image supplied → omit the thumbnail entirely
-        hl = keyplan_hotspots.get(room_id, '')
-        if not hl:
-            return f"""<svg viewBox="0 0 1980 1980" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <image href="{keyplan_image}" x="0" y="0" width="1980" height="1980" />
-                        </svg>"""
-        return f"""<svg viewBox="0 0 1980 1980" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <image href="{keyplan_image}" x="0" y="0" width="1980" height="1980" />
-                      <rect {hl} fill="#a27b5c" fill-opacity="0.4" stroke="#a27b5c" stroke-width="15" />
+        # Small key-plan thumbnail: the room's own floor plan with its area highlighted.
+        fl = room_floor.get(room_id)
+        if not fl:
+            return ""   # room not placed on any floor plan → omit the thumbnail
+        vb = fl.get("viewbox", "0 0 1980 1980")
+        _, _, vw, vh = vb.split()
+        img = f"{proj_base}/{fl['image']}"
+        hl = fl["hotspots"].get(room_id, '')
+        rect = (f'<rect {hl} fill="#a27b5c" fill-opacity="0.4" stroke="#a27b5c" stroke-width="15" />'
+                if hl else '')
+        return f"""<svg viewBox="{vb}" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <image href="{img}" x="0" y="0" width="{vw}" height="{vh}" />
+                      {rect}
                     </svg>"""
 
     # 7. Generate Index Page HTML (Using the Image on the left side)
@@ -553,36 +564,45 @@ def build_project(project, shell_html, base_dir):
             <span class="index-row-label">{label}</span>
           </div>\n"""
 
-        # Build interactive hotspot rects from the project's keyplan config
-        hotspot_rects = ""
-        for r_conf in rooms_config:
-            rid = r_conf["id"]
-            attrs = keyplan_hotspots.get(rid)
-            if not attrs:
-                continue
-            hotspot_rects += f"""              <!-- {r_conf['title']} -->
+        # One interactive plan SVG per floor (Umang: one; Modern Times: GF + FF).
+        multi = len(keyplan_floors) > 1
+        plan_blocks = ""
+        for fl in keyplan_floors:
+            vb = fl.get("viewbox", "0 0 1980 1980")
+            _, _, vw, vh = vb.split()
+            img = f"{proj_base}/{fl['image']}"
+            rects = ""
+            for r_conf in rooms_config:
+                rid = r_conf["id"]
+                attrs = fl["hotspots"].get(rid)
+                if not attrs:
+                    continue
+                rects += f"""              <!-- {r_conf['title']} -->
               <rect class="svg-room-rect" id="svg-rect-{rid}" {attrs} onclick="scrollToRoom('{rid}')" onmouseover="highlightRoom('{rid}')" onmouseout="unhighlightRoom('{rid}')" />\n"""
+            label_html = f'\n          <span class="floor-label">{fl["label"]}</span>' if fl.get("label") else ''
+            plan_blocks += f"""        <div class="blueprint-floor">{label_html}
+          <svg class="blueprint-svg-large" viewBox="{vb}" xmlns="http://www.w3.org/2000/svg" style="border-radius: var(--radius-card); border: var(--border-width) solid var(--line);">
+            <image href="{img}" x="0" y="0" width="{vw}" height="{vh}" />
+            <g class="svg-rooms-group">
+{rects}            </g>
+          </svg>
+        </div>\n"""
+
+        blueprint_class = "blueprint-large-container blueprint-multi" if multi else "blueprint-large-container"
 
         return f"""    <!-- ==========================================================================
          ROOM 01: INDEX PAGE (PLAN KEY)
          ========================================================================== -->
     <main class="room-section index-section" id="room-00" data-room-title="Plan Key">
-      
+
       <!-- Left Column: Title + Blueprint Image -->
       <section class="left-column">
         <div class="space-title-container">
           <span class="space-number">01</span>
           <h1 class="space-title">Plan Key</h1>
         </div>
-        <div class="blueprint-large-container" style="padding: 0; overflow: hidden; background: none; border: none; box-shadow: none;">
-          <svg class="blueprint-svg-large" viewBox="0 0 1980 1980" xmlns="http://www.w3.org/2000/svg" style="border-radius: var(--radius-card); border: var(--border-width) solid var(--line);">
-            <!-- Background blueprint plan -->
-            <image href="{keyplan_image}" x="0" y="0" width="1980" height="1980" />
-            <!-- Interactive Room Hotspots -->
-            <g class="svg-rooms-group">
-{hotspot_rects}            </g>
-          </svg>
-        </div>
+        <div class="{blueprint_class}" style="padding: 0; overflow: {'auto' if multi else 'hidden'}; background: none; border: none; box-shadow: none;">
+{plan_blocks}        </div>
       </section>
 
       <!-- Right Column: List Key Table -->
@@ -998,12 +1018,22 @@ def build_project(project, shell_html, base_dir):
 
     # 9. Furniture Layout section (unnumbered), then merge everything into the shell
     print(f"\nMerging blocks into {project['output']}...")
-    furn_img = f"{proj_base}/{furniture_cfg['file']}"
-    furn_title = furniture_cfg["title"]
+    furn_multi = len(furniture_floors) > 1
+    furn_imgs = ""
+    for fl in furniture_floors:
+        f_img = f"{proj_base}/{fl['file']}"
+        f_title = fl["title"]
+        f_label = f'\n        <span class="floor-label floor-label--center">{fl["label"]}</span>' if fl.get("label") else ''
+        furn_imgs += f"""      <div class="furniture-floor">{f_label}
+        <div class="layout-image-container-centered" onclick="openLightbox(null, 0, '{f_img}', '{f_title}')">
+          <img src="{f_img}" alt="{f_title}" class="furniture-layout-image">
+        </div>
+      </div>\n"""
+
     furniture_layout_block = f"""    <!-- ==========================================================================
          FURNITURE LAYOUT: CENTERED PLAN (UNNUMBERED)
          ========================================================================== -->
-    <main class="room-section furniture-layout-section" id="room-layout" data-room-title="Furniture Layout">
+    <main class="room-section furniture-layout-section{' furniture-multi' if furn_multi else ''}" id="room-layout" data-room-title="Furniture Layout">
 
       <!-- Top Title Bar -->
       <div class="layout-header-row">
@@ -1012,12 +1042,7 @@ def build_project(project, shell_html, base_dir):
         </div>
       </div>
 
-      <!-- Centered Image Container -->
-      <div class="layout-image-container-centered" onclick="openLightbox(null, 0, '{furn_img}', '{furn_title}')">
-        <img src="{furn_img}" alt="{furn_title}" class="furniture-layout-image">
-      </div>
-
-    </main>"""
+{furn_imgs}    </main>"""
 
     # Cross-project hand-off on the Thank You page: continue to the other project(s), or the hub
     others = [p for p in PROJECTS if p["id"] != project["id"]]

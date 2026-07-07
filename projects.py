@@ -34,8 +34,11 @@ _UMANG_BASE = [
     ("room-11", "11. Outdoor", "Outdoor", "Outdoor"),
 ]
 
-# Modern Times: 9 rooms matching the folders on disk (no plan key / no materials slide).
+# Modern Times: 9 rooms matching the folders on disk. The leading room-materials
+# entry is a numbering sentinel only (skipped everywhere, like Umang) so the Plan Key
+# reads as 01 and the rooms as 02–10, keeping section numbers and the index list in sync.
 _MT_BASE = [
+    ("room-materials", "Materials", "Materials & Moodboard", "Palette"),
     ("room-01", "01. Living Room", "Living Room", "Living"),
     ("room-02", "02. Dining", "Dining", "Dining"),
     ("room-03", "03. GF Balcony", "Ground Floor Balcony", "Outdoor"),
@@ -57,6 +60,34 @@ _MT_QUOTES = {
     "room-07": "Light and ease. A restful space where greenery and warm wood meet at the window.",
     "room-08": "A sanctuary above the city. Rich timber and layered light craft a suite for deep repose.",
     "room-09": "Between home and sky. The terrace garden brings the ecosystem to the doorstep — green, open, alive.",
+}
+
+# Modern Times is a two-floor home. Hotspot rects are in each plan's native
+# 2400x1800 space (room id -> SVG rect attrs), split by the floor the room sits on.
+_MT_GF_HOTSPOTS = {
+    "room-01": 'x="1284" y="516" width="336" height="348"',   # Living Room
+    "room-02": 'x="912" y="480" width="348" height="360"',    # Dining
+    "room-03": 'x="864" y="864" width="936" height="492"',    # Ground Floor Balcony
+    "room-04": 'x="516" y="480" width="396" height="360"',    # Breakfast Counter
+    "room-05": 'x="1850" y="500" width="330" height="352"',   # Bedroom 01
+    "room-06": 'x="432" y="864" width="420" height="312"',    # Bedroom 02
+}
+_MT_FF_HOTSPOTS = {
+    "room-07": 'x="1850" y="500" width="330" height="352"',   # Bedroom 03
+    "room-08": 'x="444" y="504" width="396" height="384"',    # Master Bedroom
+    "room-09": 'x="492" y="912" width="360" height="264"',    # First Floor Balcony
+}
+
+_MT_LAYOUT_IMAGES = {
+    "room-01": {"file": "Room wise layout/Living Room.jpg", "title": "Living Room Layout"},
+    "room-02": {"file": "Room wise layout/Dining.jpg", "title": "Dining Layout"},
+    "room-03": {"file": "Room wise layout/Balcony GF.jpg", "title": "Ground Floor Balcony Layout"},
+    "room-04": {"file": "Room wise layout/Breakfast Counter.jpg", "title": "Breakfast Counter Layout"},
+    "room-05": {"file": "Room wise layout/Bedroom 01.jpg", "title": "Bedroom 01 Layout"},
+    "room-06": {"file": "Room wise layout/Bedroom 02.jpg", "title": "Bedroom 02 Layout"},
+    "room-07": {"file": "Room wise layout/Bedroom 03.jpg", "title": "Bedroom 03 Layout"},
+    "room-08": {"file": "Room wise layout/Master Bedroom.jpg", "title": "Master Bedroom Layout"},
+    # room-09 First Floor Balcony has no dedicated room-wise layout image yet.
 }
 
 
@@ -135,12 +166,19 @@ UMANG = {
     "base": "projects/umang",
     "rooms_config": _rooms(_UMANG_BASE, _UMANG_QUOTES),
     "custom_rates_mapping": _UMANG_RATES_MAPPING,
+    # Plan key + furniture layout are per-floor lists (Umang is a single floor).
     "keyplan": {
-        "image": "Layout Simplified 3b with labels.png",   # relative to base
-        "hotspots": _UMANG_HOTSPOTS,
+        "floors": [
+            {"label": None, "image": "Layout Simplified 3b with labels.png",
+             "viewbox": "0 0 1980 1980", "hotspots": _UMANG_HOTSPOTS},
+        ],
     },
     "layout_images": _UMANG_LAYOUT_IMAGES,
-    "furniture_layout": {"file": "Layout Original 6.png", "title": "Furniture Layout"},
+    "furniture_layout": {
+        "floors": [
+            {"label": None, "file": "Layout Original 6.png", "title": "Furniture Layout"},
+        ],
+    },
     "xlsx": {"dimensions": "Product Dimensions.xlsx", "rates": "Furniture_Rates.xlsx"},
     "hero": {
         "article": "The", "name": "Umang", "subtitle": "Residence.",
@@ -174,14 +212,22 @@ MODERN_TIMES = {
     "base": "projects/modern-times",
     "rooms_config": _rooms(_MT_BASE, _MT_QUOTES),
     "custom_rates_mapping": {},
+    # Two-floor plan key: Ground Floor + First Floor, each with its own hotspots.
     "keyplan": {
-        # No plan-key image yet — the generator detects it's missing and skips the
-        # Plan Key page + per-room key thumbnails. Drop the real plan here to enable.
-        "image": "Layout Simplified 3b with labels.png",
-        "hotspots": {},
+        "floors": [
+            {"label": "Ground Floor", "image": "Layout Simplified - GF.jpg",
+             "viewbox": "0 0 2400 1800", "hotspots": _MT_GF_HOTSPOTS},
+            {"label": "First Floor", "image": "Layout Simplified - FF.jpg",
+             "viewbox": "0 0 2400 1800", "hotspots": _MT_FF_HOTSPOTS},
+        ],
     },
-    "layout_images": {},   # per-room layouts added with content
-    "furniture_layout": {"file": "Layout Original 6.png", "title": "Furniture Layout"},
+    "layout_images": _MT_LAYOUT_IMAGES,
+    "furniture_layout": {
+        "floors": [
+            {"label": "Ground Floor", "file": "Layout Original - GF 2.jpg", "title": "Ground Floor — Furniture Layout"},
+            {"label": "First Floor", "file": "Layout Original - FF 2.jpg", "title": "First Floor — Furniture Layout"},
+        ],
+    },
     "xlsx": {"dimensions": "Product Dimensions.xlsx", "rates": "Furniture_Rates.xlsx"},
     "hero": {
         "article": "The", "name": "Modern Times", "subtitle": "Residence.",

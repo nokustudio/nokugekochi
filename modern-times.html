@@ -1406,14 +1406,172 @@
     <!-- Room Snap Scroll Container -->
     <div class="scroll-container">
     <!-- ==========================================================================
-         ROOM 01: LIVING ROOM
+         ROOM 01: INDEX PAGE (PLAN KEY)
+         ========================================================================== -->
+    <main class="room-section index-section" id="room-00" data-room-title="Plan Key">
+
+      <!-- Left Column: Title + Blueprint Image -->
+      <section class="left-column">
+        <div class="space-title-container">
+          <span class="space-number">01</span>
+          <h1 class="space-title">Plan Key</h1>
+        </div>
+        <div class="blueprint-large-container blueprint-multi" style="padding: 0; overflow: auto; background: none; border: none; box-shadow: none;">
+        <div class="blueprint-floor">
+          <span class="floor-label">Ground Floor</span>
+          <svg class="blueprint-svg-large" viewBox="0 0 2400 1800" xmlns="http://www.w3.org/2000/svg" style="border-radius: var(--radius-card); border: var(--border-width) solid var(--line);">
+            <image href="projects/modern-times/Layout Simplified - GF.jpg" x="0" y="0" width="2400" height="1800" />
+            <g class="svg-rooms-group">
+              <!-- Living Room -->
+              <rect class="svg-room-rect" id="svg-rect-room-01" x="1284" y="516" width="336" height="348" onclick="scrollToRoom('room-01')" onmouseover="highlightRoom('room-01')" onmouseout="unhighlightRoom('room-01')" />
+              <!-- Dining -->
+              <rect class="svg-room-rect" id="svg-rect-room-02" x="912" y="480" width="348" height="360" onclick="scrollToRoom('room-02')" onmouseover="highlightRoom('room-02')" onmouseout="unhighlightRoom('room-02')" />
+              <!-- Ground Floor Balcony -->
+              <rect class="svg-room-rect" id="svg-rect-room-03" x="864" y="864" width="936" height="492" onclick="scrollToRoom('room-03')" onmouseover="highlightRoom('room-03')" onmouseout="unhighlightRoom('room-03')" />
+              <!-- Breakfast Counter -->
+              <rect class="svg-room-rect" id="svg-rect-room-04" x="516" y="480" width="396" height="360" onclick="scrollToRoom('room-04')" onmouseover="highlightRoom('room-04')" onmouseout="unhighlightRoom('room-04')" />
+              <!-- Bedroom 01 -->
+              <rect class="svg-room-rect" id="svg-rect-room-05" x="1850" y="500" width="330" height="352" onclick="scrollToRoom('room-05')" onmouseover="highlightRoom('room-05')" onmouseout="unhighlightRoom('room-05')" />
+              <!-- Bedroom 02 -->
+              <rect class="svg-room-rect" id="svg-rect-room-06" x="432" y="864" width="420" height="312" onclick="scrollToRoom('room-06')" onmouseover="highlightRoom('room-06')" onmouseout="unhighlightRoom('room-06')" />
+            </g>
+          </svg>
+        </div>
+        <div class="blueprint-floor">
+          <span class="floor-label">First Floor</span>
+          <svg class="blueprint-svg-large" viewBox="0 0 2400 1800" xmlns="http://www.w3.org/2000/svg" style="border-radius: var(--radius-card); border: var(--border-width) solid var(--line);">
+            <image href="projects/modern-times/Layout Simplified - FF.jpg" x="0" y="0" width="2400" height="1800" />
+            <g class="svg-rooms-group">
+              <!-- Bedroom 03 -->
+              <rect class="svg-room-rect" id="svg-rect-room-07" x="1850" y="500" width="330" height="352" onclick="scrollToRoom('room-07')" onmouseover="highlightRoom('room-07')" onmouseout="unhighlightRoom('room-07')" />
+              <!-- Master Bedroom -->
+              <rect class="svg-room-rect" id="svg-rect-room-08" x="444" y="504" width="396" height="384" onclick="scrollToRoom('room-08')" onmouseover="highlightRoom('room-08')" onmouseout="unhighlightRoom('room-08')" />
+              <!-- First Floor Balcony -->
+              <rect class="svg-room-rect" id="svg-rect-room-09" x="492" y="912" width="360" height="264" onclick="scrollToRoom('room-09')" onmouseover="highlightRoom('room-09')" onmouseout="unhighlightRoom('room-09')" />
+            </g>
+          </svg>
+        </div>
+        </div>
+      </section>
+
+      <!-- Right Column: List Key Table -->
+      <section class="right-column index-right-column" style="overflow-y: hidden;">
+        <div class="index-meta-header">
+          <span class="index-label">01 · PLAN KEY</span>
+          <h2 class="index-heading">9 rooms,<br>one walkthrough.</h2>
+        </div>
+        
+        <div class="index-list-container">
+          <!-- Row: Living Room -->
+          <div class="index-row" id="index-row-room-01" onclick="scrollToRoom('room-01')" onmouseover="highlightRoom('room-01')" onmouseout="unhighlightRoom('room-01')">
+            <div class="index-row-left">
+              <span class="index-row-num">02</span>
+              <span class="index-row-name">Living Room</span>
+            </div>
+            <span class="index-row-label">Living</span>
+          </div>
+          <!-- Row: Dining -->
+          <div class="index-row" id="index-row-room-02" onclick="scrollToRoom('room-02')" onmouseover="highlightRoom('room-02')" onmouseout="unhighlightRoom('room-02')">
+            <div class="index-row-left">
+              <span class="index-row-num">03</span>
+              <span class="index-row-name">Dining</span>
+            </div>
+            <span class="index-row-label">Dining</span>
+          </div>
+          <!-- Row: Ground Floor Balcony -->
+          <div class="index-row" id="index-row-room-03" onclick="scrollToRoom('room-03')" onmouseover="highlightRoom('room-03')" onmouseout="unhighlightRoom('room-03')">
+            <div class="index-row-left">
+              <span class="index-row-num">04</span>
+              <span class="index-row-name">Ground Floor Balcony</span>
+            </div>
+            <span class="index-row-label">Outdoor</span>
+          </div>
+          <!-- Row: Breakfast Counter -->
+          <div class="index-row" id="index-row-room-04" onclick="scrollToRoom('room-04')" onmouseover="highlightRoom('room-04')" onmouseout="unhighlightRoom('room-04')">
+            <div class="index-row-left">
+              <span class="index-row-num">05</span>
+              <span class="index-row-name">Breakfast Counter</span>
+            </div>
+            <span class="index-row-label">Counter</span>
+          </div>
+          <!-- Row: Bedroom 01 -->
+          <div class="index-row" id="index-row-room-05" onclick="scrollToRoom('room-05')" onmouseover="highlightRoom('room-05')" onmouseout="unhighlightRoom('room-05')">
+            <div class="index-row-left">
+              <span class="index-row-num">06</span>
+              <span class="index-row-name">Bedroom 01</span>
+            </div>
+            <span class="index-row-label">Sleeping</span>
+          </div>
+          <!-- Row: Bedroom 02 -->
+          <div class="index-row" id="index-row-room-06" onclick="scrollToRoom('room-06')" onmouseover="highlightRoom('room-06')" onmouseout="unhighlightRoom('room-06')">
+            <div class="index-row-left">
+              <span class="index-row-num">07</span>
+              <span class="index-row-name">Bedroom 02</span>
+            </div>
+            <span class="index-row-label">Sleeping</span>
+          </div>
+          <!-- Row: Bedroom 03 -->
+          <div class="index-row" id="index-row-room-07" onclick="scrollToRoom('room-07')" onmouseover="highlightRoom('room-07')" onmouseout="unhighlightRoom('room-07')">
+            <div class="index-row-left">
+              <span class="index-row-num">08</span>
+              <span class="index-row-name">Bedroom 03</span>
+            </div>
+            <span class="index-row-label">Sleeping</span>
+          </div>
+          <!-- Row: Master Bedroom -->
+          <div class="index-row" id="index-row-room-08" onclick="scrollToRoom('room-08')" onmouseover="highlightRoom('room-08')" onmouseout="unhighlightRoom('room-08')">
+            <div class="index-row-left">
+              <span class="index-row-num">09</span>
+              <span class="index-row-name">Master Bedroom</span>
+            </div>
+            <span class="index-row-label">Primary suite</span>
+          </div>
+          <!-- Row: First Floor Balcony -->
+          <div class="index-row" id="index-row-room-09" onclick="scrollToRoom('room-09')" onmouseover="highlightRoom('room-09')" onmouseout="unhighlightRoom('room-09')">
+            <div class="index-row-left">
+              <span class="index-row-num">10</span>
+              <span class="index-row-name">First Floor Balcony</span>
+            </div>
+            <span class="index-row-label">Outdoor</span>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- ==========================================================================
+         FURNITURE LAYOUT: CENTERED PLAN (UNNUMBERED)
+         ========================================================================== -->
+    <main class="room-section furniture-layout-section furniture-multi" id="room-layout" data-room-title="Furniture Layout">
+
+      <!-- Top Title Bar -->
+      <div class="layout-header-row">
+        <div class="space-title-container">
+          <h1 class="space-title">Furniture Layout</h1>
+        </div>
+      </div>
+
+      <div class="furniture-floor">
+        <span class="floor-label floor-label--center">Ground Floor</span>
+        <div class="layout-image-container-centered" onclick="openLightbox(null, 0, 'projects/modern-times/Layout Original - GF 2.jpg', 'Ground Floor — Furniture Layout')">
+          <img loading="lazy" src="projects/modern-times/Layout Original - GF 2.jpg" alt="Ground Floor — Furniture Layout" class="furniture-layout-image">
+        </div>
+      </div>
+      <div class="furniture-floor">
+        <span class="floor-label floor-label--center">First Floor</span>
+        <div class="layout-image-container-centered" onclick="openLightbox(null, 0, 'projects/modern-times/Layout Original - FF 2.jpg', 'First Floor — Furniture Layout')">
+          <img loading="lazy" src="projects/modern-times/Layout Original - FF 2.jpg" alt="First Floor — Furniture Layout" class="furniture-layout-image">
+        </div>
+      </div>
+    </main>
+    <!-- ==========================================================================
+         ROOM 02: LIVING ROOM
          ========================================================================== -->
     <main class="room-section" id="room-01" data-room-title="Living Room">
 
       <!-- Left Column: Title + Main Renders -->
       <section class="left-column">
         <div class="space-title-container">
-          <span class="space-number">01</span>
+          <span class="space-number">02</span>
           <h1 class="space-title">Living Room</h1>
         </div>
 
@@ -1423,7 +1581,7 @@
             <button class="slider-arrow slider-prev" onclick="navigateRender('room-01', -1); event.stopPropagation();">&#8249;</button>
             <button class="slider-arrow slider-next" onclick="navigateRender('room-01', 1); event.stopPropagation();">&#8250;</button>
             
-            <img loading="lazy" src="projects/modern-times/01. Living Room/Living 1.png" alt="Living Room Render 1" class="main-render-image">
+            <img loading="lazy" src="projects/modern-times/01. Living Room/Gemini_Generated_Image_8e5j58e5j58e5j58.png" alt="Living Room Render 1" class="main-render-image">
           </div>
         </div>
       </section>
@@ -1431,10 +1589,26 @@
       <!-- Right Column: Quote + Maps + Products Grid -->
       <section class="right-column">
         <!-- Top Row: Quote & Skeletal Maps -->
-        <div class="room-meta-header" style="grid-template-columns: 1fr;">
+        <div class="room-meta-header">
           <blockquote class="quote-container">
             "Where the city softens. Brick, timber and greenery frame a living space that breathes with the building."
           </blockquote>
+
+          <div class="maps-container">
+          <div class="map-placeholder-card" title="Detailed Room Layout" onclick="openLightbox(null, 0, 'projects/modern-times/Room wise layout/Living Room.jpg', 'Living Room Layout', 'Room wise layout')">
+            <div class="map-svg-wrapper">
+              <img loading="lazy" src="projects/modern-times/Room wise layout/Living Room.jpg" alt="Living Room Layout" class="map-layout-image">
+            </div>
+          </div>
+          <div class="map-keyplan-large" title="Key House Plan — click to return to Plan Key" onclick="scrollToRoom('room-00')">
+            <div class="map-svg-wrapper">
+              <svg viewBox="0 0 2400 1800" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <image href="projects/modern-times/Layout Simplified - GF.jpg" x="0" y="0" width="2400" height="1800" />
+                      <rect x="1284" y="516" width="336" height="348" fill="#a27b5c" fill-opacity="0.4" stroke="#a27b5c" stroke-width="15" />
+                    </svg>
+            </div>
+          </div>
+          </div>
         </div>
 
         <!-- Bottom Row: Products Grid -->
@@ -1508,14 +1682,14 @@
     </main>
 
     <!-- ==========================================================================
-         ROOM 02: DINING
+         ROOM 03: DINING
          ========================================================================== -->
     <main class="room-section" id="room-02" data-room-title="Dining">
 
       <!-- Left Column: Title + Main Renders -->
       <section class="left-column">
         <div class="space-title-container">
-          <span class="space-number">02</span>
+          <span class="space-number">03</span>
           <h1 class="space-title">Dining</h1>
         </div>
 
@@ -1533,10 +1707,26 @@
       <!-- Right Column: Quote + Maps + Products Grid -->
       <section class="right-column">
         <!-- Top Row: Quote & Skeletal Maps -->
-        <div class="room-meta-header" style="grid-template-columns: 1fr;">
+        <div class="room-meta-header">
           <blockquote class="quote-container">
             "Gathered in warm light. A table set against the garden's edge, where meals slow to the pace of evening."
           </blockquote>
+
+          <div class="maps-container">
+          <div class="map-placeholder-card" title="Detailed Room Layout" onclick="openLightbox(null, 0, 'projects/modern-times/Room wise layout/Dining.jpg', 'Dining Layout', 'Room wise layout')">
+            <div class="map-svg-wrapper">
+              <img loading="lazy" src="projects/modern-times/Room wise layout/Dining.jpg" alt="Dining Layout" class="map-layout-image">
+            </div>
+          </div>
+          <div class="map-keyplan-large" title="Key House Plan — click to return to Plan Key" onclick="scrollToRoom('room-00')">
+            <div class="map-svg-wrapper">
+              <svg viewBox="0 0 2400 1800" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <image href="projects/modern-times/Layout Simplified - GF.jpg" x="0" y="0" width="2400" height="1800" />
+                      <rect x="912" y="480" width="348" height="360" fill="#a27b5c" fill-opacity="0.4" stroke="#a27b5c" stroke-width="15" />
+                    </svg>
+            </div>
+          </div>
+          </div>
         </div>
 
         <!-- Bottom Row: Products Grid -->
@@ -1598,14 +1788,14 @@
     </main>
 
     <!-- ==========================================================================
-         ROOM 03: GROUND FLOOR BALCONY
+         ROOM 04: GROUND FLOOR BALCONY
          ========================================================================== -->
     <main class="room-section" id="room-03" data-room-title="Ground Floor Balcony">
 
       <!-- Left Column: Title + Main Renders -->
       <section class="left-column">
         <div class="space-title-container">
-          <span class="space-number">03</span>
+          <span class="space-number">04</span>
           <h1 class="space-title">Ground Floor Balcony</h1>
         </div>
 
@@ -1623,10 +1813,26 @@
       <!-- Right Column: Quote + Maps + Products Grid -->
       <section class="right-column">
         <!-- Top Row: Quote & Skeletal Maps -->
-        <div class="room-meta-header" style="grid-template-columns: 1fr;">
+        <div class="room-meta-header">
           <blockquote class="quote-container">
             "Ground-level green. The garden meets the threshold, blurring the line between home and landscape."
           </blockquote>
+
+          <div class="maps-container">
+          <div class="map-placeholder-card" title="Detailed Room Layout" onclick="openLightbox(null, 0, 'projects/modern-times/Room wise layout/Balcony GF.jpg', 'Ground Floor Balcony Layout', 'Room wise layout')">
+            <div class="map-svg-wrapper">
+              <img loading="lazy" src="projects/modern-times/Room wise layout/Balcony GF.jpg" alt="Ground Floor Balcony Layout" class="map-layout-image">
+            </div>
+          </div>
+          <div class="map-keyplan-large" title="Key House Plan — click to return to Plan Key" onclick="scrollToRoom('room-00')">
+            <div class="map-svg-wrapper">
+              <svg viewBox="0 0 2400 1800" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <image href="projects/modern-times/Layout Simplified - GF.jpg" x="0" y="0" width="2400" height="1800" />
+                      <rect x="864" y="864" width="936" height="492" fill="#a27b5c" fill-opacity="0.4" stroke="#a27b5c" stroke-width="15" />
+                    </svg>
+            </div>
+          </div>
+          </div>
         </div>
 
         <!-- Bottom Row: Products Grid -->
@@ -1664,14 +1870,14 @@
     </main>
 
     <!-- ==========================================================================
-         ROOM 04: BREAKFAST COUNTER
+         ROOM 05: BREAKFAST COUNTER
          ========================================================================== -->
     <main class="room-section" id="room-04" data-room-title="Breakfast Counter">
 
       <!-- Left Column: Title + Main Renders -->
       <section class="left-column">
         <div class="space-title-container">
-          <span class="space-number">04</span>
+          <span class="space-number">05</span>
           <h1 class="space-title">Breakfast Counter</h1>
         </div>
 
@@ -1681,7 +1887,7 @@
             <button class="slider-arrow slider-prev" onclick="navigateRender('room-04', -1); event.stopPropagation();">&#8249;</button>
             <button class="slider-arrow slider-next" onclick="navigateRender('room-04', 1); event.stopPropagation();">&#8250;</button>
             
-            <img loading="lazy" src="projects/modern-times/04. Breakfast Counter/Bar 1.png" alt="Breakfast Counter Render 1" class="main-render-image">
+            <img loading="lazy" src="projects/modern-times/04. Breakfast Counter/17967619457610090822.jpg" alt="Breakfast Counter Render 1" class="main-render-image">
           </div>
         </div>
       </section>
@@ -1689,10 +1895,26 @@
       <!-- Right Column: Quote + Maps + Products Grid -->
       <section class="right-column">
         <!-- Top Row: Quote & Skeletal Maps -->
-        <div class="room-meta-header" style="grid-template-columns: 1fr;">
+        <div class="room-meta-header">
           <blockquote class="quote-container">
             "The quiet start. A compact counter for morning light, coffee, and the unhurried first hour."
           </blockquote>
+
+          <div class="maps-container">
+          <div class="map-placeholder-card" title="Detailed Room Layout" onclick="openLightbox(null, 0, 'projects/modern-times/Room wise layout/Breakfast Counter.jpg', 'Breakfast Counter Layout', 'Room wise layout')">
+            <div class="map-svg-wrapper">
+              <img loading="lazy" src="projects/modern-times/Room wise layout/Breakfast Counter.jpg" alt="Breakfast Counter Layout" class="map-layout-image">
+            </div>
+          </div>
+          <div class="map-keyplan-large" title="Key House Plan — click to return to Plan Key" onclick="scrollToRoom('room-00')">
+            <div class="map-svg-wrapper">
+              <svg viewBox="0 0 2400 1800" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <image href="projects/modern-times/Layout Simplified - GF.jpg" x="0" y="0" width="2400" height="1800" />
+                      <rect x="516" y="480" width="396" height="360" fill="#a27b5c" fill-opacity="0.4" stroke="#a27b5c" stroke-width="15" />
+                    </svg>
+            </div>
+          </div>
+          </div>
         </div>
 
         <!-- Bottom Row: Products Grid -->
@@ -1742,14 +1964,14 @@
     </main>
 
     <!-- ==========================================================================
-         ROOM 05: BEDROOM 01
+         ROOM 06: BEDROOM 01
          ========================================================================== -->
     <main class="room-section" id="room-05" data-room-title="Bedroom 01">
 
       <!-- Left Column: Title + Main Renders -->
       <section class="left-column">
         <div class="space-title-container">
-          <span class="space-number">05</span>
+          <span class="space-number">06</span>
           <h1 class="space-title">Bedroom 01</h1>
         </div>
 
@@ -1767,10 +1989,26 @@
       <!-- Right Column: Quote + Maps + Products Grid -->
       <section class="right-column">
         <!-- Top Row: Quote & Skeletal Maps -->
-        <div class="room-meta-header" style="grid-template-columns: 1fr;">
+        <div class="room-meta-header">
           <blockquote class="quote-container">
             "A calm retreat. Grounded tones and soft texture compose a room made for rest."
           </blockquote>
+
+          <div class="maps-container">
+          <div class="map-placeholder-card" title="Detailed Room Layout" onclick="openLightbox(null, 0, 'projects/modern-times/Room wise layout/Bedroom 01.jpg', 'Bedroom 01 Layout', 'Room wise layout')">
+            <div class="map-svg-wrapper">
+              <img loading="lazy" src="projects/modern-times/Room wise layout/Bedroom 01.jpg" alt="Bedroom 01 Layout" class="map-layout-image">
+            </div>
+          </div>
+          <div class="map-keyplan-large" title="Key House Plan — click to return to Plan Key" onclick="scrollToRoom('room-00')">
+            <div class="map-svg-wrapper">
+              <svg viewBox="0 0 2400 1800" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <image href="projects/modern-times/Layout Simplified - GF.jpg" x="0" y="0" width="2400" height="1800" />
+                      <rect x="1850" y="500" width="330" height="352" fill="#a27b5c" fill-opacity="0.4" stroke="#a27b5c" stroke-width="15" />
+                    </svg>
+            </div>
+          </div>
+          </div>
         </div>
 
         <!-- Bottom Row: Products Grid -->
@@ -1820,20 +2058,24 @@
     </main>
 
     <!-- ==========================================================================
-         ROOM 06: BEDROOM 02
+         ROOM 07: BEDROOM 02
          ========================================================================== -->
     <main class="room-section" id="room-06" data-room-title="Bedroom 02">
 
       <!-- Left Column: Title + Main Renders -->
       <section class="left-column">
         <div class="space-title-container">
-          <span class="space-number">06</span>
+          <span class="space-number">07</span>
           <h1 class="space-title">Bedroom 02</h1>
         </div>
 
         <div class="showcase-container">
-          <div class="main-render-wrapper" onclick="openLightbox('room-06', 0)">
-            <img loading="lazy" src="projects/modern-times/06. Bedroom 02/Bed GF 2.png" alt="Bedroom 02 Render" class="main-render-image">
+          <div class="main-render-wrapper" onclick="openLightbox('room-06', activeRenderIndex['room-06'])">
+            <!-- Navigation Arrows on Slider -->
+            <button class="slider-arrow slider-prev" onclick="navigateRender('room-06', -1); event.stopPropagation();">&#8249;</button>
+            <button class="slider-arrow slider-next" onclick="navigateRender('room-06', 1); event.stopPropagation();">&#8250;</button>
+            
+            <img loading="lazy" src="projects/modern-times/06. Bedroom 02/Bed GF 2.png" alt="Bedroom 02 Render 1" class="main-render-image">
           </div>
         </div>
       </section>
@@ -1841,10 +2083,26 @@
       <!-- Right Column: Quote + Maps + Products Grid -->
       <section class="right-column">
         <!-- Top Row: Quote & Skeletal Maps -->
-        <div class="room-meta-header" style="grid-template-columns: 1fr;">
+        <div class="room-meta-header">
           <blockquote class="quote-container">
             "Simple and serene. Clean lines and natural materials shape a private, restful corner."
           </blockquote>
+
+          <div class="maps-container">
+          <div class="map-placeholder-card" title="Detailed Room Layout" onclick="openLightbox(null, 0, 'projects/modern-times/Room wise layout/Bedroom 02.jpg', 'Bedroom 02 Layout', 'Room wise layout')">
+            <div class="map-svg-wrapper">
+              <img loading="lazy" src="projects/modern-times/Room wise layout/Bedroom 02.jpg" alt="Bedroom 02 Layout" class="map-layout-image">
+            </div>
+          </div>
+          <div class="map-keyplan-large" title="Key House Plan — click to return to Plan Key" onclick="scrollToRoom('room-00')">
+            <div class="map-svg-wrapper">
+              <svg viewBox="0 0 2400 1800" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <image href="projects/modern-times/Layout Simplified - GF.jpg" x="0" y="0" width="2400" height="1800" />
+                      <rect x="432" y="864" width="420" height="312" fill="#a27b5c" fill-opacity="0.4" stroke="#a27b5c" stroke-width="15" />
+                    </svg>
+            </div>
+          </div>
+          </div>
         </div>
 
         <!-- Bottom Row: Products Grid -->
@@ -1870,14 +2128,14 @@
     </main>
 
     <!-- ==========================================================================
-         ROOM 07: BEDROOM 03
+         ROOM 08: BEDROOM 03
          ========================================================================== -->
     <main class="room-section" id="room-07" data-room-title="Bedroom 03">
 
       <!-- Left Column: Title + Main Renders -->
       <section class="left-column">
         <div class="space-title-container">
-          <span class="space-number">07</span>
+          <span class="space-number">08</span>
           <h1 class="space-title">Bedroom 03</h1>
         </div>
 
@@ -1895,10 +2153,26 @@
       <!-- Right Column: Quote + Maps + Products Grid -->
       <section class="right-column">
         <!-- Top Row: Quote & Skeletal Maps -->
-        <div class="room-meta-header" style="grid-template-columns: 1fr;">
+        <div class="room-meta-header">
           <blockquote class="quote-container">
             "Light and ease. A restful space where greenery and warm wood meet at the window."
           </blockquote>
+
+          <div class="maps-container">
+          <div class="map-placeholder-card" title="Detailed Room Layout" onclick="openLightbox(null, 0, 'projects/modern-times/Room wise layout/Bedroom 03.jpg', 'Bedroom 03 Layout', 'Room wise layout')">
+            <div class="map-svg-wrapper">
+              <img loading="lazy" src="projects/modern-times/Room wise layout/Bedroom 03.jpg" alt="Bedroom 03 Layout" class="map-layout-image">
+            </div>
+          </div>
+          <div class="map-keyplan-large" title="Key House Plan — click to return to Plan Key" onclick="scrollToRoom('room-00')">
+            <div class="map-svg-wrapper">
+              <svg viewBox="0 0 2400 1800" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <image href="projects/modern-times/Layout Simplified - FF.jpg" x="0" y="0" width="2400" height="1800" />
+                      <rect x="1850" y="500" width="330" height="352" fill="#a27b5c" fill-opacity="0.4" stroke="#a27b5c" stroke-width="15" />
+                    </svg>
+            </div>
+          </div>
+          </div>
         </div>
 
         <!-- Bottom Row: Products Grid -->
@@ -1948,14 +2222,14 @@
     </main>
 
     <!-- ==========================================================================
-         ROOM 08: MASTER BEDROOM
+         ROOM 09: MASTER BEDROOM
          ========================================================================== -->
     <main class="room-section" id="room-08" data-room-title="Master Bedroom">
 
       <!-- Left Column: Title + Main Renders -->
       <section class="left-column">
         <div class="space-title-container">
-          <span class="space-number">08</span>
+          <span class="space-number">09</span>
           <h1 class="space-title">Master Bedroom</h1>
         </div>
 
@@ -1973,10 +2247,26 @@
       <!-- Right Column: Quote + Maps + Products Grid -->
       <section class="right-column">
         <!-- Top Row: Quote & Skeletal Maps -->
-        <div class="room-meta-header" style="grid-template-columns: 1fr;">
+        <div class="room-meta-header">
           <blockquote class="quote-container">
             "A sanctuary above the city. Rich timber and layered light craft a suite for deep repose."
           </blockquote>
+
+          <div class="maps-container">
+          <div class="map-placeholder-card" title="Detailed Room Layout" onclick="openLightbox(null, 0, 'projects/modern-times/Room wise layout/Master Bedroom.jpg', 'Master Bedroom Layout', 'Room wise layout')">
+            <div class="map-svg-wrapper">
+              <img loading="lazy" src="projects/modern-times/Room wise layout/Master Bedroom.jpg" alt="Master Bedroom Layout" class="map-layout-image">
+            </div>
+          </div>
+          <div class="map-keyplan-large" title="Key House Plan — click to return to Plan Key" onclick="scrollToRoom('room-00')">
+            <div class="map-svg-wrapper">
+              <svg viewBox="0 0 2400 1800" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <image href="projects/modern-times/Layout Simplified - FF.jpg" x="0" y="0" width="2400" height="1800" />
+                      <rect x="444" y="504" width="396" height="384" fill="#a27b5c" fill-opacity="0.4" stroke="#a27b5c" stroke-width="15" />
+                    </svg>
+            </div>
+          </div>
+          </div>
         </div>
 
         <!-- Bottom Row: Products Grid -->
@@ -2062,14 +2352,14 @@
     </main>
 
     <!-- ==========================================================================
-         ROOM 09: FIRST FLOOR BALCONY
+         ROOM 10: FIRST FLOOR BALCONY
          ========================================================================== -->
     <main class="room-section" id="room-09" data-room-title="First Floor Balcony">
 
       <!-- Left Column: Title + Main Renders -->
       <section class="left-column">
         <div class="space-title-container">
-          <span class="space-number">09</span>
+          <span class="space-number">10</span>
           <h1 class="space-title">First Floor Balcony</h1>
         </div>
 
@@ -2087,10 +2377,21 @@
       <!-- Right Column: Quote + Maps + Products Grid -->
       <section class="right-column">
         <!-- Top Row: Quote & Skeletal Maps -->
-        <div class="room-meta-header" style="grid-template-columns: 1fr;">
+        <div class="room-meta-header">
           <blockquote class="quote-container">
             "Between home and sky. The terrace garden brings the ecosystem to the doorstep — green, open, alive."
           </blockquote>
+
+          <div class="maps-container">
+          <div class="map-keyplan-large" title="Key House Plan — click to return to Plan Key" onclick="scrollToRoom('room-00')">
+            <div class="map-svg-wrapper">
+              <svg viewBox="0 0 2400 1800" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <image href="projects/modern-times/Layout Simplified - FF.jpg" x="0" y="0" width="2400" height="1800" />
+                      <rect x="492" y="912" width="360" height="264" fill="#a27b5c" fill-opacity="0.4" stroke="#a27b5c" stroke-width="15" />
+                    </svg>
+            </div>
+          </div>
+          </div>
         </div>
 
         <!-- Bottom Row: Products Grid -->
@@ -2295,6 +2596,11 @@
     const roomRenders = {
   "room-01": [
     {
+      "src": "projects/modern-times/01. Living Room/Gemini_Generated_Image_8e5j58e5j58e5j58.png",
+      "title": "Living Room Render",
+      "sub": "Modern Times Project"
+    },
+    {
       "src": "projects/modern-times/01. Living Room/Living 1.png",
       "title": "Living Room Render",
       "sub": "Modern Times Project"
@@ -2330,6 +2636,16 @@
       "src": "projects/modern-times/02. Dining/Dining 4.png",
       "title": "Dining Render",
       "sub": "Modern Times Project"
+    },
+    {
+      "src": "projects/modern-times/02. Dining/Gemini_Generated_Image_577k5k577k5k577k.png",
+      "title": "Dining Render",
+      "sub": "Modern Times Project"
+    },
+    {
+      "src": "projects/modern-times/02. Dining/Gemini_Generated_Image_omj0mpomj0mpomj0.png",
+      "title": "Dining Render",
+      "sub": "Modern Times Project"
     }
   ],
   "room-03": [
@@ -2342,9 +2658,19 @@
       "src": "projects/modern-times/03. GF Balcony/Balcony GF 2.png",
       "title": "Ground Floor Balcony Render",
       "sub": "Modern Times Project"
+    },
+    {
+      "src": "projects/modern-times/03. GF Balcony/Gemini_Generated_Image_myqy4vmyqy4vmyqy.png",
+      "title": "Ground Floor Balcony Render",
+      "sub": "Modern Times Project"
     }
   ],
   "room-04": [
+    {
+      "src": "projects/modern-times/04. Breakfast Counter/17967619457610090822.jpg",
+      "title": "Breakfast Counter Render",
+      "sub": "Modern Times Project"
+    },
     {
       "src": "projects/modern-times/04. Breakfast Counter/Bar 1.png",
       "title": "Breakfast Counter Render",
@@ -2352,6 +2678,11 @@
     },
     {
       "src": "projects/modern-times/04. Breakfast Counter/Bar 2.png",
+      "title": "Breakfast Counter Render",
+      "sub": "Modern Times Project"
+    },
+    {
+      "src": "projects/modern-times/04. Breakfast Counter/Gemini_Generated_Image_u38c3zu38c3zu38c.png",
       "title": "Breakfast Counter Render",
       "sub": "Modern Times Project"
     }
@@ -2373,6 +2704,11 @@
       "src": "projects/modern-times/06. Bedroom 02/Bed GF 2.png",
       "title": "Bedroom 02 Render",
       "sub": "Modern Times Project"
+    },
+    {
+      "src": "projects/modern-times/06. Bedroom 02/Gemini_Generated_Image_u0wf27u0wf27u0wf.png",
+      "title": "Bedroom 02 Render",
+      "sub": "Modern Times Project"
     }
   ],
   "room-07": [
@@ -2385,6 +2721,11 @@
       "src": "projects/modern-times/07. Bedroom 03/Bed FF 3 B.png",
       "title": "Bedroom 03 Render",
       "sub": "Modern Times Project"
+    },
+    {
+      "src": "projects/modern-times/07. Bedroom 03/Gemini_Generated_Image_ghsvi5ghsvi5ghsv.png",
+      "title": "Bedroom 03 Render",
+      "sub": "Modern Times Project"
     }
   ],
   "room-08": [
@@ -2395,6 +2736,11 @@
     },
     {
       "src": "projects/modern-times/08. Master Bedroom/Bed FF Master B.png",
+      "title": "Master Bedroom Render",
+      "sub": "Modern Times Project"
+    },
+    {
+      "src": "projects/modern-times/08. Master Bedroom/Gemini_Generated_Image_pkb55ppkb55ppkb5.png",
       "title": "Master Bedroom Render",
       "sub": "Modern Times Project"
     }
@@ -2423,7 +2769,8 @@ const activeRenderIndex = {
   "room-06": 0,
   "room-07": 0,
   "room-08": 0,
-  "room-09": 0
+  "room-09": 0,
+  "room-layout": 0
 };
 
     function scrollToRoom(roomId) {

@@ -1408,7 +1408,7 @@
          ROOM 01: INDEX PAGE (PLAN KEY)
          ========================================================================== -->
     <main class="room-section index-section" id="room-00" data-room-title="Plan Key">
-      
+
       <!-- Left Column: Title + Blueprint Image -->
       <section class="left-column">
         <div class="space-title-container">
@@ -1416,10 +1416,9 @@
           <h1 class="space-title">Plan Key</h1>
         </div>
         <div class="blueprint-large-container" style="padding: 0; overflow: hidden; background: none; border: none; box-shadow: none;">
+        <div class="blueprint-floor">
           <svg class="blueprint-svg-large" viewBox="0 0 1980 1980" xmlns="http://www.w3.org/2000/svg" style="border-radius: var(--radius-card); border: var(--border-width) solid var(--line);">
-            <!-- Background blueprint plan -->
             <image href="projects/umang/Layout Simplified 3b with labels.png" x="0" y="0" width="1980" height="1980" />
-            <!-- Interactive Room Hotspots -->
             <g class="svg-rooms-group">
               <!-- Foyer -->
               <rect class="svg-room-rect" id="svg-rect-room-01" x="442" y="530" width="148" height="160" onclick="scrollToRoom('room-01')" onmouseover="highlightRoom('room-01')" onmouseout="unhighlightRoom('room-01')" />
@@ -1445,6 +1444,7 @@
               <rect class="svg-room-rect" id="svg-rect-room-11" x="1130" y="720" width="300" height="290" onclick="scrollToRoom('room-11')" onmouseover="highlightRoom('room-11')" onmouseout="unhighlightRoom('room-11')" />
             </g>
           </svg>
+        </div>
         </div>
       </section>
 
@@ -1560,11 +1560,11 @@
         </div>
       </div>
 
-      <!-- Centered Image Container -->
-      <div class="layout-image-container-centered" onclick="openLightbox(null, 0, 'projects/umang/Layout Original 6.png', 'Furniture Layout')">
-        <img loading="lazy" src="projects/umang/Layout Original 6.png" alt="Furniture Layout" class="furniture-layout-image">
+      <div class="furniture-floor">
+        <div class="layout-image-container-centered" onclick="openLightbox(null, 0, 'projects/umang/Layout Original 6.png', 'Furniture Layout')">
+          <img loading="lazy" src="projects/umang/Layout Original 6.png" alt="Furniture Layout" class="furniture-layout-image">
+        </div>
       </div>
-
     </main>
     <!-- ==========================================================================
          ROOM 02: FOYER
