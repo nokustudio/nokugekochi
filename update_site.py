@@ -123,35 +123,40 @@ def merge_rooms_into_shell(shell_html, ordered_blocks, js_room_renders, active_i
         }});
       }}
 
-      // Furniture Layout: horizontal floor slider — swipe to change floors
-      const furnSliderEl = document.getElementById('furn-slider');
-      if (furnSliderEl) {{
+      // Floor sliders (Plan Key + Furniture Layout): swipe to change floors
+      document.querySelectorAll('.floor-track').forEach((track) => {{
+        const prefix = track.id.replace(/-track$/, '');
+        const slider = track.closest('.floor-slider');
+        if (!slider) return;
         let x0 = null;
-        furnSliderEl.addEventListener('touchstart', (e) => {{ x0 = e.touches[0].clientX; }}, {{ passive: true }});
-        furnSliderEl.addEventListener('touchend', (e) => {{
+        slider.addEventListener('touchstart', (e) => {{ x0 = e.touches[0].clientX; }}, {{ passive: true }});
+        slider.addEventListener('touchend', (e) => {{
           if (x0 === null) return;
           const dx = e.changedTouches[0].clientX - x0;
-          if (Math.abs(dx) > 40) furnSlide(dx < 0 ? 1 : -1);
+          if (Math.abs(dx) > 40) floorSlide(prefix, dx < 0 ? 1 : -1);
           x0 = null;
         }});
-      }}
+      }});
     }});
 
-    // Furniture slider controls — a transform track (deterministic; no scroll-snap fights)
-    var furnIndex = 0;
-    function furnApply() {{
-      const track = document.getElementById('furn-track');
+    // Floor slider controls — a transform track (deterministic; no scroll-snap fights).
+    // Keyed by prefix so the Plan Key ('plan') and Furniture Layout ('furn') sliders
+    // on the same page track their own position independently.
+    var floorIndex = {{}};
+    function floorApply(prefix) {{
+      const track = document.getElementById(prefix + '-track');
       if (!track) return;
-      const slides = track.querySelectorAll('.furn-slide');
+      const slides = track.querySelectorAll('.floor-slide');
       if (!slides.length) return;
-      furnIndex = Math.max(0, Math.min(furnIndex, slides.length - 1));
-      track.style.transform = 'translateX(' + (-furnIndex * 100) + '%)';
-      const labelEl = document.getElementById('furn-slider-label');
-      if (labelEl) labelEl.textContent = slides[furnIndex].dataset.label || '';
-      document.querySelectorAll('.furn-dot').forEach((d, j) => d.classList.toggle('active', j === furnIndex));
+      let i = Math.max(0, Math.min(floorIndex[prefix] || 0, slides.length - 1));
+      floorIndex[prefix] = i;
+      track.style.transform = 'translateX(' + (-i * 100) + '%)';
+      const labelEl = document.getElementById(prefix + '-slider-label');
+      if (labelEl) labelEl.textContent = slides[i].dataset.label || '';
+      document.querySelectorAll('[data-dots="' + prefix + '"] .floor-dot').forEach((d, j) => d.classList.toggle('active', j === i));
     }}
-    function furnSlide(dir) {{ furnIndex += dir; furnApply(); }}
-    function furnGo(i) {{ furnIndex = i; furnApply(); }}
+    function floorSlide(prefix, dir) {{ floorIndex[prefix] = (floorIndex[prefix] || 0) + dir; floorApply(prefix); }}
+    function floorGo(prefix, i) {{ floorIndex[prefix] = i; floorApply(prefix); }}
 
     """
     orig_html = orig_html[:script_start] + js_inject + orig_html[lightbox_group_start:]
@@ -570,6 +575,37 @@ def build_project(project, shell_html, base_dir):
                       {rect}
                     </svg>"""
 
+    def build_floor_slider(prefix, floors, slide_body_fn):
+        """Generic one-floor-per-slide horizontal slider (fits one viewport, no
+        scroll — paged via arrows/dots instead). Used for both the Plan Key and
+        the Furniture Layout, wherever a project has more than one floor.
+        slide_body_fn(floor) -> inner HTML for that floor's slide.
+        Returns (nav_html, slider_html, dots_html, is_multi)."""
+        multi = len(floors) > 1
+        slides = ""
+        dots = ""
+        for i, fl in enumerate(floors):
+            label = fl.get("label") or ""
+            slides += f"""        <div class="floor-slide" data-label="{label}">
+{slide_body_fn(fl)}
+        </div>\n"""
+            dots += f'<button class="floor-dot{" active" if i == 0 else ""}" onclick="floorGo(\'{prefix}\', {i})" aria-label="{label}"></button>'
+
+        nav = f"""
+        <div class="floor-slider-nav">
+          <span class="floor-slider-label" id="{prefix}-slider-label">{floors[0].get("label", "") if floors else ""}</span>
+          <button class="floor-arrow" onclick="floorSlide('{prefix}', -1)" aria-label="Previous floor">&#8249;</button>
+          <button class="floor-arrow" onclick="floorSlide('{prefix}', 1)" aria-label="Next floor">&#8250;</button>
+        </div>""" if multi else ""
+
+        slider = f"""<div class="floor-slider">
+        <div class="floor-track" id="{prefix}-track">
+{slides}        </div>
+      </div>"""
+
+        dots_row = f'\n      <div class="floor-dots" data-dots="{prefix}">{dots}</div>' if multi else ""
+        return nav, slider, dots_row, multi
+
     # 7. Generate Index Page HTML (Using the Image on the left side)
     def generate_index_page():
         room_count = len([r for r in rooms_config if r["id"] != "room-materials"])
@@ -593,10 +629,9 @@ def build_project(project, shell_html, base_dir):
             <span class="index-row-label">{label}</span>
           </div>\n"""
 
-        # One interactive plan SVG per floor (Umang: one; Modern Times: GF + FF).
-        multi = len(keyplan_floors) > 1
-        plan_blocks = ""
-        for fl in keyplan_floors:
+        # One interactive plan SVG per floor (Umang: one; Modern Times: GF + FF),
+        # paged with the shared floor-slider so it fits one viewport with no scroll.
+        def _plan_slide(fl):
             vb = fl.get("viewbox", "0 0 1980 1980")
             _, _, vw, vh = vb.split()
             img = f"{proj_base}/{fl['image']}"
@@ -608,16 +643,14 @@ def build_project(project, shell_html, base_dir):
                     continue
                 rects += f"""              <!-- {r_conf['title']} -->
               <rect class="svg-room-rect" id="svg-rect-{rid}" {attrs} onclick="scrollToRoom('{rid}')" onmouseover="highlightRoom('{rid}')" onmouseout="unhighlightRoom('{rid}')" />\n"""
-            label_html = f'\n          <span class="floor-label">{fl["label"]}</span>' if fl.get("label") else ''
-            plan_blocks += f"""        <div class="blueprint-floor">{label_html}
-          <svg class="blueprint-svg-large" viewBox="{vb}" xmlns="http://www.w3.org/2000/svg" style="border-radius: var(--radius-card); border: var(--border-width) solid var(--line);">
+            return f"""          <svg class="blueprint-svg-large" viewBox="{vb}" xmlns="http://www.w3.org/2000/svg" style="border-radius: var(--radius-card); border: var(--border-width) solid var(--line);">
             <image href="{img}" x="0" y="0" width="{vw}" height="{vh}" />
             <g class="svg-rooms-group">
 {rects}            </g>
-          </svg>
-        </div>\n"""
+          </svg>"""
 
-        blueprint_class = "blueprint-large-container blueprint-multi" if multi else "blueprint-large-container"
+        plan_nav, plan_slider, plan_dots, plan_multi = build_floor_slider("plan", keyplan_floors, _plan_slide)
+        blueprint_class = "blueprint-large-container blueprint-multi" if plan_multi else "blueprint-large-container"
 
         return f"""    <!-- ==========================================================================
          ROOM 01: INDEX PAGE (PLAN KEY)
@@ -626,12 +659,15 @@ def build_project(project, shell_html, base_dir):
 
       <!-- Left Column: Title + Blueprint Image -->
       <section class="left-column">
-        <div class="space-title-container">
-          <span class="space-number">01</span>
-          <h1 class="space-title">Plan Key</h1>
+        <div class="layout-header-row">
+          <div class="space-title-container">
+            <span class="space-number">01</span>
+            <h1 class="space-title">Plan Key</h1>
+          </div>{plan_nav}
         </div>
-        <div class="{blueprint_class}" style="padding: 0; overflow: {'auto' if multi else 'hidden'}; background: none; border: none; box-shadow: none;">
-{plan_blocks}        </div>
+        <div class="{blueprint_class}" style="padding: 0; overflow: hidden; background: none; border: none; box-shadow: none;">
+{plan_slider}
+        </div>{plan_dots}
       </section>
 
       <!-- Right Column: List Key Table -->
@@ -640,7 +676,7 @@ def build_project(project, shell_html, base_dir):
           <span class="index-label">01 · PLAN KEY</span>
           <h2 class="index-heading">{room_count} rooms,<br>one walkthrough.</h2>
         </div>
-        
+
         <div class="index-list-container">
 {list_rows}        </div>
       </section>
@@ -1047,28 +1083,15 @@ def build_project(project, shell_html, base_dir):
 
     # 9. Furniture Layout section (unnumbered) — a horizontal slider across floors.
     print(f"\nMerging blocks into {project['output']}...")
-    furn_multi = len(furniture_floors) > 1
-    furn_slides = ""
-    furn_dots = ""
-    for i, fl in enumerate(furniture_floors):
+
+    def _furn_slide(fl):
         f_img = f"{proj_base}/{fl['file']}"
         f_title = fl["title"]
-        f_label = fl.get("label") or "Furniture Layout"
-        furn_slides += f"""        <div class="furn-slide" data-label="{f_label}">
-          <div class="layout-image-container-centered" onclick="openLightbox(null, 0, '{f_img}', '{f_title}')">
+        return f"""          <div class="layout-image-container-centered" onclick="openLightbox(null, 0, '{f_img}', '{f_title}')">
             <img src="{f_img}" alt="{f_title}" class="furniture-layout-image">
-          </div>
-        </div>\n"""
-        furn_dots += f'<button class="furn-dot{" active" if i == 0 else ""}" onclick="furnGo({i})" aria-label="{f_label}"></button>'
+          </div>"""
 
-    # Slider nav (label + arrows + dots) only when there's more than one floor.
-    furn_nav = f"""
-        <div class="furn-slider-nav">
-          <span class="furn-slider-label" id="furn-slider-label">{furniture_floors[0].get('label') or ''}</span>
-          <button class="furn-arrow" onclick="furnSlide(-1)" aria-label="Previous floor">&#8249;</button>
-          <button class="furn-arrow" onclick="furnSlide(1)" aria-label="Next floor">&#8250;</button>
-        </div>""" if furn_multi else ""
-    furn_dots_row = f'\n      <div class="furn-dots">{furn_dots}</div>' if furn_multi else ""
+    furn_nav, furn_slider, furn_dots_row, furn_multi = build_floor_slider("furn", furniture_floors, _furn_slide)
 
     furniture_layout_block = f"""    <!-- ==========================================================================
          FURNITURE LAYOUT: HORIZONTAL SLIDER ACROSS FLOORS (UNNUMBERED)
@@ -1082,10 +1105,7 @@ def build_project(project, shell_html, base_dir):
         </div>{furn_nav}
       </div>
 
-      <div class="furn-slider" id="furn-slider">
-        <div class="furn-track" id="furn-track">
-{furn_slides}        </div>
-      </div>{furn_dots_row}
+      {furn_slider}{furn_dots_row}
     </main>"""
 
     # Cross-project hand-off on the Thank You page: continue to the other project(s), or the hub

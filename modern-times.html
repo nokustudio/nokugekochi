@@ -1412,13 +1412,21 @@
 
       <!-- Left Column: Title + Blueprint Image -->
       <section class="left-column">
-        <div class="space-title-container">
-          <span class="space-number">01</span>
-          <h1 class="space-title">Plan Key</h1>
+        <div class="layout-header-row">
+          <div class="space-title-container">
+            <span class="space-number">01</span>
+            <h1 class="space-title">Plan Key</h1>
+          </div>
+        <div class="floor-slider-nav">
+          <span class="floor-slider-label" id="plan-slider-label">Ground Floor</span>
+          <button class="floor-arrow" onclick="floorSlide('plan', -1)" aria-label="Previous floor">&#8249;</button>
+          <button class="floor-arrow" onclick="floorSlide('plan', 1)" aria-label="Next floor">&#8250;</button>
         </div>
-        <div class="blueprint-large-container blueprint-multi" style="padding: 0; overflow: auto; background: none; border: none; box-shadow: none;">
-        <div class="blueprint-floor">
-          <span class="floor-label">Ground Floor</span>
+        </div>
+        <div class="blueprint-large-container blueprint-multi" style="padding: 0; overflow: hidden; background: none; border: none; box-shadow: none;">
+<div class="floor-slider">
+        <div class="floor-track" id="plan-track">
+        <div class="floor-slide" data-label="Ground Floor">
           <svg class="blueprint-svg-large" viewBox="0 0 2400 1800" xmlns="http://www.w3.org/2000/svg" style="border-radius: var(--radius-card); border: var(--border-width) solid var(--line);">
             <image href="projects/modern-times/Layout Simplified - GF.jpg" x="0" y="0" width="2400" height="1800" />
             <g class="svg-rooms-group">
@@ -1437,8 +1445,7 @@
             </g>
           </svg>
         </div>
-        <div class="blueprint-floor">
-          <span class="floor-label">First Floor</span>
+        <div class="floor-slide" data-label="First Floor">
           <svg class="blueprint-svg-large" viewBox="0 0 2400 1800" xmlns="http://www.w3.org/2000/svg" style="border-radius: var(--radius-card); border: var(--border-width) solid var(--line);">
             <image href="projects/modern-times/Layout Simplified - FF.jpg" x="0" y="0" width="2400" height="1800" />
             <g class="svg-rooms-group">
@@ -1452,6 +1459,9 @@
           </svg>
         </div>
         </div>
+      </div>
+        </div>
+      <div class="floor-dots" data-dots="plan"><button class="floor-dot active" onclick="floorGo('plan', 0)" aria-label="Ground Floor"></button><button class="floor-dot" onclick="floorGo('plan', 1)" aria-label="First Floor"></button></div>
       </section>
 
       <!-- Right Column: List Key Table -->
@@ -1460,7 +1470,7 @@
           <span class="index-label">01 · PLAN KEY</span>
           <h2 class="index-heading">9 rooms,<br>one walkthrough.</h2>
         </div>
-        
+
         <div class="index-list-container">
           <!-- Row: Living Room -->
           <div class="index-row" id="index-row-room-01" onclick="scrollToRoom('room-01')" onmouseover="highlightRoom('room-01')" onmouseout="unhighlightRoom('room-01')">
@@ -1548,28 +1558,28 @@
         <div class="space-title-container">
           <h1 class="space-title">Furniture Layout</h1>
         </div>
-        <div class="furn-slider-nav">
-          <span class="furn-slider-label" id="furn-slider-label">Ground Floor</span>
-          <button class="furn-arrow" onclick="furnSlide(-1)" aria-label="Previous floor">&#8249;</button>
-          <button class="furn-arrow" onclick="furnSlide(1)" aria-label="Next floor">&#8250;</button>
+        <div class="floor-slider-nav">
+          <span class="floor-slider-label" id="furn-slider-label">Ground Floor</span>
+          <button class="floor-arrow" onclick="floorSlide('furn', -1)" aria-label="Previous floor">&#8249;</button>
+          <button class="floor-arrow" onclick="floorSlide('furn', 1)" aria-label="Next floor">&#8250;</button>
         </div>
       </div>
 
-      <div class="furn-slider" id="furn-slider">
-        <div class="furn-track" id="furn-track">
-        <div class="furn-slide" data-label="Ground Floor">
+      <div class="floor-slider">
+        <div class="floor-track" id="furn-track">
+        <div class="floor-slide" data-label="Ground Floor">
           <div class="layout-image-container-centered" onclick="openLightbox(null, 0, 'projects/modern-times/Layout Original - GF 2.jpg', 'Ground Floor — Furniture Layout')">
             <img loading="lazy" src="projects/modern-times/Layout Original - GF 2.jpg" alt="Ground Floor — Furniture Layout" class="furniture-layout-image">
           </div>
         </div>
-        <div class="furn-slide" data-label="First Floor">
+        <div class="floor-slide" data-label="First Floor">
           <div class="layout-image-container-centered" onclick="openLightbox(null, 0, 'projects/modern-times/Layout Original - FF 2.jpg', 'First Floor — Furniture Layout')">
             <img loading="lazy" src="projects/modern-times/Layout Original - FF 2.jpg" alt="First Floor — Furniture Layout" class="furniture-layout-image">
           </div>
         </div>
         </div>
       </div>
-      <div class="furn-dots"><button class="furn-dot active" onclick="furnGo(0)" aria-label="Ground Floor"></button><button class="furn-dot" onclick="furnGo(1)" aria-label="First Floor"></button></div>
+      <div class="floor-dots" data-dots="furn"><button class="floor-dot active" onclick="floorGo('furn', 0)" aria-label="Ground Floor"></button><button class="floor-dot" onclick="floorGo('furn', 1)" aria-label="First Floor"></button></div>
     </main>
     <!-- ==========================================================================
          ROOM 02: LIVING ROOM
@@ -2842,35 +2852,40 @@ const activeRenderIndex = {
         });
       }
 
-      // Furniture Layout: horizontal floor slider — swipe to change floors
-      const furnSliderEl = document.getElementById('furn-slider');
-      if (furnSliderEl) {
+      // Floor sliders (Plan Key + Furniture Layout): swipe to change floors
+      document.querySelectorAll('.floor-track').forEach((track) => {
+        const prefix = track.id.replace(/-track$/, '');
+        const slider = track.closest('.floor-slider');
+        if (!slider) return;
         let x0 = null;
-        furnSliderEl.addEventListener('touchstart', (e) => { x0 = e.touches[0].clientX; }, { passive: true });
-        furnSliderEl.addEventListener('touchend', (e) => {
+        slider.addEventListener('touchstart', (e) => { x0 = e.touches[0].clientX; }, { passive: true });
+        slider.addEventListener('touchend', (e) => {
           if (x0 === null) return;
           const dx = e.changedTouches[0].clientX - x0;
-          if (Math.abs(dx) > 40) furnSlide(dx < 0 ? 1 : -1);
+          if (Math.abs(dx) > 40) floorSlide(prefix, dx < 0 ? 1 : -1);
           x0 = null;
         });
-      }
+      });
     });
 
-    // Furniture slider controls — a transform track (deterministic; no scroll-snap fights)
-    var furnIndex = 0;
-    function furnApply() {
-      const track = document.getElementById('furn-track');
+    // Floor slider controls — a transform track (deterministic; no scroll-snap fights).
+    // Keyed by prefix so the Plan Key ('plan') and Furniture Layout ('furn') sliders
+    // on the same page track their own position independently.
+    var floorIndex = {};
+    function floorApply(prefix) {
+      const track = document.getElementById(prefix + '-track');
       if (!track) return;
-      const slides = track.querySelectorAll('.furn-slide');
+      const slides = track.querySelectorAll('.floor-slide');
       if (!slides.length) return;
-      furnIndex = Math.max(0, Math.min(furnIndex, slides.length - 1));
-      track.style.transform = 'translateX(' + (-furnIndex * 100) + '%)';
-      const labelEl = document.getElementById('furn-slider-label');
-      if (labelEl) labelEl.textContent = slides[furnIndex].dataset.label || '';
-      document.querySelectorAll('.furn-dot').forEach((d, j) => d.classList.toggle('active', j === furnIndex));
+      let i = Math.max(0, Math.min(floorIndex[prefix] || 0, slides.length - 1));
+      floorIndex[prefix] = i;
+      track.style.transform = 'translateX(' + (-i * 100) + '%)';
+      const labelEl = document.getElementById(prefix + '-slider-label');
+      if (labelEl) labelEl.textContent = slides[i].dataset.label || '';
+      document.querySelectorAll('[data-dots="' + prefix + '"] .floor-dot').forEach((d, j) => d.classList.toggle('active', j === i));
     }
-    function furnSlide(dir) { furnIndex += dir; furnApply(); }
-    function furnGo(i) { furnIndex = i; furnApply(); }
+    function floorSlide(prefix, dir) { floorIndex[prefix] = (floorIndex[prefix] || 0) + dir; floorApply(prefix); }
+    function floorGo(prefix, i) { floorIndex[prefix] = i; floorApply(prefix); }
 
     let currentLightboxGroup = null;
     let currentLightboxIndex = 0;

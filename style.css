@@ -792,41 +792,22 @@ body {
   display: block;
 }
 
-/* Single-floor plan (Umang): the floor wrapper fills the square container as the
-   bare SVG used to. */
-.blueprint-large-container:not(.blueprint-multi) .blueprint-floor {
+/* The plan key's floor-slider fills the square container exactly like the bare
+   SVG used to (single floor: Umang) or the available height (multiple floors:
+   Modern Times) — one floor visible at a time, paged, so it never scrolls. */
+.blueprint-large-container .floor-slider,
+.blueprint-large-container .floor-track,
+.blueprint-large-container .floor-slide {
   width: 100%;
   height: 100%;
 }
 
-/* Multi-floor plan key (Modern Times): stack Ground + First floor plans and scroll. */
+/* Multi-floor plan key: the container drops its fixed square aspect ratio and
+   instead fills whatever height the left column has left below the title bar. */
 .blueprint-multi {
   aspect-ratio: auto;
-  display: block;
-  max-height: calc(100vh - 160px);
-  overflow-y: auto;
-}
-.blueprint-multi .blueprint-floor + .blueprint-floor {
-  margin-top: 18px;
-}
-.blueprint-multi .blueprint-svg-large {
-  height: auto;
-  aspect-ratio: 4 / 3;
-}
-
-.floor-label {
-  display: block;
-  font-family: var(--font-display);
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--chamoisee);
-  margin-bottom: 8px;
-}
-.floor-label--center {
-  text-align: center;
-  margin-bottom: 12px;
+  flex: 1;
+  min-height: 0;
 }
 
 .svg-room-rect {
@@ -1513,38 +1494,40 @@ body {
   transform: scale(1.01);
 }
 
-/* Furniture Layout — horizontal floor slider (one slide per floor).
-   A transform track, so paging is deterministic and independent of scroll-snap. */
-.furn-slider {
+/* Generic floor slider — one slide per floor, used by both the Plan Key and the
+   Furniture Layout wherever a project has more than one floor. A transform
+   track, so paging is deterministic and independent of scroll-snap, and each
+   slider fills its parent's available space rather than scrolling. */
+.floor-slider {
   flex: 1;
   min-height: 0;
   overflow: hidden;
   width: 100%;
 }
-.furn-track {
+.floor-track {
   display: flex;
   height: 100%;
   transition: transform 0.55s var(--ease-out);
 }
-.furn-slide {
+.floor-slide {
   flex: 0 0 100%;
   min-width: 0;
   display: flex;
   align-items: stretch;
   justify-content: center;
 }
-.furn-slide .layout-image-container-centered {
+.floor-slide .layout-image-container-centered {
   flex: 1;
   width: 100%;
 }
 
 /* Header-row nav: floor label + arrows */
-.furn-slider-nav {
+.floor-slider-nav {
   display: flex;
   align-items: center;
   gap: 12px;
 }
-.furn-slider-label {
+.floor-slider-label {
   font-family: var(--font-display);
   font-size: 0.72rem;
   font-weight: 600;
@@ -1554,7 +1537,7 @@ body {
   min-width: 92px;
   text-align: right;
 }
-.furn-arrow {
+.floor-arrow {
   width: 34px;
   height: 34px;
   border-radius: 50%;
@@ -1569,20 +1552,20 @@ body {
   cursor: pointer;
   transition: var(--transition-smooth);
 }
-.furn-arrow:hover {
+.floor-arrow:hover {
   background: var(--chamoisee);
   color: var(--light);
   border-color: var(--chamoisee);
 }
 
-.furn-dots {
+.floor-dots {
   display: flex;
   justify-content: center;
   gap: 10px;
   padding-top: 12px;
   flex-shrink: 0;
 }
-.furn-dot {
+.floor-dot {
   width: 8px;
   height: 8px;
   padding: 0;
@@ -1592,7 +1575,7 @@ body {
   cursor: pointer;
   transition: var(--transition-smooth);
 }
-.furn-dot.active {
+.floor-dot.active {
   background: var(--chamoisee);
   transform: scale(1.25);
 }
