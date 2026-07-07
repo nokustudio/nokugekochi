@@ -8,6 +8,15 @@ from projects import PROJECTS
 TEMPLATE_FILE = "walkthrough-template.html"
 
 
+def normalize_name(name):
+    n = name.lower()
+    n = re.sub(r'\.png$|\.jpg$|\.jpeg$', '', n)
+    n = re.sub(r'\(.*?\)', '', n) # Strip parentheses and contents
+    n = re.sub(r'\bv2\b|\bv1\b|\bfull image\b|\bcopy\b', '', n)
+    n = re.sub(r'[^a-z0-9]', '', n)
+    return n
+
+
 def merge_rooms_into_shell(shell_html, ordered_blocks, js_room_renders, active_indices):
     """Splice generated room-section blocks + lightbox JS data into the static shell.
     Returns the merged HTML, or None (after printing an error) if a marker is missing."""
@@ -238,173 +247,37 @@ MATERIALS_END = "<!-- MATERIALS_MOODBOARD_END -->"
 
 def inject_materials_section(base_dir):
     """Materials & Moodboard is identical for every project, so it lives once on the
-    shared hub (index.html) instead of being repeated inside each project's walkthrough."""
+    shared hub (index.html) instead of being repeated inside each project's walkthrough.
+    We extract these sections dynamically from walkthrough-template.html."""
     print("\n=== Injecting shared Materials & Moodboard section into index.html ===")
 
-    materials_html = """          <div class="materials-categories">
-            <!-- Category: Wood -->
-            <div class="material-category-group">
-              <h4 class="material-category-title">Wood</h4>
-              <div class="material-swatches">
-                <div class="material-swatch" onclick="openLightbox('room-materials', 0)">
-                  <div class="swatch-circle">
-                    <img src="Materials/Wood/Teak.png" alt="Burma Teak">
-                  </div>
-                  <span class="swatch-name">Burma Teak</span>
-                </div>
-                <div class="material-swatch" onclick="openLightbox('room-materials', 1)">
-                  <div class="swatch-circle">
-                    <img src="Materials/Wood/Reclaimed teak.jpg" alt="Reclaimed Teak">
-                  </div>
-                  <span class="swatch-name">Reclaimed Teak</span>
-                </div>
-                <div class="material-swatch" onclick="openLightbox('room-materials', 2)">
-                  <div class="swatch-circle">
-                    <img src="Materials/Wood/White_Ash_Crown.jpg" alt="White Ash">
-                  </div>
-                  <span class="swatch-name">White Ash</span>
-                </div>
-              </div>
-            </div>
+    template_path = os.path.join(base_dir, "walkthrough-template.html")
+    if not os.path.exists(template_path):
+        print(f"Error: Template file not found at {template_path}")
+        return
 
-            <!-- Category: Leather -->
-            <div class="material-category-group">
-              <h4 class="material-category-title">Leather</h4>
-              <div class="material-swatches">
-                <div class="material-swatch" onclick="openLightbox('room-materials', 3)">
-                  <div class="swatch-circle">
-                    <img src="Materials/leather/Vagabond Cognac.jpeg" alt="Vagabond Cognac">
-                  </div>
-                  <span class="swatch-name">Vagabond Cognac</span>
-                </div>
-                <div class="material-swatch" onclick="openLightbox('room-materials', 4)">
-                  <div class="swatch-circle">
-                    <img src="Materials/leather/Montana Chestnut.jpg" alt="Montana Chestnut">
-                  </div>
-                  <span class="swatch-name">Montana Chestnut</span>
-                </div>
-                <div class="material-swatch" onclick="openLightbox('room-materials', 5)">
-                  <div class="swatch-circle">
-                    <img src="Materials/leather/Emperor Brick.jpeg" alt="Emperor Brick">
-                  </div>
-                  <span class="swatch-name">Emperor Brick</span>
-                </div>
-                <div class="material-swatch" onclick="openLightbox('room-materials', 6)">
-                  <div class="swatch-circle">
-                    <img src="Materials/leather/Eternity Olive.jpeg" alt="Eternity Olive">
-                  </div>
-                  <span class="swatch-name">Eternity Olive</span>
-                </div>
-                <div class="material-swatch" onclick="openLightbox('room-materials', 7)">
-                  <div class="swatch-circle">
-                    <img src="Materials/leather/Glory Honey.jpeg" alt="Glory Honey">
-                  </div>
-                  <span class="swatch-name">Glory Honey</span>
-                </div>
-              </div>
-            </div>
+    with open(template_path, 'r', encoding='utf-8') as f:
+        template_content = f.read()
 
-            <!-- Category: Fabric -->
-            <div class="material-category-group">
-              <h4 class="material-category-title">Fabric</h4>
-              <div class="material-swatches">
-                <div class="material-swatch" onclick="openLightbox('room-materials', 8)">
-                  <div class="swatch-circle">
-                    <img src="Materials/Fabric/Vienna Army.jpg" alt="Vienna Army">
-                  </div>
-                  <span class="swatch-name">Vienna Army</span>
-                </div>
-                <div class="material-swatch" onclick="openLightbox('room-materials', 9)">
-                  <div class="swatch-circle">
-                    <img src="Materials/Fabric/Rubik Linen.jpg" alt="Rubik Linen">
-                  </div>
-                  <span class="swatch-name">Rubik Linen</span>
-                </div>
-                <div class="material-swatch" onclick="openLightbox('room-materials', 10)">
-                  <div class="swatch-circle">
-                    <img src="Materials/Fabric/Blush.jpeg" alt="Blush">
-                  </div>
-                  <span class="swatch-name">Blush</span>
-                </div>
-                <div class="material-swatch" onclick="openLightbox('room-materials', 11)">
-                  <div class="swatch-circle">
-                    <img src="Materials/Fabric/Cloud.jpg" alt="Cloud">
-                  </div>
-                  <span class="swatch-name">Cloud</span>
-                </div>
-                <div class="material-swatch" onclick="openLightbox('room-materials', 12)">
-                  <div class="swatch-circle">
-                    <img src="Materials/Fabric/Charcoal.png" alt="Charcoal">
-                  </div>
-                  <span class="swatch-name">Charcoal</span>
-                </div>
-                <div class="material-swatch" onclick="openLightbox('room-materials', 13)">
-                  <div class="swatch-circle">
-                    <img src="Materials/Fabric/Flute.jpeg" alt="Flute">
-                  </div>
-                  <span class="swatch-name">Flute</span>
-                </div>
-                <div class="material-swatch" onclick="openLightbox('room-materials', 14)">
-                  <div class="swatch-circle">
-                    <img src="Materials/Fabric/Opal.png" alt="Opal">
-                  </div>
-                  <span class="swatch-name">Opal</span>
-                </div>
-                <div class="material-swatch" onclick="openLightbox('room-materials', 15)">
-                  <div class="swatch-circle">
-                    <img src="Materials/Fabric/Rosebud.png" alt="Rosebud">
-                  </div>
-                  <span class="swatch-name">Rosebud</span>
-                </div>
-                <div class="material-swatch" onclick="openLightbox('room-materials', 16)">
-                  <div class="swatch-circle">
-                    <img src="Materials/Fabric/Silver.jpeg" alt="Silver">
-                  </div>
-                  <span class="swatch-name">Silver</span>
-                </div>
-              </div>
-            </div>
+    # Extract materials HTML
+    m_start_marker = "<!-- MATERIALS_TEMPLATE_START -->"
+    m_end_marker = "<!-- MATERIALS_TEMPLATE_END -->"
+    m_start_idx = template_content.find(m_start_marker)
+    m_end_idx = template_content.find(m_end_marker)
+    if m_start_idx == -1 or m_end_idx == -1:
+        print("Error: Could not find MATERIALS_TEMPLATE markers in walkthrough-template.html")
+        return
+    materials_html = template_content[m_start_idx + len(m_start_marker):m_end_idx].strip()
 
-            <!-- Category: Metal -->
-            <div class="material-category-group">
-              <h4 class="material-category-title">Metal</h4>
-              <div class="material-swatches">
-                <div class="material-swatch" onclick="openLightbox('room-materials', 17)">
-                  <div class="swatch-circle">
-                    <img src="Materials/Metal/Brass.jpg" alt="Brass">
-                  </div>
-                  <span class="swatch-name">Brass</span>
-                </div>
-              </div>
-            </div>
-          </div>"""
-
-    moodboard_html = """          <div class="moodboard-grid">
-            <div class="moodboard-col">
-              <div class="moodboard-item tall" onclick="openLightbox('moodboard', 0)">
-                <img src="Moodboard - of stillness/57ec27a5377b392bd27f4250d5c39461.jpg" alt="Moodboard 1">
-              </div>
-              <div class="moodboard-item short" onclick="openLightbox('moodboard', 1)">
-                <img src="Moodboard - of stillness/01.jpg" alt="Moodboard 2">
-              </div>
-            </div>
-            <div class="moodboard-col">
-              <div class="moodboard-item short" onclick="openLightbox('moodboard', 2)">
-                <img src="Moodboard - of stillness/fdf0f8ab8c964cf68f39f626d0922461.jpg" alt="Moodboard 3">
-              </div>
-              <div class="moodboard-item tall" onclick="openLightbox('moodboard', 3)">
-                <img src="Moodboard - of stillness/1d1c1af230ec5bf3fed2f9ac7fd9fdf5.jpg" alt="Moodboard 4">
-              </div>
-            </div>
-            <div class="moodboard-col">
-              <div class="moodboard-item tall" onclick="openLightbox('moodboard', 4)">
-                <img src="Moodboard - of stillness/wood.jpg" alt="Moodboard 5">
-              </div>
-              <div class="moodboard-item short" onclick="openLightbox('moodboard', 5)">
-                <img src="Moodboard - of stillness/80becd3aab10a0f715442c912fa0600b.jpg" alt="Moodboard 6">
-              </div>
-            </div>
-          </div>"""
+    # Extract moodboard HTML
+    mb_start_marker = "<!-- MOODBOARD_TEMPLATE_START -->"
+    mb_end_marker = "<!-- MOODBOARD_TEMPLATE_END -->"
+    mb_start_idx = template_content.find(mb_start_marker)
+    mb_end_idx = template_content.find(mb_end_marker)
+    if mb_start_idx == -1 or mb_end_idx == -1:
+        print("Error: Could not find MOODBOARD_TEMPLATE markers in walkthrough-template.html")
+        return
+    moodboard_html = template_content[mb_start_idx + len(mb_start_marker):mb_end_idx].strip()
 
     # The hub has no lightbox modal, so drop the click-to-zoom hooks for this embed.
     materials_html = re.sub(r' onclick="openLightbox\([^"]*\)"', '', materials_html)
@@ -521,11 +394,15 @@ def build_project(project, shell_html, base_dir):
         for row in rows[1:]:
             if len(row) < 3 or row[2] is None:
                 continue
+            name_str = str(row[2]).strip()
+            code_str = str(row[1]).strip() if row[1] is not None else ""
             db_products.append({
                 "sheet": sheet_name,
                 "space": str(row[0]).strip() if row[0] is not None else "",
-                "code": str(row[1]).strip() if row[1] is not None else "",
-                "name": str(row[2]).strip(),
+                "code": code_str,
+                "name": name_str,
+                "norm_name": normalize_name(name_str),
+                "norm_code": normalize_name(code_str),
                 "w": row[3],
                 "d": row[4],
                 "h": row[5],
@@ -537,27 +414,22 @@ def build_project(project, shell_html, base_dir):
 
     # 3b. Load rates database (rates_path set above from project config)
     rates_db = {}
+    norm_rates_db = {}
     if os.path.exists(rates_path):
         print("Reading Furniture Rates database...")
         wb_rates = openpyxl.load_workbook(rates_path, data_only=True)
         ws_rates = wb_rates.active
         for row in ws_rates.iter_rows(min_row=2, values_only=True):
             if row[0] and row[1] is not None:
-                rates_db[str(row[0]).strip()] = row[1]
+                key_str = str(row[0]).strip()
+                rates_db[key_str] = row[1]
+                norm_rates_db[normalize_name(key_str)] = key_str
         print(f"Loaded {len(rates_db)} rate entries from Excel.")
 
     # 5. Room sequence config comes from the project (projects.py)
 
-    # 4. Helper to normalize names for mapping
-    def normalize_name(name):
-        n = name.lower()
-        n = re.sub(r'\.png$|\.jpg$|\.jpeg$', '', n)
-        n = re.sub(r'\(.*?\)', '', n) # Strip parentheses and contents
-        n = re.sub(r'\bv2\b|\bv1\b|\bfull image\b|\bcopy\b', '', n)
-        n = re.sub(r'[^a-z0-9]', '', n)
-        return n
-
     # Custom rate-item mapping comes from the project (projects.py)
+    norm_custom_rates = {normalize_name(k): v for k, v in custom_rates_mapping.items()}
 
     def make_keyplan_svg(room_id):
         # Small key-plan thumbnail: the room's own floor plan with its area highlighted.
@@ -756,8 +628,8 @@ def build_project(project, shell_html, base_dir):
                     best_score = 0
                     
                     for db_p in db_products:
-                        db_norm_name = normalize_name(db_p["name"])
-                        db_norm_code = normalize_name(db_p["code"])
+                        db_norm_name = db_p["norm_name"]
+                        db_norm_code = db_p["norm_code"]
                         
                         if img_norm == db_norm_name or img_norm == db_norm_code:
                             best_match = db_p
@@ -790,16 +662,15 @@ def build_project(project, shell_html, base_dir):
                     
                     # Map rates
                     rate_key = None
-                    for k, v in custom_rates_mapping.items():
-                        if img_norm == normalize_name(k) or (best_match and normalize_name(best_match["name"]) == normalize_name(k)) or (best_match and normalize_name(best_match["code"]) == normalize_name(k)):
-                            rate_key = v
+                    for look_key in [img_norm, best_match["norm_name"] if best_match else None, best_match["norm_code"] if best_match else None]:
+                        if look_key and look_key in norm_custom_rates:
+                            rate_key = norm_custom_rates[look_key]
                             break
                     
                     if not rate_key:
-                        for r_key in rates_db.keys():
-                            r_norm = normalize_name(r_key)
-                            if img_norm == r_norm or (best_match and normalize_name(best_match["name"]) == r_norm) or (best_match and normalize_name(best_match["code"]) == r_norm):
-                                rate_key = r_key
+                        for look_key in [img_norm, best_match["norm_name"] if best_match else None, best_match["norm_code"] if best_match else None]:
+                            if look_key and look_key in norm_rates_db:
+                                rate_key = norm_rates_db[look_key]
                                 break
                     
                     rate_val = rates_db.get(rate_key) if rate_key else None
