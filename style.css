@@ -1513,18 +1513,88 @@ body {
   transform: scale(1.01);
 }
 
-/* Multi-floor furniture layout (Modern Times): stack Ground + First floor plans. */
-.furniture-multi {
-  overflow-y: auto;
-}
-.furniture-floor {
+/* Furniture Layout — horizontal floor slider (one slide per floor).
+   A transform track, so paging is deterministic and independent of scroll-snap. */
+.furn-slider {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
   width: 100%;
 }
-.furniture-multi .furniture-floor + .furniture-floor {
-  margin-top: 24px;
+.furn-track {
+  display: flex;
+  height: 100%;
+  transition: transform 0.55s var(--ease-out);
 }
-.furniture-multi .layout-image-container-centered {
-  flex: none;
+.furn-slide {
+  flex: 0 0 100%;
+  min-width: 0;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+}
+.furn-slide .layout-image-container-centered {
+  flex: 1;
+  width: 100%;
+}
+
+/* Header-row nav: floor label + arrows */
+.furn-slider-nav {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.furn-slider-label {
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--chamoisee);
+  min-width: 92px;
+  text-align: right;
+}
+.furn-arrow {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: var(--border-width) solid var(--line);
+  background: var(--light-secondary);
+  color: var(--gunmetal);
+  font-size: 1.1rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+.furn-arrow:hover {
+  background: var(--chamoisee);
+  color: var(--light);
+  border-color: var(--chamoisee);
+}
+
+.furn-dots {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  padding-top: 12px;
+  flex-shrink: 0;
+}
+.furn-dot {
+  width: 8px;
+  height: 8px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: var(--line);
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+.furn-dot.active {
+  background: var(--chamoisee);
+  transform: scale(1.25);
 }
 
 @media (max-width: 1200px) {

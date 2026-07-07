@@ -1539,7 +1539,7 @@
     </main>
 
     <!-- ==========================================================================
-         FURNITURE LAYOUT: CENTERED PLAN (UNNUMBERED)
+         FURNITURE LAYOUT: HORIZONTAL SLIDER ACROSS FLOORS (UNNUMBERED)
          ========================================================================== -->
     <main class="room-section furniture-layout-section furniture-multi" id="room-layout" data-room-title="Furniture Layout">
 
@@ -1548,20 +1548,28 @@
         <div class="space-title-container">
           <h1 class="space-title">Furniture Layout</h1>
         </div>
+        <div class="furn-slider-nav">
+          <span class="furn-slider-label" id="furn-slider-label">Ground Floor</span>
+          <button class="furn-arrow" onclick="furnSlide(-1)" aria-label="Previous floor">&#8249;</button>
+          <button class="furn-arrow" onclick="furnSlide(1)" aria-label="Next floor">&#8250;</button>
+        </div>
       </div>
 
-      <div class="furniture-floor">
-        <span class="floor-label floor-label--center">Ground Floor</span>
-        <div class="layout-image-container-centered" onclick="openLightbox(null, 0, 'projects/modern-times/Layout Original - GF 2.jpg', 'Ground Floor — Furniture Layout')">
-          <img loading="lazy" src="projects/modern-times/Layout Original - GF 2.jpg" alt="Ground Floor — Furniture Layout" class="furniture-layout-image">
+      <div class="furn-slider" id="furn-slider">
+        <div class="furn-track" id="furn-track">
+        <div class="furn-slide" data-label="Ground Floor">
+          <div class="layout-image-container-centered" onclick="openLightbox(null, 0, 'projects/modern-times/Layout Original - GF 2.jpg', 'Ground Floor — Furniture Layout')">
+            <img loading="lazy" src="projects/modern-times/Layout Original - GF 2.jpg" alt="Ground Floor — Furniture Layout" class="furniture-layout-image">
+          </div>
+        </div>
+        <div class="furn-slide" data-label="First Floor">
+          <div class="layout-image-container-centered" onclick="openLightbox(null, 0, 'projects/modern-times/Layout Original - FF 2.jpg', 'First Floor — Furniture Layout')">
+            <img loading="lazy" src="projects/modern-times/Layout Original - FF 2.jpg" alt="First Floor — Furniture Layout" class="furniture-layout-image">
+          </div>
+        </div>
         </div>
       </div>
-      <div class="furniture-floor">
-        <span class="floor-label floor-label--center">First Floor</span>
-        <div class="layout-image-container-centered" onclick="openLightbox(null, 0, 'projects/modern-times/Layout Original - FF 2.jpg', 'First Floor — Furniture Layout')">
-          <img loading="lazy" src="projects/modern-times/Layout Original - FF 2.jpg" alt="First Floor — Furniture Layout" class="furniture-layout-image">
-        </div>
-      </div>
+      <div class="furn-dots"><button class="furn-dot active" onclick="furnGo(0)" aria-label="Ground Floor"></button><button class="furn-dot" onclick="furnGo(1)" aria-label="First Floor"></button></div>
     </main>
     <!-- ==========================================================================
          ROOM 02: LIVING ROOM
@@ -2638,6 +2646,11 @@
       "sub": "Modern Times Project"
     },
     {
+      "src": "projects/modern-times/02. Dining/Gemini_Generated_Image_43v5q743v5q743v5.png",
+      "title": "Dining Render",
+      "sub": "Modern Times Project"
+    },
+    {
       "src": "projects/modern-times/02. Dining/Gemini_Generated_Image_577k5k577k5k577k.png",
       "title": "Dining Render",
       "sub": "Modern Times Project"
@@ -2828,7 +2841,36 @@ const activeRenderIndex = {
           }
         });
       }
+
+      // Furniture Layout: horizontal floor slider — swipe to change floors
+      const furnSliderEl = document.getElementById('furn-slider');
+      if (furnSliderEl) {
+        let x0 = null;
+        furnSliderEl.addEventListener('touchstart', (e) => { x0 = e.touches[0].clientX; }, { passive: true });
+        furnSliderEl.addEventListener('touchend', (e) => {
+          if (x0 === null) return;
+          const dx = e.changedTouches[0].clientX - x0;
+          if (Math.abs(dx) > 40) furnSlide(dx < 0 ? 1 : -1);
+          x0 = null;
+        });
+      }
     });
+
+    // Furniture slider controls — a transform track (deterministic; no scroll-snap fights)
+    var furnIndex = 0;
+    function furnApply() {
+      const track = document.getElementById('furn-track');
+      if (!track) return;
+      const slides = track.querySelectorAll('.furn-slide');
+      if (!slides.length) return;
+      furnIndex = Math.max(0, Math.min(furnIndex, slides.length - 1));
+      track.style.transform = 'translateX(' + (-furnIndex * 100) + '%)';
+      const labelEl = document.getElementById('furn-slider-label');
+      if (labelEl) labelEl.textContent = slides[furnIndex].dataset.label || '';
+      document.querySelectorAll('.furn-dot').forEach((d, j) => d.classList.toggle('active', j === furnIndex));
+    }
+    function furnSlide(dir) { furnIndex += dir; furnApply(); }
+    function furnGo(i) { furnIndex = i; furnApply(); }
 
     let currentLightboxGroup = null;
     let currentLightboxIndex = 0;

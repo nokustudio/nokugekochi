@@ -122,7 +122,36 @@ def merge_rooms_into_shell(shell_html, ordered_blocks, js_room_renders, active_i
           }}
         }});
       }}
+
+      // Furniture Layout: horizontal floor slider — swipe to change floors
+      const furnSliderEl = document.getElementById('furn-slider');
+      if (furnSliderEl) {{
+        let x0 = null;
+        furnSliderEl.addEventListener('touchstart', (e) => {{ x0 = e.touches[0].clientX; }}, {{ passive: true }});
+        furnSliderEl.addEventListener('touchend', (e) => {{
+          if (x0 === null) return;
+          const dx = e.changedTouches[0].clientX - x0;
+          if (Math.abs(dx) > 40) furnSlide(dx < 0 ? 1 : -1);
+          x0 = null;
+        }});
+      }}
     }});
+
+    // Furniture slider controls — a transform track (deterministic; no scroll-snap fights)
+    var furnIndex = 0;
+    function furnApply() {{
+      const track = document.getElementById('furn-track');
+      if (!track) return;
+      const slides = track.querySelectorAll('.furn-slide');
+      if (!slides.length) return;
+      furnIndex = Math.max(0, Math.min(furnIndex, slides.length - 1));
+      track.style.transform = 'translateX(' + (-furnIndex * 100) + '%)';
+      const labelEl = document.getElementById('furn-slider-label');
+      if (labelEl) labelEl.textContent = slides[furnIndex].dataset.label || '';
+      document.querySelectorAll('.furn-dot').forEach((d, j) => d.classList.toggle('active', j === furnIndex));
+    }}
+    function furnSlide(dir) {{ furnIndex += dir; furnApply(); }}
+    function furnGo(i) {{ furnIndex = i; furnApply(); }}
 
     """
     orig_html = orig_html[:script_start] + js_inject + orig_html[lightbox_group_start:]
@@ -1016,22 +1045,33 @@ def build_project(project, shell_html, base_dir):
       </footer>
     </section>"""
 
-    # 9. Furniture Layout section (unnumbered), then merge everything into the shell
+    # 9. Furniture Layout section (unnumbered) — a horizontal slider across floors.
     print(f"\nMerging blocks into {project['output']}...")
     furn_multi = len(furniture_floors) > 1
-    furn_imgs = ""
-    for fl in furniture_floors:
+    furn_slides = ""
+    furn_dots = ""
+    for i, fl in enumerate(furniture_floors):
         f_img = f"{proj_base}/{fl['file']}"
         f_title = fl["title"]
-        f_label = f'\n        <span class="floor-label floor-label--center">{fl["label"]}</span>' if fl.get("label") else ''
-        furn_imgs += f"""      <div class="furniture-floor">{f_label}
-        <div class="layout-image-container-centered" onclick="openLightbox(null, 0, '{f_img}', '{f_title}')">
-          <img src="{f_img}" alt="{f_title}" class="furniture-layout-image">
-        </div>
-      </div>\n"""
+        f_label = fl.get("label") or "Furniture Layout"
+        furn_slides += f"""        <div class="furn-slide" data-label="{f_label}">
+          <div class="layout-image-container-centered" onclick="openLightbox(null, 0, '{f_img}', '{f_title}')">
+            <img src="{f_img}" alt="{f_title}" class="furniture-layout-image">
+          </div>
+        </div>\n"""
+        furn_dots += f'<button class="furn-dot{" active" if i == 0 else ""}" onclick="furnGo({i})" aria-label="{f_label}"></button>'
+
+    # Slider nav (label + arrows + dots) only when there's more than one floor.
+    furn_nav = f"""
+        <div class="furn-slider-nav">
+          <span class="furn-slider-label" id="furn-slider-label">{furniture_floors[0].get('label') or ''}</span>
+          <button class="furn-arrow" onclick="furnSlide(-1)" aria-label="Previous floor">&#8249;</button>
+          <button class="furn-arrow" onclick="furnSlide(1)" aria-label="Next floor">&#8250;</button>
+        </div>""" if furn_multi else ""
+    furn_dots_row = f'\n      <div class="furn-dots">{furn_dots}</div>' if furn_multi else ""
 
     furniture_layout_block = f"""    <!-- ==========================================================================
-         FURNITURE LAYOUT: CENTERED PLAN (UNNUMBERED)
+         FURNITURE LAYOUT: HORIZONTAL SLIDER ACROSS FLOORS (UNNUMBERED)
          ========================================================================== -->
     <main class="room-section furniture-layout-section{' furniture-multi' if furn_multi else ''}" id="room-layout" data-room-title="Furniture Layout">
 
@@ -1039,10 +1079,14 @@ def build_project(project, shell_html, base_dir):
       <div class="layout-header-row">
         <div class="space-title-container">
           <h1 class="space-title">Furniture Layout</h1>
-        </div>
+        </div>{furn_nav}
       </div>
 
-{furn_imgs}    </main>"""
+      <div class="furn-slider" id="furn-slider">
+        <div class="furn-track" id="furn-track">
+{furn_slides}        </div>
+      </div>{furn_dots_row}
+    </main>"""
 
     # Cross-project hand-off on the Thank You page: continue to the other project(s), or the hub
     others = [p for p in PROJECTS if p["id"] != project["id"]]
