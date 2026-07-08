@@ -230,10 +230,12 @@ MODERN_TIMES = {
             {"label": "First Floor", "file": "Layout Original - FF 2.jpg", "title": "First Floor — Furniture Layout"},
         ],
     },
-    # Products are mostly the same catalog as Umang, so share its dimensions/rates
-    # database rather than a second, empty copy — matches fall through the same
-    # fuzzy name/code matching already used per-project; unmatched pieces stay blank.
-    "xlsx": {"dimensions": "../umang/Product Dimensions.xlsx", "rates": "../umang/Furniture_Rates.xlsx"},
+    # Products are mostly the same catalog as Umang. Dimensions still point at
+    # Umang's sheet (single source of truth); rates were copied into Modern
+    # Times' own Furniture_Rates.xlsx so it's a self-contained, editable file.
+    # Matches fall through the same fuzzy name/code matching already used
+    # per-project; unmatched pieces stay blank either way.
+    "xlsx": {"dimensions": "../umang/Product Dimensions.xlsx", "rates": "Furniture_Rates.xlsx"},
     "hero": {
         "article": "The", "name": "Modern Times", "subtitle": "Residence.",
         "eyebrow": "Good Earth &nbsp;·&nbsp; Kalamassery, Kochi",
