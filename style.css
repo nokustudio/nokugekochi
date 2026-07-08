@@ -44,6 +44,12 @@
   
   --transition-smooth: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
   --transition-fast: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Easing curve for the hero/cover reveal animations (lFadeUp, lBgReveal, etc.).
+     Was previously defined per-page inline; lost when those blocks were merged
+     into this shared stylesheet, which silently broke every animation using it
+     (an unresolvable var() invalidates the whole animation/transition shorthand). */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* ==========================================================================
