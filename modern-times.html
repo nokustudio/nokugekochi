@@ -264,12 +264,12 @@
         </div>
         <div class="floor-slider-nav">
           <span class="floor-slider-label" id="furn-slider-label">Ground Floor</span>
-          <button class="floor-arrow" onclick="floorSlide('furn', -1)" aria-label="Previous floor">&#8249;</button>
-          <button class="floor-arrow" onclick="floorSlide('furn', 1)" aria-label="Next floor">&#8250;</button>
         </div>
       </div>
 
-      <div class="floor-slider">
+      <div class="furniture-slider-wrapper" style="position: relative; width: 100%; display: flex; align-items: center;">
+        <button class="floor-arrow floor-arrow--prev" onclick="floorSlide('furn', -1)" aria-label="Previous floor" style="position: absolute; left: 15px; top: 50%; transform: translateY(-50%); z-index: 10;">&#8249;</button>
+        <div class="floor-slider">
         <div class="floor-track" id="furn-track">
         <div class="floor-slide" data-label="Ground Floor">
           <div class="layout-image-container-centered" onclick="openLightbox(null, 0, 'projects/modern-times/Layout Original - GF 2.jpg', 'Ground Floor — Furniture Layout')">
@@ -282,6 +282,8 @@
           </div>
         </div>
         </div>
+      </div>
+        <button class="floor-arrow floor-arrow--next" onclick="floorSlide('furn', 1)" aria-label="Next floor" style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); z-index: 10;">&#8250;</button>
       </div>
       <div class="floor-dots" data-dots="furn"><button class="floor-dot active" onclick="floorGo('furn', 0)" aria-label="Ground Floor"></button><button class="floor-dot" onclick="floorGo('furn', 1)" aria-label="First Floor"></button></div>
     </main>

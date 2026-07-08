@@ -1079,6 +1079,24 @@ def build_project(project, shell_html, base_dir):
 
     furn_nav, furn_slider, furn_dots_row, furn_multi = build_floor_slider("furn", furniture_floors, _furn_slide)
 
+    if furn_multi:
+        left_arrow = f"""<button class="floor-arrow floor-arrow--prev" onclick="floorSlide('furn', -1)" aria-label="Previous floor" style="position: absolute; left: 15px; top: 50%; transform: translateY(-50%); z-index: 10;">&#8249;</button>"""
+        right_arrow = f"""<button class="floor-arrow floor-arrow--next" onclick="floorSlide('furn', 1)" aria-label="Next floor" style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); z-index: 10;">&#8250;</button>"""
+        
+        furn_nav_clean = f"""
+        <div class="floor-slider-nav">
+          <span class="floor-slider-label" id="furn-slider-label">{furniture_floors[0].get("label", "") if furniture_floors else ""}</span>
+        </div>"""
+        
+        slider_wrapper = f"""<div class="furniture-slider-wrapper" style="position: relative; width: 100%; display: flex; align-items: center;">
+        {left_arrow}
+        {furn_slider}
+        {right_arrow}
+      </div>"""
+    else:
+        furn_nav_clean = furn_nav
+        slider_wrapper = furn_slider
+
     furniture_layout_block = f"""    <!-- ==========================================================================
          FURNITURE LAYOUT: HORIZONTAL SLIDER ACROSS FLOORS (UNNUMBERED)
          ========================================================================== -->
@@ -1088,10 +1106,10 @@ def build_project(project, shell_html, base_dir):
       <div class="layout-header-row">
         <div class="space-title-container">
           <h1 class="space-title">Furniture Layout</h1>
-        </div>{furn_nav}
+        </div>{furn_nav_clean}
       </div>
 
-      {furn_slider}{furn_dots_row}
+      {slider_wrapper}{furn_dots_row}
     </main>"""
 
     # Cross-project hand-off on the Thank You page: continue to the other project(s), or the hub
