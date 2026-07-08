@@ -179,7 +179,7 @@ UMANG = {
             {"label": None, "file": "Layout Original 6.png", "title": "Furniture Layout"},
         ],
     },
-    "xlsx": {"dimensions": "Product Dimensions.xlsx", "rates": "Furniture_Rates.xlsx"},
+    "xlsx": {"database": "../../Product_Database.xlsx"},
     "hero": {
         "article": "The", "name": "Umang", "subtitle": "Residence.",
         "eyebrow": "Good Earth &nbsp;·&nbsp; On the Periyar, Edappally",
@@ -235,7 +235,7 @@ MODERN_TIMES = {
     # Times' own Furniture_Rates.xlsx so it's a self-contained, editable file.
     # Matches fall through the same fuzzy name/code matching already used
     # per-project; unmatched pieces stay blank either way.
-    "xlsx": {"dimensions": "../umang/Product Dimensions.xlsx", "rates": "Furniture_Rates.xlsx"},
+    "xlsx": {"database": "../../Product_Database.xlsx"},
     "hero": {
         "article": "The", "name": "Modern Times", "subtitle": "Residence.",
         "eyebrow": "Good Earth &nbsp;·&nbsp; Kalamassery, Kochi",

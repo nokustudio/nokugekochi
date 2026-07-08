@@ -454,12 +454,11 @@ def build_project(project, shell_html, base_dir):
         for rid in fl["hotspots"]:
             room_floor[rid] = fl
 
-    # 1. Paths to this project's Excel databases
-    excel_path = os.path.join(proj_dir, project["xlsx"]["dimensions"])
-    rates_path = os.path.join(proj_dir, project["xlsx"]["rates"])
+    # 1. Path to the unified Product_Database.xlsx file
+    excel_path = os.path.normpath(os.path.join(proj_dir, project["xlsx"]["database"]))
 
     if not os.path.exists(excel_path):
-        print(f"Error: Excel file not found at: {excel_path}")
+        print(f"Error: Unified database Excel file not found at: {excel_path}")
         return
 
     # 2. Get list of room directories (looking for folders starting with digits)
@@ -478,6 +477,8 @@ def build_project(project, shell_html, base_dir):
     db_products = []
 
     for sheet_name in wb.sheetnames:
+        if sheet_name == "Rates":
+            continue
         ws = wb[sheet_name]
         rows = list(ws.iter_rows(values_only=True))
         if not rows:
@@ -505,19 +506,41 @@ def build_project(project, shell_html, base_dir):
             })
     print(f"Loaded {len(db_products)} product rows from Excel.")
 
-    # 3b. Load rates database (rates_path set above from project config)
+    # 3b. Load rates database from the same unified database
     rates_db = {}
     norm_rates_db = {}
-    if os.path.exists(rates_path):
-        print("Reading Furniture Rates database...")
-        wb_rates = openpyxl.load_workbook(rates_path, data_only=True)
-        ws_rates = wb_rates.active
+    
+    # First, populate from the product sheets (using the Rate column in index 9, if it exists)
+    for sheet_name in wb.sheetnames:
+        if sheet_name == "Rates":
+            continue
+        ws = wb[sheet_name]
+        rows = list(ws.iter_rows(values_only=True))
+        if not rows:
+            continue
+        for row in rows[1:]:
+            if len(row) < 3 or row[2] is None:
+                continue
+            name_str = str(row[2]).strip()
+            code_str = str(row[1]).strip() if row[1] is not None else ""
+            rate_val = row[9] if len(row) > 9 and row[9] is not None else None
+            if rate_val is not None:
+                rates_db[name_str] = rate_val
+                rates_db[code_str] = rate_val
+                norm_rates_db[normalize_name(name_str)] = name_str
+                if code_str:
+                    norm_rates_db[normalize_name(code_str)] = code_str
+
+    # Then, overwrite/supplement with the dedicated "Rates" sheet if present
+    if "Rates" in wb.sheetnames:
+        print("Reading Rates sheet from unified database...")
+        ws_rates = wb["Rates"]
         for row in ws_rates.iter_rows(min_row=2, values_only=True):
             if row[0] and row[1] is not None:
                 key_str = str(row[0]).strip()
                 rates_db[key_str] = row[1]
                 norm_rates_db[normalize_name(key_str)] = key_str
-        print(f"Loaded {len(rates_db)} rate entries from Excel.")
+        print(f"Loaded {len(rates_db)} rate entries from unified database.")
 
     # 5. Room sequence config comes from the project (projects.py)
 

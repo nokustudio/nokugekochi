@@ -1,0 +1,1114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Comparison Grid — Good Earth Kochi</title>
+  
+  <!-- Typography matching style.css -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;600&family=Quattrocento:wght@400;700&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --gunmetal:   #2A231E;   /* Dark espresso/teal-grey */
+      --chamoisee:  #a27b5c;   /* Warm tan */
+      --outerspace: #392F28;   /* Mid espresso */
+      --bone:       #dcd7c9;   /* Warm bone */
+      --light:           #f4f5f1; /* Primary surface */
+      --light-secondary: #fafaf8; /* Card / panel bg */
+      --cream:           #EDE6DA; /* Warm alt sections */
+      --ink:             #2C2622; /* Primary text on light */
+      --muted:           #6B6258; /* Secondary text */
+      --line:            #D8D2C8; /* Borders */
+      --dark-bg:         #1E1915; /* Dark bg */
+      --error:           #b83b3b;
+      --warning:         #d48a24;
+      --success:         #498a58;
+      
+      --font-display: 'Josefin Sans', sans-serif;
+      --font-body:    'Quattrocento', serif;
+      --radius-card: 0.35rem;
+      --radius-sm: 0.5rem;
+      --radius-pill: 100vw;
+      --transition-fast: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    body {
+      font-family: var(--font-body);
+      background-color: var(--light);
+      color: var(--ink);
+      margin: 0;
+      padding: 40px 20px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    header {
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 24px;
+      margin-bottom: 40px;
+      position: relative;
+    }
+
+    .header-sup {
+      font-family: var(--font-display);
+      text-transform: uppercase;
+      font-size: 0.85rem;
+      letter-spacing: 0.15em;
+      color: var(--chamoisee);
+      font-weight: 600;
+      margin: 0 0 8px 0;
+    }
+
+    h1 {
+      font-family: var(--font-display);
+      font-weight: 300;
+      font-size: 2.5rem;
+      color: var(--gunmetal);
+      margin: 0 0 12px 0;
+      letter-spacing: -0.02em;
+    }
+
+    .description {
+      color: var(--muted);
+      font-size: 1.1rem;
+      max-width: 750px;
+      margin: 0;
+    }
+
+    /* Stat Cards */
+    .stats-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+
+    .stat-card {
+      background: var(--light-secondary);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-card);
+      padding: 20px;
+      text-align: center;
+      transition: var(--transition-fast);
+    }
+
+    .stat-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(42,35,30,0.06);
+      border-color: var(--chamoisee);
+    }
+
+    .stat-val {
+      font-family: var(--font-display);
+      font-size: 2.2rem;
+      font-weight: 600;
+      color: var(--gunmetal);
+      margin-bottom: 4px;
+      line-height: 1;
+    }
+
+    .stat-lbl {
+      font-size: 0.85rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* Controls */
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 24px;
+    }
+
+    .search-wrapper {
+      position: relative;
+      flex-grow: 1;
+      max-width: 400px;
+    }
+
+    .search-input {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 12px 16px 12px 40px;
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      border: 1px solid var(--line);
+      background: var(--light-secondary);
+      border-radius: var(--radius-pill);
+      color: var(--ink);
+      transition: var(--transition-fast);
+    }
+
+    .search-input:focus {
+      outline: none;
+      border-color: var(--chamoisee);
+      background: #fff;
+      box-shadow: 0 0 0 3px rgba(162,123,92,0.15);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 16px;
+      height: 16px;
+      fill: var(--muted);
+      pointer-events: none;
+    }
+
+    .filter-group {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      font-family: var(--font-display);
+      background: var(--light-secondary);
+      border: 1px solid var(--line);
+      padding: 8px 16px;
+      font-size: 0.85rem;
+      letter-spacing: 0.03em;
+      border-radius: var(--radius-pill);
+      color: var(--muted);
+      cursor: pointer;
+      font-weight: 600;
+      transition: var(--transition-fast);
+    }
+
+    .filter-btn:hover {
+      border-color: var(--chamoisee);
+      color: var(--gunmetal);
+    }
+
+    .filter-btn.active {
+      background: var(--chamoisee);
+      border-color: var(--chamoisee);
+      color: #fff;
+    }
+
+    /* Table */
+    .table-container {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-card);
+      overflow-x: auto;
+      box-shadow: 0 4px 16px rgba(42,35,30,0.02);
+      margin-bottom: 40px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.95rem;
+    }
+
+    th {
+      font-family: var(--font-display);
+      font-weight: 600;
+      color: var(--gunmetal);
+      background: var(--cream);
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--line);
+      letter-spacing: 0.03em;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+    }
+
+    td {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--line);
+      vertical-align: middle;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    tr:hover td {
+      background-color: var(--light-secondary);
+    }
+
+    .prod-name {
+      font-weight: 700;
+      color: var(--gunmetal);
+    }
+
+    .prod-code {
+      font-family: monospace;
+      font-size: 0.85rem;
+      color: var(--muted);
+      background: var(--light);
+      padding: 2px 6px;
+      border-radius: 4px;
+      border: 1px solid rgba(0,0,0,0.04);
+    }
+
+    .prod-dims {
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    .prod-rate {
+      font-family: var(--font-display);
+      font-weight: 600;
+      color: var(--chamoisee);
+      font-size: 1.05rem;
+    }
+
+    /* Room Pills */
+    .room-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .room-pill {
+      font-size: 0.75rem;
+      background: var(--light);
+      border: 1px solid var(--line);
+      padding: 3px 8px;
+      border-radius: var(--radius-pill);
+      color: var(--muted);
+    }
+
+    /* Badges */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 0.75rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: var(--radius-pill);
+    }
+
+    .badge-shared {
+      background-color: rgba(73, 138, 88, 0.12);
+      color: var(--success);
+      border: 1px solid rgba(73, 138, 88, 0.2);
+    }
+
+    .badge-umang {
+      background-color: rgba(162, 123, 100, 0.12);
+      color: var(--chamoisee);
+      border: 1px solid rgba(162, 123, 100, 0.2);
+    }
+
+    .badge-mt {
+      background-color: rgba(57, 47, 40, 0.12);
+      color: var(--muted);
+      border: 1px solid rgba(57, 47, 40, 0.2);
+    }
+
+    /* Warning flags */
+    .flag-warning {
+      color: var(--warning);
+      font-size: 0.8rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      margin-top: 4px;
+      font-weight: bold;
+    }
+
+    .flag-error {
+      color: var(--error);
+      font-size: 0.8rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      margin-top: 4px;
+      font-weight: bold;
+    }
+
+    /* Empty state */
+    .empty-state {
+      text-align: center;
+      padding: 40px;
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--line);
+      padding-top: 24px;
+      margin-top: 40px;
+      font-size: 0.85rem;
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    footer a {
+      color: var(--chamoisee);
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 768px) {
+      .controls {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .search-wrapper {
+        max-width: none;
+      }
+      td, th {
+        padding: 12px 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <p class="header-sup">Noku Studio &nbsp;·&nbsp; Furniture Auditing</p>
+      <h1>Product Comparison Grid</h1>
+      <p class="description">
+        Audited comparison of furniture catalog items assigned to spaces in <strong>Umang Residence</strong> and <strong>Modern Times Residence</strong>. Both projects draw from a shared catalog and pricing structure, but vary in room composition.
+      </p>
+    </header>
+
+    <!-- Stat Cards -->
+    <div class="stats-container">
+      <div class="stat-card">
+        <div class="stat-val">38</div>
+        <div class="stat-lbl">Total Catalog Items</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-val">25</div>
+        <div class="stat-lbl">Shared Across Both</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-val">11</div>
+        <div class="stat-lbl">Umang Only</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-val">2</div>
+        <div class="stat-lbl">Modern Times Only</div>
+      </div>
+      <div class="stat-card" style="border-color: var(--warning);">
+        <div class="stat-val" style="color: var(--warning);">2</div>
+        <div class="stat-lbl">Items with Warnings</div>
+      </div>
+    </div>
+
+    <!-- Controls -->
+    <div class="controls">
+      <div class="search-wrapper">
+        <svg class="search-icon" viewBox="0 0 24 24">
+          <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+        </svg>
+        <input type="text" id="searchInput" class="search-input" placeholder="Search by name, code, or room..." oninput="filterProducts()">
+      </div>
+
+      <div class="filter-group">
+        <button class="filter-btn active" id="btn-all" onclick="setFilter('all')">All Products</button>
+        <button class="filter-btn" id="btn-shared" onclick="setFilter('shared')">Shared</button>
+        <button class="filter-btn" id="btn-umang" onclick="setFilter('umang')">Umang Only</button>
+        <button class="filter-btn" id="btn-mt" onclick="setFilter('mt')">Modern Times Only</button>
+        <button class="filter-btn" id="btn-warnings" onclick="setFilter('warnings')" style="color: var(--warning);">Warnings</button>
+      </div>
+    </div>
+
+    <!-- Table -->
+    <div class="table-container">
+      <table id="productTable">
+        <thead>
+          <tr>
+            <th>Product Details</th>
+            <th>Dimensions</th>
+            <th>Rate (INR)</th>
+            <th>Umang Rooms</th>
+            <th>Modern Times Rooms</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody">
+          <!-- Populated by JS -->
+        </tbody>
+      </table>
+    </div>
+
+    <footer>
+      <div>
+        Generated from unified Product_Database.xlsx on 2026-07-08.
+      </div>
+      <div>
+        <a href="file:///d:/Zoho%20WorkDrive%20(Noku%20Studio)/Projects%20-%20Ongoing/Good%20Earth%20Kochi/Website%20for%20Kochi/Product_Database.xlsx">Product_Database.xlsx (Unified)</a>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    // Product data generated from Python
+    const products = [
+  {
+    "name": "Barstool 01B",
+    "code": "barstool-01b",
+    "dimensions": "48 x 50 x 100 cm (H) \u00b7 SH-75cm",
+    "rate": 17000,
+    "umang_rooms": [
+      "Bar & Lounge"
+    ],
+    "mt_rooms": [
+      "Breakfast Counter"
+    ],
+    "status": "Shared",
+    "unmatched_dim": false,
+    "missing_rate": false
+  },
+  {
+    "name": "Barstool 03",
+    "code": "barstool-03",
+    "dimensions": "40 x 44 x 101 cm (H) \u00b7 SH-75cm",
+    "rate": 21000,
+    "umang_rooms": [
+      "Bar & Lounge"
+    ],
+    "mt_rooms": [
+      "Breakfast Counter"
+    ],
+    "status": "Shared",
+    "unmatched_dim": false,
+    "missing_rate": false
+  },
+  {
+    "name": "Barstool 10 D",
+    "code": "barstool-10-d",
+    "dimensions": "41 x 48 x 101 cm (H) \u00b7 SH-75cm",
+    "rate": null,
+    "umang_rooms": [],
+    "mt_rooms": [
+      "Breakfast Counter"
+    ],
+    "status": "Modern Times Only",
+    "unmatched_dim": false,
+    "missing_rate": true
+  },
+  {
+    "name": "Barstool 11",
+    "code": "barstool-11",
+    "dimensions": "55 x 54 x 102 cm (H) \u00b7 SH-75cm",
+    "rate": 26000,
+    "umang_rooms": [
+      "Dining"
+    ],
+    "mt_rooms": [],
+    "status": "Umang Only",
+    "unmatched_dim": false,
+    "missing_rate": false
+  },
+  {
+    "name": "Bed 01",
+    "code": "bed-01",
+    "dimensions": "194 x 210 x 92 cm (H) \u00b7 MH-50cm",
+    "rate": 100000,
+    "umang_rooms": [
+      "Bedroom 02"
+    ],
+    "mt_rooms": [
+      "Bedroom 01"
+    ],
+    "status": "Shared",
+    "unmatched_dim": false,
+    "missing_rate": false
+  },
+  {
+    "name": "Bed 04",
+    "code": "bed-04",
+    "dimensions": "204 x 220 x 197 cm (H) \u00b7 MH-48cm",
+    "rate": 111000,
+    "umang_rooms": [
+      "Master Bedroom"
+    ],
+    "mt_rooms": [
+      "Master Bedroom"
+    ],
+    "status": "Shared",
+    "unmatched_dim": false,
+    "missing_rate": false
+  },
+  {
+    "name": "Bed 27 A",
+    "code": "bed-27-a",
+    "dimensions": "288 x 217 x 110 cm (H) \u00b7 MH-48cm",
+    "rate": 141000,
+    "umang_rooms": [
+      "Bedroom 03"
+    ],
+    "mt_rooms": [
+      "Bedroom 02"
+    ],
+    "status": "Shared",
+    "unmatched_dim": false,
+    "missing_rate": false
+  },
+  {
+    "name": "Bed 47 B",
+    "code": "bed-47-b",
+    "dimensions": "196 x 208 x 112 cm (H) \u00b7 MH-50cm",
+    "rate": 98000,
+    "umang_rooms": [
+      "Bedroom 01"
+    ],
+    "mt_rooms": [
+      "Bedroom 03"
+    ],
+    "status": "Shared",
+    "unmatched_dim": false,
+    "missing_rate": false
+  },
+  {
+    "name": "Bench 03",
+    "code": "bench-03",
+    "dimensions": "141 x 38 x 45 cm (H)",
+    "rate": 24000,
+    "umang_rooms": [
+      "Dining",
+      "Bedroom 02"
+    ],
+    "mt_rooms": [
+      "Dining",
+      "Master Bedroom"
+    ],
+    "status": "Shared",
+    "unmatched_dim": false,
+    "missing_rate": false
+  },
+  {
+    "name": "Bench 14 B",
+    "code": "-",
+    "dimensions": "-",
+    "rate": 47000,
+    "umang_rooms": [
+      "Outdoor"
+    ],
+    "mt_rooms": [],
+    "status": "Umang Only",
+    "unmatched_dim": true,
+    "missing_rate": false
+  },
+  {
+    "name": "Bench 20 B",
+    "code": "bench-20-b",
+    "dimensions": "158 x 64 x 70 cm (H) \u00b7 SH-45cm",
+    "rate": 37000,
+    "umang_rooms": [],
+    "mt_rooms": [
+      "Living Room"
+    ],
+    "status": "Modern Times Only",
+    "unmatched_dim": false,
+    "missing_rate": false
+  },
+  {
+    "name": "Centre Table 02 A",
+    "code": "centre-table-02-a",
+    "dimensions": "76 x 76 x 36 cm (H)",
+    "rate": 20000,
+    "umang_rooms": [
+      "Outdoor"
+    ],
+    "mt_rooms": [
+      "GF Balcony"
+    ],
+    "status": "Shared",
+    "unmatched_dim": false,
+    "missing_rate": false
+  },
+  {
+    "name": "Centre Table 13",
+    "code": "centre-table-13",
+    "dimensions": "129 x 76 x 40 cm (H)",
+    "rate": 30000,
+    "umang_rooms": [
+      "Living Room 02"
+    ],
+    "mt_rooms": [],
+    "status": "Umang Only",
+    "unmatched_dim": false,
+    "missing_rate": false
+  },
+  {
+    "name": "Centre Table 23",
+    "code": "centre-table-23",
+    "dimensions": "102 x 68 x 45 cm (H)",
+    "rate": 27000,
+    "umang_rooms": [
+      "Living Room 01"
+    ],
+    "mt_rooms": [
+      "Living Room"
+    ],
+    "status": "Shared",
+    "unmatched_dim": false,
+    "missing_rate": false
+  },
+  {
+    "name": "Chair 06",
+    "code": "chair-06",
+    "dimensions": "65 x 83 x 91 cm (H) \u00b7 SH-39cm",
+    "rate": 35000,
+    "umang_rooms": [
+      "Bar & Lounge"
+    ],
+    "mt_rooms": [
+      "Living Room"
+    ],
+    "status": "Shared",
+    "unmatched_dim": false,
+    "missing_rate": false
+  },
+  {
+    "name": "Chair 27",
+    "code": "chair-27",
+    "dimensions": "67 x 77 x 70 cm (H) \u00b7 SH-37cm",
+    "rate": 24000,
+    "umang_rooms": [
+      "Outdoor"
+    ],
+    "mt_rooms": [
+      "GF Balcony"
+    ],
+    "status": "Shared",
+    "unmatched_dim": false,
+    "missing_rate": false
+  },
+  {
+    "name": "Chair 42 A",
+    "code": "chair-42-a",
+    "dimensions": "62 x 76 x 82 cm (H) \u00b7 SH-41cm",
+    "rate": 37000,
+    "umang_rooms": [
+      "Living Room 01"
+    ],
+    "mt_rooms": [
+      "Master Bedroom",
+      "FF Balcony"
+    ],
+    "status": "Shared",
+    "unmatched_dim": false,
+    "missing_rate": false
+  },
+  {
+    "name": "Dining Chair 09 A",
+    "code": "dining-chair-09-a",
+    "dimensions": "50 x 50 x 77 cm (H) \u00b7 SH-45cm",
+    "rate": 20000,
+    "umang_rooms": [
+      "Dining"
+    ],
+    "mt_rooms": [
+      "Dining"
+    ],
+    "status": "Shared",
+    "unmatched_dim": false,
+    "missing_rate": false
+  },
+  {
+    "name": "Dining Chair 44 C",
+    "code": "dining-chair-44-c",
+    "dimensions": "45 x 52 x 79 cm (H) \u00b7 SH-45cm",
+    "rate": 20000,
+    "umang_rooms": [
+      "Dining"
+    ],
+    "mt_rooms": [
+      "Dining"
+    ],
+    "status": "Shared",
+    "unmatched_dim": false,
+    "missing_rate": false
+  },
+  {
+    "name": "Dining Table 03",
+    "code": "dining-table-03",
+    "dimensions": "198 x 92 x 75 cm (H)",
+    "rate": 72000,
+    "umang_rooms": [
+      "Dining"
+    ],
+    "mt_rooms": [
+      "Dining"
+    ],
+    "status": "Shared",
+    "unmatched_dim": false,
+    "missing_rate": false
+  },
+  {
+    "name": "Side Table 01",
+    "code": "side-table-01",
+    "dimensions": "48 x 48 x 49 cm (H)",
+    "rate": 20000,
+    "umang_rooms": [
+      "Master Bedroom"
+    ],
+    "mt_rooms": [],
+    "status": "Umang Only",
+    "unmatched_dim": false,
+    "missing_rate": false
+  },
+  {
+    "name": "Side Table 02 A",
+    "code": "side-table-02-a",
+    "dimensions": "40 x 40 x 53 cm (H)",
+    "rate": 10000,
+    "umang_rooms": [
+      "Bar & Lounge"
+    ],
+    "mt_rooms": [
+      "FF Balcony"
+    ],
+    "status": "Shared",
+    "unmatched_dim": false,
+    "missing_rate": false
+  },
+  {
+    "name": "Side Table 02 C",
+    "code": "side-table-02-c",
+    "dimensions": "45 x 45 x 53 cm (H)",
+    "rate": 12000,
+    "umang_rooms": [
+      "Living Room 02"
+    ],
+    "mt_rooms": [],
+    "status": "Umang Only",
+    "unmatched_dim": false,
+    "missing_rate": false
+  },
+  {
+    "name": "Side Table 08",
+    "code": "side-table-08",
+    "dimensions": "56 x 40 x 45 cm (H)",
+    "rate": 31000,
+    "umang_rooms": [
+      "Bedroom 02"
+    ],
+    "mt_rooms": [
+      "Bedroom 01"
+    ],
+    "status": "Shared",
+    "unmatched_dim": false,
+    "missing_rate": false
+  },
+  {
+    "name": "Side Table 31",
+    "code": "side-table-31",
+    "dimensions": "45 x 45 x 45 cm (H)",
+    "rate": 9000,
+    "umang_rooms": [
+      "Living Room 01"
+    ],
+    "mt_rooms": [
+      "Living Room"
+    ],
+    "status": "Shared",
+    "unmatched_dim": false,
+    "missing_rate": false
+  },
+  {
+    "name": "Side Table 42",
+    "code": "side-table-42",
+    "dimensions": "46 x 41 x 46 cm (H)",
+    "rate": 28000,
+    "umang_rooms": [
+      "Bedroom 01"
+    ],
+    "mt_rooms": [
+      "Bedroom 03"
+    ],
+    "status": "Shared",
+    "unmatched_dim": false,
+    "missing_rate": false
+  },
+  {
+    "name": "Sofa 23",
+    "code": "sofa-23",
+    "dimensions": "170 x 84 x 79 cm (H) \u00b7 SH-43cm",
+    "rate": 85000,
+    "umang_rooms": [
+      "Living Room 01"
+    ],
+    "mt_rooms": [],
+    "status": "Umang Only",
+    "unmatched_dim": false,
+    "missing_rate": false
+  },
+  {
+    "name": "Sofa 28 C",
+    "code": "sofa-28-A",
+    "dimensions": "255 x 75 x 84 cm (H) \u00b7 SH-40cm",
+    "rate": 106000,
+    "umang_rooms": [
+      "Living Room 02"
+    ],
+    "mt_rooms": [
+      "Living Room"
+    ],
+    "status": "Shared",
+    "unmatched_dim": false,
+    "missing_rate": false
+  },
+  {
+    "name": "Sofa 36 A",
+    "code": "sofa-36-a",
+    "dimensions": "268 x 80 x 80 cm (H) \u00b7 SH-35cm",
+    "rate": 101000,
+    "umang_rooms": [
+      "Living Room 02"
+    ],
+    "mt_rooms": [],
+    "status": "Umang Only",
+    "unmatched_dim": false,
+    "missing_rate": false
+  },
+  {
+    "name": "Storage Unit 16",
+    "code": "storage-unit-16",
+    "dimensions": "150 x 42 x 80 cm (H)",
+    "rate": 82000,
+    "umang_rooms": [
+      "Master Bedroom"
+    ],
+    "mt_rooms": [
+      "Bedroom 01"
+    ],
+    "status": "Shared",
+    "unmatched_dim": false,
+    "missing_rate": false
+  },
+  {
+    "name": "Storage Unit 29",
+    "code": "storage-unit-29",
+    "dimensions": "129 x 35 x 80 cm (H)",
+    "rate": 54000,
+    "umang_rooms": [
+      "Foyer"
+    ],
+    "mt_rooms": [],
+    "status": "Umang Only",
+    "unmatched_dim": false,
+    "missing_rate": false
+  },
+  {
+    "name": "Storage Unit 34",
+    "code": "storage-unit-34",
+    "dimensions": "146 x 40 x 92 cm (H)",
+    "rate": 82000,
+    "umang_rooms": [
+      "Foyer"
+    ],
+    "mt_rooms": [
+      "Master Bedroom"
+    ],
+    "status": "Shared",
+    "unmatched_dim": false,
+    "missing_rate": false
+  },
+  {
+    "name": "Study Chair 07",
+    "code": "study-chair-07",
+    "dimensions": "60 x 60 x 84 cm (H) \u00b7 SH-45cm",
+    "rate": 29000,
+    "umang_rooms": [
+      "Master Bedroom"
+    ],
+    "mt_rooms": [
+      "Master Bedroom"
+    ],
+    "status": "Shared",
+    "unmatched_dim": false,
+    "missing_rate": false
+  },
+  {
+    "name": "Study Chair 12 C",
+    "code": "study-chair-12-c",
+    "dimensions": "54 x 61 x 89 cm (H) \u00b7 SH-45cm",
+    "rate": 26000,
+    "umang_rooms": [
+      "Living Room 03"
+    ],
+    "mt_rooms": [],
+    "status": "Umang Only",
+    "unmatched_dim": false,
+    "missing_rate": false
+  },
+  {
+    "name": "Study Table 02",
+    "code": "study-table-02",
+    "dimensions": "130 x 60 x 75 cm (H)",
+    "rate": 44000,
+    "umang_rooms": [
+      "Living Room 03"
+    ],
+    "mt_rooms": [],
+    "status": "Umang Only",
+    "unmatched_dim": false,
+    "missing_rate": false
+  },
+  {
+    "name": "Study Table 11",
+    "code": "study-table-11",
+    "dimensions": "130 x 60 x 75 cm (H)",
+    "rate": 51000,
+    "umang_rooms": [
+      "Master Bedroom"
+    ],
+    "mt_rooms": [
+      "Master Bedroom"
+    ],
+    "status": "Shared",
+    "unmatched_dim": false,
+    "missing_rate": false
+  },
+  {
+    "name": "TV Unit 09 A",
+    "code": "tv-unit-09-a",
+    "dimensions": "159 x 45 x 45 cm (H)",
+    "rate": 65000,
+    "umang_rooms": [
+      "Living Room 03"
+    ],
+    "mt_rooms": [
+      "Bedroom 03"
+    ],
+    "status": "Shared",
+    "unmatched_dim": false,
+    "missing_rate": false
+  },
+  {
+    "name": "TV Unit 29",
+    "code": "tv-unit-29",
+    "dimensions": "112 x 28 x 50 cm (H)",
+    "rate": 24000,
+    "umang_rooms": [
+      "Bedroom 01"
+    ],
+    "mt_rooms": [],
+    "status": "Umang Only",
+    "unmatched_dim": false,
+    "missing_rate": false
+  }
+];
+
+    let currentFilter = 'all';
+
+    function setFilter(filter) {
+      currentFilter = filter;
+      document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+      document.getElementById('btn-' + filter).classList.add('active');
+      filterProducts();
+    }
+
+    function formatCurrency(val) {
+      if (val === null || val === undefined) return '-';
+      return '₹ ' + val.toLocaleString('en-IN');
+    }
+
+    function filterProducts() {
+      const query = document.getElementById('searchInput').value.toLowerCase().trim();
+      const body = document.getElementById('tableBody');
+      body.innerHTML = '';
+
+      let matchedCount = 0;
+
+      products.forEach(p => {
+        // Filter by Status / Warnings
+        if (currentFilter === 'shared' && p.status !== 'Shared') return;
+        if (currentFilter === 'umang' && p.status !== 'Umang Only') return;
+        if (currentFilter === 'mt' && p.status !== 'Modern Times Only') return;
+        if (currentFilter === 'warnings' && !p.unmatched_dim && !p.missing_rate) return;
+
+        // Filter by Search Query
+        const matchQuery = 
+          p.name.toLowerCase().includes(query) ||
+          p.code.toLowerCase().includes(query) ||
+          p.dimensions.toLowerCase().includes(query) ||
+          p.umang_rooms.some(r => r.toLowerCase().includes(query)) ||
+          p.mt_rooms.some(r => r.toLowerCase().includes(query));
+
+        if (!matchQuery && query !== '') return;
+
+        matchedCount++;
+
+        // Status Badge
+        let badgeClass = 'badge-shared';
+        if (p.status === 'Umang Only') badgeClass = 'badge-umang';
+        if (p.status === 'Modern Times Only') badgeClass = 'badge-mt';
+
+        // Badges for rooms
+        const uRoomsHtml = p.umang_rooms.length > 0 
+          ? p.umang_rooms.map(r => `<span class="room-pill">${r}</span>`).join(' ')
+          : '<span style="color:var(--muted); font-size:0.85rem;">-</span>';
+
+        const mRoomsHtml = p.mt_rooms.length > 0 
+          ? p.mt_rooms.map(r => `<span class="room-pill">${r}</span>`).join(' ')
+          : '<span style="color:var(--muted); font-size:0.85rem;">-</span>';
+
+        // Warning alerts
+        let warningsHtml = '';
+        if (p.unmatched_dim) {
+          warningsHtml += `<div class="flag-error">
+            <svg style="width:14px;height:14px;fill:currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+            No DB Entry (No Dimensions)
+          </div>`;
+        }
+        if (p.missing_rate) {
+          warningsHtml += `<div class="flag-warning">
+            <svg style="width:14px;height:14px;fill:currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+            No Rate Assigned
+          </div>`;
+        }
+
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>
+            <div class="prod-name">${p.name}</div>
+            <div style="margin-top: 4px;">
+              <span class="prod-code">${p.code}</span>
+            </div>
+            ${warningsHtml}
+          </td>
+          <td class="prod-dims">${p.dimensions}</td>
+          <td class="prod-rate">${formatCurrency(p.rate)}</td>
+          <td><div class="room-pills">${uRoomsHtml}</div></td>
+          <td><div class="room-pills">${mRoomsHtml}</div></td>
+          <td><span class="badge ${badgeClass}">${p.status}</span></td>
+        `;
+        body.appendChild(tr);
+      });
+
+      if (matchedCount === 0) {
+        body.innerHTML = `<tr><td colspan="6" class="empty-state">No matching products found.</td></tr>`;
+      }
+    }
+
+    // Initialize
+    filterProducts();
+  </script>
+</body>
+</html>
