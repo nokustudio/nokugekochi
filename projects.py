@@ -65,17 +65,17 @@ _MT_QUOTES = {
 # Modern Times is a two-floor home. Hotspot rects are in each plan's native
 # 2400x1800 space (room id -> SVG rect attrs), split by the floor the room sits on.
 _MT_GF_HOTSPOTS = {
-    "room-01": 'x="1284" y="79" width="412" height="756"',    # Living Room
-    "room-02": 'x="817" y="79" width="467" height="756"',     # Dining
-    "room-03": 'x="817" y="835" width="1108" height="866"',   # Ground Floor Balcony
-    "room-04": 'x="387" y="79" width="430" height="756"',     # Breakfast Counter
-    "room-05": 'x="1925" y="79" width="417" height="1325"',   # Bedroom 01
-    "room-06": 'x="321" y="835" width="496" height="569"',    # Bedroom 02
+    "room-01": 'x="1284" y="333" width="412" height="522"',    # Living Room
+    "room-02": 'x="817" y="333" width="467" height="522"',     # Dining
+    "room-03": 'x="817" y="856" width="1108" height="598"',   # Ground Floor Balcony
+    "room-04": 'x="387" y="333" width="430" height="522"',     # Breakfast Counter
+    "room-05": 'x="1925" y="333" width="417" height="915"',   # Bedroom 01
+    "room-06": 'x="321" y="856" width="496" height="393"',    # Bedroom 02
 }
 _MT_FF_HOTSPOTS = {
-    "room-07": 'x="1925" y="79" width="417" height="1325"',   # Bedroom 03
-    "room-08": 'x="321" y="79" width="496" height="1325"',    # Master Bedroom
-    "room-09": 'x="400" y="1042" width="417" height="362"',   # First Floor Balcony
+    "room-07": 'x="1925" y="333" width="417" height="915"',   # Bedroom 03
+    "room-08": 'x="321" y="333" width="496" height="915"',    # Master Bedroom
+    "room-09": 'x="400" y="998" width="417" height="250"',    # First Floor Balcony
 }
 
 _MT_LAYOUT_IMAGES = {
