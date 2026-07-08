@@ -3,9 +3,73 @@ import re
 import json
 import html
 import openpyxl
+from PIL import Image
 from projects import PROJECTS
 
 TEMPLATE_FILE = "walkthrough-template.html"
+
+# Room renders / product photos are photographic, so lossless PNG buys nothing
+# but 5-10x the file size over a high-quality JPEG. Caps are sized well above
+# what the lightbox modal ever displays (max-width:1200px CSS, so ~2400px covers
+# a 2x-retina screen) — most source images are already under these, so most
+# files end up simply recompressed at their native resolution, not downscaled.
+ROOM_RENDER_MAX_W = 2600
+PRODUCT_IMAGE_MAX_W = 2200
+WEB_IMAGE_QUALITY = 92
+
+
+def optimize_web_image(path, max_w):
+    """Convert a lossless PNG render/product photo to a compressed JPEG in place,
+    if it isn't one already. The original is preserved as '<path>.orig' (never
+    deleted — gitignored, invisible to this script's own directory scans since
+    they only match .png/.jpg/.jpeg). Returns the filename to use going forward
+    (unchanged if no conversion happened).
+
+    Skips PNGs with real (non-opaque) transparency rather than risk mangling a
+    genuine cutout image — those need a human decision, not silent flattening.
+    """
+    if not path.lower().endswith(".png"):
+        return os.path.basename(path)
+
+    im = Image.open(path)
+    if im.mode in ("RGBA", "LA"):
+        alpha = im.convert("RGBA").split()[-1]
+        if alpha.getextrema()[0] < 250:
+            print(f"  (skipping optimization — has real transparency) {os.path.basename(path)}")
+            return os.path.basename(path)
+        im = im.convert("RGB")
+    elif im.mode in ("P", "CMYK"):
+        im = im.convert("RGB")
+
+    w, h = im.size
+    if w > max_w:
+        im = im.resize((max_w, round(h * max_w / w)), Image.LANCZOS)
+
+    base, _ = os.path.splitext(path)
+    jpg_path = base + ".jpg"
+    orig_backup = path + ".orig"
+    before = os.path.getsize(path)
+
+    im.save(jpg_path, "JPEG", quality=WEB_IMAGE_QUALITY, optimize=True, progressive=True)
+    if os.path.exists(orig_backup):
+        os.remove(orig_backup)  # superseded backup (this png replaced an earlier version)
+    os.rename(path, orig_backup)
+
+    print(f"  optimized: {os.path.basename(path)} ({before/1024/1024:.2f}MB -> "
+          f"{os.path.getsize(jpg_path)/1024/1024:.2f}MB)")
+    return os.path.basename(jpg_path)
+
+
+def optimize_images_in(dir_path, max_w):
+    """Run optimize_web_image() on every .png directly inside dir_path (non-recursive —
+    callers apply this separately to a room folder and its Products/ subfolder,
+    since each needs its own size cap)."""
+    if not os.path.isdir(dir_path):
+        return
+    for item in os.listdir(dir_path):
+        item_path = os.path.join(dir_path, item)
+        if os.path.isfile(item_path) and item.lower().endswith(".png"):
+            optimize_web_image(item_path, max_w)
 
 
 def normalize_name(name):
@@ -610,16 +674,20 @@ def build_project(project, shell_html, base_dir):
             layout_img_path = ""
             layout_img_title = ""
         
+        # Compress any newly-added PNGs to JPEG before scanning (see optimize_web_image).
+        optimize_images_in(rpath, ROOM_RENDER_MAX_W)
+        prod_dir = os.path.join(rpath, "Products")
+        optimize_images_in(prod_dir, PRODUCT_IMAGE_MAX_W)
+
         # Load main renders
         renders = []
         if os.path.exists(rpath):
             for item in sorted(os.listdir(rpath)):
                 if os.path.isfile(os.path.join(rpath, item)) and item.lower().endswith(('.png', '.jpg', '.jpeg')):
                     renders.append(item)
-                        
+
         # Load products
         products = []
-        prod_dir = os.path.join(rpath, "Products")
         if os.path.exists(prod_dir):
             for pitem in sorted(os.listdir(prod_dir)):
                 if pitem.lower().endswith(('.png', '.jpg', '.jpeg')):
