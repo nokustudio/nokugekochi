@@ -153,8 +153,8 @@ _UMANG_RATES_MAPPING = {
     "storageunit34": "Storage 34 A", "storageunit34a": "Storage 34 A",
     "studytable02": "Study Table 02 A", "studytable02a": "Study Table 02 A",
     "swing04": "Swing 04 A", "swing04a": "Swing 04 A",
-    "tvunit09a": "TV Unit 09 R2", "tvunit09r2": "TV Unit 09 R2",
-    "tvunit29": "TV Unit 29 A R2", "tvunit29ar2": "TV Unit 29 A R2",
+    "tvunit09a": "TV Console 09 R2", "tvunit09r2": "TV Console 09 R2",
+    "tvunit29": "TV Console 29 A R2", "tvunit29ar2": "TV Console 29 A R2",
 }
 
 
