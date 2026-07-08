@@ -1,0 +1,5 @@
+# Slider order for this room's renders — one filename per line.
+# Anything not listed here just gets appended alphabetically after.
+Living 5.jpg
+Living 4.jpg
+ChatGPT Image Jul 8, 2026, 11_29_44 AM.jpg

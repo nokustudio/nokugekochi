@@ -72,6 +72,35 @@ def optimize_images_in(dir_path, max_w):
             optimize_web_image(item_path, max_w)
 
 
+def list_images_ordered(dir_path):
+    """List the image files directly inside dir_path, in slider/display order.
+
+    By default that's just alphabetical. Drop an `order.txt` in the folder to
+    override it: one filename per line, in the order you want them to appear.
+    Files not mentioned in order.txt are appended afterward, alphabetically —
+    so newly-added images still show up without editing the list. Blank lines
+    and lines starting with '#' are ignored.
+    """
+    if not os.path.isdir(dir_path):
+        return []
+    all_images = sorted(
+        item for item in os.listdir(dir_path)
+        if os.path.isfile(os.path.join(dir_path, item)) and item.lower().endswith(('.png', '.jpg', '.jpeg'))
+    )
+
+    order_path = os.path.join(dir_path, "order.txt")
+    if not os.path.exists(order_path):
+        return all_images
+
+    with open(order_path, 'r', encoding='utf-8') as f:
+        wanted = [line.strip() for line in f if line.strip() and not line.strip().startswith('#')]
+
+    available = set(all_images)
+    ordered = [name for name in wanted if name in available]
+    remaining = sorted(available - set(ordered))
+    return ordered + remaining
+
+
 def normalize_name(name):
     n = name.lower()
     n = re.sub(r'\.png$|\.jpg$|\.jpeg$', '', n)
@@ -679,76 +708,71 @@ def build_project(project, shell_html, base_dir):
         prod_dir = os.path.join(rpath, "Products")
         optimize_images_in(prod_dir, PRODUCT_IMAGE_MAX_W)
 
-        # Load main renders
-        renders = []
-        if os.path.exists(rpath):
-            for item in sorted(os.listdir(rpath)):
-                if os.path.isfile(os.path.join(rpath, item)) and item.lower().endswith(('.png', '.jpg', '.jpeg')):
-                    renders.append(item)
+        # Load main renders (alphabetical, unless the room folder has an order.txt)
+        renders = list_images_ordered(rpath)
 
-        # Load products
+        # Load products (alphabetical, unless Products/ has an order.txt)
         products = []
         if os.path.exists(prod_dir):
-            for pitem in sorted(os.listdir(prod_dir)):
-                if pitem.lower().endswith(('.png', '.jpg', '.jpeg')):
-                    img_norm = normalize_name(pitem)
-                    best_match = None
-                    best_score = 0
-                    
-                    for db_p in db_products:
-                        db_norm_name = db_p["norm_name"]
-                        db_norm_code = db_p["norm_code"]
-                        
-                        if img_norm == db_norm_name or img_norm == db_norm_code:
+            for pitem in list_images_ordered(prod_dir):
+                img_norm = normalize_name(pitem)
+                best_match = None
+                best_score = 0
+
+                for db_p in db_products:
+                    db_norm_name = db_p["norm_name"]
+                    db_norm_code = db_p["norm_code"]
+
+                    if img_norm == db_norm_name or img_norm == db_norm_code:
+                        best_match = db_p
+                        break
+                    if img_norm in db_norm_name or db_norm_name in img_norm:
+                        score = min(len(img_norm), len(db_norm_name)) / max(len(img_norm), len(db_norm_name))
+                        if score > best_score:
+                            best_score = score
                             best_match = db_p
-                            break
-                        if img_norm in db_norm_name or db_norm_name in img_norm:
-                            score = min(len(img_norm), len(db_norm_name)) / max(len(img_norm), len(db_norm_name))
-                            if score > best_score:
-                                best_score = score
-                                best_match = db_p
-                                
-                    dim_label = ""
-                    if best_match:
-                        w, d, h = best_match["w"], best_match["d"], best_match["h"]
-                        sh, mh = best_match["sh"], best_match["mh"]
-                        dim_parts = []
-                        if w and d and h:
-                            dim_parts.append(f"{w} x {d} x {h} cm (H)")
-                        elif best_match["dim_str"]:
-                            dim_parts.append(best_match["dim_str"])
-                        if sh:
-                            dim_parts.append(f"SH-{sh}cm")
-                        if mh:
-                            dim_parts.append(f"MH-{mh}cm")
-                        dim_label = " &nbsp;·&nbsp; ".join(dim_parts)
-                        prod_name = best_match["name"]
-                    else:
-                        prod_name = re.sub(r'\.png$|\.jpg$|\.jpeg$', '', pitem)
-                        prod_name = re.sub(r'\bv2\b|\bv1\b|\bfull image\b', '', prod_name).strip()
-                        dim_label = "" # Leave empty if missing
-                    
-                    # Map rates
-                    rate_key = None
+
+                dim_label = ""
+                if best_match:
+                    w, d, h = best_match["w"], best_match["d"], best_match["h"]
+                    sh, mh = best_match["sh"], best_match["mh"]
+                    dim_parts = []
+                    if w and d and h:
+                        dim_parts.append(f"{w} x {d} x {h} cm (H)")
+                    elif best_match["dim_str"]:
+                        dim_parts.append(best_match["dim_str"])
+                    if sh:
+                        dim_parts.append(f"SH-{sh}cm")
+                    if mh:
+                        dim_parts.append(f"MH-{mh}cm")
+                    dim_label = " &nbsp;·&nbsp; ".join(dim_parts)
+                    prod_name = best_match["name"]
+                else:
+                    prod_name = re.sub(r'\.png$|\.jpg$|\.jpeg$', '', pitem)
+                    prod_name = re.sub(r'\bv2\b|\bv1\b|\bfull image\b', '', prod_name).strip()
+                    dim_label = "" # Leave empty if missing
+
+                # Map rates
+                rate_key = None
+                for look_key in [img_norm, best_match["norm_name"] if best_match else None, best_match["norm_code"] if best_match else None]:
+                    if look_key and look_key in norm_custom_rates:
+                        rate_key = norm_custom_rates[look_key]
+                        break
+
+                if not rate_key:
                     for look_key in [img_norm, best_match["norm_name"] if best_match else None, best_match["norm_code"] if best_match else None]:
-                        if look_key and look_key in norm_custom_rates:
-                            rate_key = norm_custom_rates[look_key]
+                        if look_key and look_key in norm_rates_db:
+                            rate_key = norm_rates_db[look_key]
                             break
-                    
-                    if not rate_key:
-                        for look_key in [img_norm, best_match["norm_name"] if best_match else None, best_match["norm_code"] if best_match else None]:
-                            if look_key and look_key in norm_rates_db:
-                                rate_key = norm_rates_db[look_key]
-                                break
-                    
-                    rate_val = rates_db.get(rate_key) if rate_key else None
-                    
-                    products.append({
-                        "img_path": f"{proj_base}/{folder}/Products/{pitem}",
-                        "name": prod_name,
-                        "dimensions": dim_label,
-                        "rate": rate_val
-                    })
+
+                rate_val = rates_db.get(rate_key) if rate_key else None
+
+                products.append({
+                    "img_path": f"{proj_base}/{folder}/Products/{pitem}",
+                    "name": prod_name,
+                    "dimensions": dim_label,
+                    "rate": rate_val
+                })
 
         # JS Render List
         js_renders = []
