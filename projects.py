@@ -211,7 +211,9 @@ MODERN_TIMES = {
     "output": "modern-times.html",
     "base": "projects/modern-times",
     "rooms_config": _rooms(_MT_BASE, _MT_QUOTES),
-    "custom_rates_mapping": {},
+    # Most Modern Times pieces are the same catalog items as Umang, so reuse
+    # Umang's rate-key overrides for the cases simple normalization can't match.
+    "custom_rates_mapping": _UMANG_RATES_MAPPING,
     # Two-floor plan key: Ground Floor + First Floor, each with its own hotspots.
     "keyplan": {
         "floors": [
@@ -228,7 +230,10 @@ MODERN_TIMES = {
             {"label": "First Floor", "file": "Layout Original - FF 2.jpg", "title": "First Floor — Furniture Layout"},
         ],
     },
-    "xlsx": {"dimensions": "Product Dimensions.xlsx", "rates": "Furniture_Rates.xlsx"},
+    # Products are mostly the same catalog as Umang, so share its dimensions/rates
+    # database rather than a second, empty copy — matches fall through the same
+    # fuzzy name/code matching already used per-project; unmatched pieces stay blank.
+    "xlsx": {"dimensions": "../umang/Product Dimensions.xlsx", "rates": "../umang/Furniture_Rates.xlsx"},
     "hero": {
         "article": "The", "name": "Modern Times", "subtitle": "Residence.",
         "eyebrow": "Good Earth &nbsp;·&nbsp; Kalamassery, Kochi",
