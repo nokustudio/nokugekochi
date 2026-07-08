@@ -323,6 +323,10 @@ body {
     overflow-y: auto; /* Enable page-level scrollbars on desktop */
   }
   
+  html.walkthrough-page {
+    scroll-snap-type: none !important; /* Disable scroll snapping on desktop */
+  }
+
   .app-container {
     height: auto;
     overflow: visible;
@@ -344,41 +348,46 @@ body {
   }
 
   .room-section {
-    height: calc(100vh - 60px);
-    scroll-snap-align: start;
-    scroll-margin-top: 60px; /* Offset for sticky header */
+    height: auto;
+    min-height: calc(100vh - 120px);
+    scroll-snap-align: none;
+    scroll-margin-top: 100px; /* Offset for sticky navigation/scrolling */
     box-sizing: border-box;
-    padding: 20px 0;
-    margin-bottom: 120px; /* Added more gap between sections */
-    gap: 50px; /* Added more column gap between components */
+    padding: 40px 0;
+    margin-bottom: 160px; /* Space between rooms */
+    gap: 60px; /* More column gap between visual and text components */
+    position: relative;
+    align-items: start; /* Align sticky column at start of grid */
+  }
+
+  .left-column {
+    position: sticky;
+    top: calc(72px + 40px); /* Align below the sticky header (72px) with margin */
+    height: calc(100vh - 160px);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
 
   .main-render-wrapper {
-    max-height: calc(100vh - 180px); /* Keep main render scaling fits within desktop viewport */
+    max-height: calc(100vh - 240px); /* Keep main render scaling fits within desktop viewport */
   }
   
   .right-column {
-    height: 100%;
-    overflow-y: hidden; /* Hide scrollbar and disable scroll by default */
-    gap: 10px;
+    height: auto;
+    overflow: visible;
+    gap: 30px;
   }
   
   .right-column.has-scroll {
-    overflow-y: auto;
-    padding-right: 15px; /* Prevent scrollbar layout shift */
-    scrollbar-width: thin;
-    scrollbar-color: var(--chamoisee) transparent;
+    overflow-y: visible; /* Let right column scroll naturally with page */
+    padding-right: 0;
   }
   
-  .right-column.has-scroll::-webkit-scrollbar {
-    width: 4px;
-  }
-  .right-column.has-scroll::-webkit-scrollbar-track {
-    background: transparent;
-  }
+  .right-column.has-scroll::-webkit-scrollbar,
+  .right-column.has-scroll::-webkit-scrollbar-track,
   .right-column.has-scroll::-webkit-scrollbar-thumb {
-    background: var(--chamoisee);
-    border-radius: 2px;
+    display: none; /* Hide internal scrollbars */
   }
 }
 

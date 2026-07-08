@@ -845,11 +845,11 @@ def build_project(project, shell_html, base_dir):
                     rate_lbl = f"""\n                  <span class="product-card__price" style="font-family: var(--font-display); font-size: 0.82rem; font-weight: 600; color: var(--chamoisee); white-space: nowrap;">₹ {p['rate']:,}</span>"""
 
                 if p["dimensions"]:
-                    details_label = f"Teak / White Ash &nbsp;·&nbsp; {p['dimensions']}"
-                    lightbox_details = f"Teak / White Ash — {p['dimensions'].replace('&nbsp;·&nbsp;', ' — ')}{rate_str}"
+                    details_label = p["dimensions"]
+                    lightbox_details = f"{p['dimensions'].replace('&nbsp;·&nbsp;', ' — ')}{rate_str}"
                 else:
-                    details_label = "Teak / White Ash"
-                    lightbox_details = f"Teak / White Ash{rate_str}"
+                    details_label = ""
+                    lightbox_details = f"{rate_str.lstrip(' — ')}"
                 
                 lightbox_details_escaped = html.escape(lightbox_details)
                 
