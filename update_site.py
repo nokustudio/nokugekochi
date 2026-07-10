@@ -738,10 +738,20 @@ def build_project(project, shell_html, base_dir):
         # Load products (alphabetical, unless Products/ has an order.txt)
         products = []
         if os.path.exists(prod_dir):
+            UPHOLSTERY_LABELS = {"FB": "Fabric", "LE": "Leather", "CN": "Cane"}
             for pitem in list_images_ordered(prod_dir):
                 img_norm = normalize_name(pitem)
                 best_match = None
                 best_score = 0
+
+                # Material tag from the internal [SIZE-UP-OPT] code, e.g. "Chair 44 C1
+                # [1S-FB-N].jpg" -> UP="FB" -> "Teak + Fabric". XX (no upholstery) -> "Teak".
+                material_tag = "Teak"
+                up_match = re.search(r'\[[^\]-]*-([A-Za-z]{2})-[^\]]*\]', pitem)
+                if up_match:
+                    up_label = UPHOLSTERY_LABELS.get(up_match.group(1).upper())
+                    if up_label:
+                        material_tag = f"Teak + {up_label}"
 
                 for db_p in db_products:
                     db_norm_name = db_p["norm_name"]
@@ -796,7 +806,8 @@ def build_project(project, shell_html, base_dir):
                     "img_path": f"{proj_base}/{folder}/Products/{pitem}",
                     "name": prod_name,
                     "dimensions": dim_label,
-                    "rate": rate_val
+                    "rate": rate_val,
+                    "material_tag": material_tag
                 })
 
         # JS Render List
@@ -843,8 +854,12 @@ def build_project(project, shell_html, base_dir):
                 rate_str = ""
                 rate_lbl = ""
                 if p.get("rate"):
-                    rate_str = f"  —  ₹ {p['rate']:,}+ (Teak, starting price)"
-                    rate_lbl = f"""\n                  <span class="product-card__price" style="font-family: var(--font-display); font-size: 0.82rem; font-weight: 600; color: var(--chamoisee); white-space: nowrap;">₹ {p['rate']:,}+<span style="font-size: 0.7em; font-weight: 500; opacity: 0.65; margin-left: 3px;">Teak</span></span>"""
+                    material_tag = p.get("material_tag", "Teak")
+                    rate_str = f"  —  ₹ {p['rate']:,}+ ({material_tag}, starting price)"
+                    rate_lbl = f"""\n                  <span style="display: flex; flex-direction: column; align-items: flex-end; gap: 2px;">
+                    <span class="product-card__price" style="font-family: var(--font-display); font-size: 0.82rem; font-weight: 600; color: var(--chamoisee); white-space: nowrap;">₹ {p['rate']:,}+</span>
+                    <span style="font-family: var(--font-body); font-size: 0.66rem; font-weight: 500; color: var(--muted); opacity: 0.75; white-space: nowrap;">{material_tag}</span>
+                  </span>"""
 
                 if p["dimensions"]:
                     details_label = p["dimensions"]
@@ -861,8 +876,8 @@ def build_project(project, shell_html, base_dir):
                 <img src="{p['img_path']}" alt="{p_name_escaped}" class="product-image">
               </div>
               <div class="product-card__body">
-                <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 8px;">
-                  <h3 class="product-card__name" style="flex-grow: 1; margin-bottom: 0;">{p['name']}</h3>{rate_lbl}
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 8px;">
+                  <h3 class="product-card__name" style="flex-grow: 1; margin-bottom: 0; padding-top: 1px;">{p['name']}</h3>{rate_lbl}
                 </div>
                 <span class="product-card__material">{details_label}</span>
               </div>

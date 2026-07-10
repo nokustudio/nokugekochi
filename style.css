@@ -1564,9 +1564,9 @@ body {
   width: 34px;
   height: 34px;
   border-radius: 50%;
-  border: var(--border-width) solid var(--line);
-  background: var(--light-secondary);
-  color: var(--gunmetal);
+  border: var(--border-width) solid var(--gunmetal);
+  background: var(--gunmetal);
+  color: var(--bone);
   font-size: 1.1rem;
   line-height: 1;
   display: flex;
