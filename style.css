@@ -3206,4 +3206,176 @@ html.walkthrough-page {
   }
 }
 
+/* ==========================================================================
+   MOBILE OPTIMIZATION OVERHAUL
+   Native-feel pass for phones/tablets: free scrolling (no forced snap),
+   address-bar-safe viewport units, unlocked fixed-height stages, larger
+   tap targets, and a legible type scale. Desktop (≥1201px) untouched.
+   ========================================================================== */
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+/* --- Walkthrough: free scrolling below desktop. Mandatory snap fights
+       1200–2000px-tall room sections on a phone and breaks in-page jumps. --- */
+@media (max-width: 1200px) {
+  html.walkthrough-page {
+    scroll-snap-type: none;
+  }
+  .walkthrough-page .landing-hero-section,
+  .walkthrough-page .landing-quote-section,
+  .walkthrough-page .room-section {
+    scroll-snap-align: none;
+  }
+  /* Address-bar-safe full-screen hero (100vh jumps when mobile chrome hides) */
+  @supports (height: 100svh) {
+    .walkthrough-page .landing-hero-section { height: 100svh; }
+  }
+}
+
+/* --- Hub landing: unlock the 100vh stage so stacked cards + footer flow
+       instead of clipping/overlapping under the fixed-height grid. --- */
+@media (max-width: 900px) {
+  .hub-page .landing {
+    height: auto;
+    min-height: 100vh;
+    overflow: visible;
+  }
+  @supports (height: 100svh) {
+    .hub-page .landing { min-height: 100svh; }
+  }
+  /* Walkthrough hero: same unlock — the theme chip and footer strip collide
+     when the fixed-height stage is shorter than its stacked content */
+  .walkthrough-page .landing-hero-section {
+    height: auto;
+    min-height: 100vh;
+    overflow: visible;
+  }
+  @supports (height: 100svh) {
+    .walkthrough-page .landing-hero-section { min-height: 100svh; }
+  }
+  .walkthrough-page .l-footer-strip {
+    position: relative;
+    z-index: 6;
+    padding-top: 32px;
+  }
+  .hub-page .hero {
+    padding-top: 28px;
+    padding-bottom: 16px;
+  }
+  .hub-page .hero__descriptor { margin-top: 24px; }
+  .hub-page .footer-strip__scroll-hint { display: none; }
+  /* Founding-principle + materials stages: let content define height */
+  .quote-section {
+    height: auto;
+    min-height: 100vh;
+  }
+  @supports (height: 100svh) {
+    .quote-section { min-height: 100svh; }
+  }
+}
+
+/* --- Walkthrough content: tighter rhythm, legible type, bigger targets --- */
+@media (max-width: 768px) {
+  .app-container {
+    padding: 48px 20px 32px;
+  }
+  .room-section {
+    padding: 56px 0;
+    gap: 32px;
+  }
+  .space-number,
+  .space-title {
+    font-size: 1.5rem;
+  }
+  .quote-container {
+    font-size: 0.95rem;
+    line-height: 1.55;
+  }
+  .section-label {
+    font-size: 0.82rem;
+  }
+  /* Product cards: let names/dimensions wrap instead of ellipsizing */
+  .product-card__body {
+    padding: 10px 12px 12px;
+  }
+  .product-card__name {
+    font-size: 0.95rem;
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+  }
+  .product-card__material {
+    font-size: 0.78rem;
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+  }
+  .index-heading { font-size: 1.35rem; }
+  .index-row { padding: 12px 0; }
+  .slider-arrow {
+    width: 42px;
+    height: 42px;
+  }
+  #scroll-top-btn {
+    bottom: 20px;
+    right: 20px;
+  }
+  /* Lightbox: full-width stage, arrows tucked to the edges, padded caption */
+  .lightbox-content-container {
+    width: 100%;
+    padding: 0 10px;
+    height: 72vh;
+  }
+  .lightbox-caption {
+    font-size: 1rem;
+    padding: 0 52px;
+  }
+  .lightbox-subcaption {
+    padding: 0 52px;
+  }
+  .lightbox-nav {
+    padding: 8px;
+    font-size: 2rem;
+  }
+  .lightbox-prev { left: 4px; }
+  .lightbox-next { right: 4px; }
+  /* Thank-you full-bleed: match the reduced 20px container padding */
+  .walkthrough-page .landing-thankyou-section {
+    margin-left: -20px !important;
+    margin-right: -20px !important;
+    width: calc(100% + 40px) !important;
+  }
+}
+
+/* --- Phone tier --- */
+@media (max-width: 600px) {
+  /* Customisation cards: one per row — two 150px columns read cramped */
+  .custom-cards-grid-new {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  .custom-card-new__image-wrapper {
+    aspect-ratio: 16 / 10;
+  }
+  .custom-hero-heading { font-size: 1.7rem; }
+  .custom-description { font-size: 0.95rem; }
+  /* Keyplan/layout thumbs slightly smaller so the pair fits with the quote */
+  .map-placeholder-card,
+  .map-keyplan-large {
+    width: 104px;
+  }
+  .hub-page .project-picker { gap: 14px; }
+  .hub-page .project-card__name { font-size: 1.7rem; }
+  .hub-page .hero__descriptor p { font-size: 0.95rem; }
+  /* Hub footer: normal padding — the 120px clearance was for a button
+     the hub page doesn't have */
+  .hub-page .footer-strip {
+    padding-bottom: 32px;
+    padding-top: 8px;
+  }
+}
+
 

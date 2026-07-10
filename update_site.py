@@ -104,6 +104,7 @@ def list_images_ordered(dir_path):
 def normalize_name(name):
     n = name.lower()
     n = re.sub(r'\.png$|\.jpg$|\.jpeg$', '', n)
+    n = re.sub(r'\[.*?\]', '', n) # Strip [SIZE-UP-OPT] internal-code bracket and contents
     n = re.sub(r'\(.*?\)', '', n) # Strip parentheses and contents
     n = re.sub(r'\bv2\b|\bv1\b|\bfull image\b|\bcopy\b', '', n)
     n = re.sub(r'[^a-z0-9]', '', n)
@@ -772,6 +773,7 @@ def build_project(project, shell_html, base_dir):
                     prod_name = best_match["name"]
                 else:
                     prod_name = re.sub(r'\.png$|\.jpg$|\.jpeg$', '', pitem)
+                    prod_name = re.sub(r'\s*\[.*?\]', '', prod_name) # Drop internal-code bracket from client-facing name
                     prod_name = re.sub(r'\bv2\b|\bv1\b|\bfull image\b', '', prod_name).strip()
                     dim_label = "" # Leave empty if missing
 
@@ -841,8 +843,8 @@ def build_project(project, shell_html, base_dir):
                 rate_str = ""
                 rate_lbl = ""
                 if p.get("rate"):
-                    rate_str = f"  —  ₹ {p['rate']:,}"
-                    rate_lbl = f"""\n                  <span class="product-card__price" style="font-family: var(--font-display); font-size: 0.82rem; font-weight: 600; color: var(--chamoisee); white-space: nowrap;">₹ {p['rate']:,}</span>"""
+                    rate_str = f"  —  ₹ {p['rate']:,}+ (Teak, starting price)"
+                    rate_lbl = f"""\n                  <span class="product-card__price" style="font-family: var(--font-display); font-size: 0.82rem; font-weight: 600; color: var(--chamoisee); white-space: nowrap;">₹ {p['rate']:,}+<span style="font-size: 0.7em; font-weight: 500; opacity: 0.65; margin-left: 3px;">Teak</span></span>"""
 
                 if p["dimensions"]:
                     details_label = p["dimensions"]
@@ -976,7 +978,7 @@ def build_project(project, shell_html, base_dir):
             <div class="custom-card-new__body">
               <span class="custom-card-new__tag">Wood</span>
               <h3 class="custom-card-new__title">Teak, Reclaimed Teak, White Ash.</h3>
-              <p class="custom-card-new__desc">Mix-and-match across pieces. Reclaimed available subject to availability.</p>
+              <p class="custom-card-new__desc">Mix-and-match across pieces. Reclaimed available subject to availability. Prices quoted throughout are starting prices in teak — other wood options priced on request.</p>
             </div>
           </div>
 
