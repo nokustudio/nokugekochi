@@ -563,7 +563,17 @@ body {
 .product-card__body {
   padding: 6px 10px;
   display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+}
+.product-card__text {
+  display: flex;
   flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+  flex: 1;
 }
 
 .product-card__name {
@@ -2475,7 +2485,9 @@ html.walkthrough-page {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 32px 52px 0;
+  /* Extra right padding reserves the top-right corner for the fixed #home-pill
+     (44px + 36px offset) so the edition mark never sits under it. */
+  padding: 32px 96px 0 52px;
   opacity: 0;
   transform: translateY(-12px);
   animation: lSlideDown 0.9s 0.7s var(--ease-out) forwards;
@@ -3136,6 +3148,11 @@ html.walkthrough-page {
   .walkthrough-page .ty-footer {
     padding-left: 28px;
     padding-right: 28px;
+  }
+  /* Keep the nav's right padding clearing the fixed #home-pill (the shared
+     rule above would otherwise pull it back to 28px and re-overlap the meta). */
+  .walkthrough-page .l-nav {
+    padding-right: 84px;
   }
   .walkthrough-page .l-enter-btn-wrap {
     right: 28px;
