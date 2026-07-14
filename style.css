@@ -3139,6 +3139,55 @@ html.walkthrough-page {
   color: #6B6258;
 }
 
+/* ==========================================================================
+   THANK YOU — COMPOSITION REFINEMENT
+   The closing plate is the last thing anyone sees, so it earns real
+   typesetting. Two corrections:
+   1. .room-section sets `align-items: start` (for the sticky room columns),
+      which the thank-you inherits — its stage sat at the top of its grid row
+      instead of filling it, leaving a dead void above the footer. Stretch it
+      so justify-content:center actually optically centres the block.
+   2. The rhythm was a flat 24px between every element. Spacing now expresses
+      hierarchy: the divider hugs the title it belongs to, the closing line and
+      the CTAs get progressively more air.
+   ========================================================================== */
+.walkthrough-page .landing-thankyou-section {
+  align-items: stretch !important;
+}
+
+.walkthrough-page .ty-stage {
+  height: 100%;
+  padding: 24px 56px;      /* vertical breathing room at short viewports */
+  gap: 0;                  /* spacing is owned by the children, below */
+}
+
+.walkthrough-page .ty-nav {
+  padding: 40px 56px 0;
+}
+.walkthrough-page .ty-footer {
+  padding: 0 56px 40px;
+}
+
+/* Vertical rhythm — deliberately uneven, tightest around the title cluster */
+.walkthrough-page .ty-eyebrow    { margin-bottom: 30px; }
+.walkthrough-page .ty-title      { margin-bottom: 18px; }  /* divider belongs to the title */
+.walkthrough-page .ty-divider    { margin-bottom: 32px; }
+.walkthrough-page .ty-descriptor {
+  margin-bottom: 52px;                                     /* the pause before the ask */
+  line-height: 1.75;
+  max-width: 34em;                                         /* measure, not a pixel guess */
+}
+
+@media (max-width: 900px) {
+  .walkthrough-page .ty-stage {
+    padding: 20px 28px;
+  }
+  .walkthrough-page .ty-eyebrow    { margin-bottom: 22px; }
+  .walkthrough-page .ty-title      { margin-bottom: 14px; }
+  .walkthrough-page .ty-divider    { margin-bottom: 24px; }
+  .walkthrough-page .ty-descriptor { margin-bottom: 40px; }
+}
+
 @media (max-width: 900px) {
   .walkthrough-page .l-nav,
   .walkthrough-page .l-hero,
