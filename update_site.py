@@ -532,7 +532,8 @@ def build_project(project, shell_html, base_dir):
                 if code_str:
                     norm_rates_db[normalize_name(code_str)] = code_str
 
-    # Then, overwrite/supplement with the dedicated "Rates" sheet if present
+    # Then, overwrite/supplement with the dedicated "Rates" sheet if present.
+    # (This stays as a fallback for any product not yet in the rate reference file.)
     if "Rates" in wb.sheetnames:
         print("Reading Rates sheet from unified database...")
         ws_rates = wb["Rates"]
@@ -542,6 +543,31 @@ def build_project(project, shell_html, base_dir):
                 rates_db[key_str] = row[1]
                 norm_rates_db[normalize_name(key_str)] = key_str
         print(f"Loaded {len(rates_db)} rate entries from unified database.")
+
+    # 3c. Authoritative rate source: the standalone pricing workbook's "Sheet5"
+    # (canonical SKU name in col A, live Item Rate in col B — both formula-linked
+    # to the TeakCosting rollup). Loaded LAST so it overrides the fallbacks above,
+    # making the pricing file the single source of truth for rates.
+    rates_ref_rel = project.get("xlsx", {}).get("rates_ref")
+    if rates_ref_rel:
+        rates_ref_path = os.path.normpath(os.path.join(proj_dir, rates_ref_rel))
+        if os.path.exists(rates_ref_path):
+            print(f"\nReading authoritative rates from: {os.path.basename(rates_ref_path)}")
+            rwb = openpyxl.load_workbook(rates_ref_path, data_only=True)
+            if "Sheet5" in rwb.sheetnames:
+                loaded = 0
+                for row in rwb["Sheet5"].iter_rows(min_row=2, values_only=True):
+                    name, rate = (row[0] if len(row) > 0 else None), (row[1] if len(row) > 1 else None)
+                    if name and isinstance(rate, (int, float)):
+                        key_str = str(name).strip()
+                        rates_db[key_str] = rate
+                        norm_rates_db[normalize_name(key_str)] = key_str
+                        loaded += 1
+                print(f"Loaded {loaded} authoritative rates from pricing file (overrides DB).")
+            else:
+                print("  Warning: 'Sheet5' not found in pricing file; using DB rates only.")
+        else:
+            print(f"  Warning: rates_ref not found at {rates_ref_path}; using DB rates only.")
 
     # 5. Room sequence config comes from the project (projects.py)
 
